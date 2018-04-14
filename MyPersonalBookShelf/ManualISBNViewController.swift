@@ -17,6 +17,10 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var authorTextField: UITextField!
     @IBOutlet weak var keywordTextField: UITextField!
     
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    //Loading animation
+    var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+    
     //Struct of google book
     struct TopTier : Codable {
         var kind: String
@@ -36,6 +40,15 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
         var authors: Array<String>?
         var description: String?
         var imageLinks: ImageLinks?
+        var publishedDate: String?
+        var industryIdentifiers: [ISBN]?
+        var publisher: String?
+        var categories: Array<String>?
+    }
+    
+    struct ISBN: Codable {
+        var type: String?
+        var identifier: String?
     }
     
     struct ImageLinks: Codable {
@@ -56,14 +69,17 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func titleSearchReturn(_ sender: UITextField) {
+        //Loading animation
         performTitleSearch()
     }
     
     @IBAction func authorSearchReturn(_ sender: UITextField) {
+        //Loading animation
         performAuthorSearch()
     }
     
     @IBAction func keywordSearchReturn(_ sender: UITextField) {
+        //Loading animation
         performKeywordSearch()
     }
     
@@ -130,9 +146,12 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         self.isbnTextField.delegate = self
+        
         // Do any additional setup after loading the view.
+        loadingIndicator.isHidden = true
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -154,6 +173,11 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
         var author = ""
         var image = #imageLiteral(resourceName: "defaultBookImage")
         var describeText = ""
+        var publishedDate = ""
+        //var baseIsbn = ""
+        //var dateAdded = ""
+        var publisher = ""
+        var category = [String]()
         
         var topTierData = [TopTier]()
         
@@ -190,6 +214,29 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
                     if topTierData[0].items[0].volumeInfo.description != nil {
                         describeText = topTierData[0].items[0].volumeInfo.description!
                     }
+                    
+                    //PublishedDate
+                    if topTierData[0].items[0].volumeInfo.publishedDate != nil {
+                        publishedDate = topTierData[0].items[0].volumeInfo.publishedDate!
+                    }
+                    
+                    //ISBN
+                    
+                    //dateAdded
+                    
+                    //publisher
+                    if let checkedPublisher = topTierData[0].items[0].volumeInfo.publisher{
+                        publisher = checkedPublisher
+                    }
+                    
+                    //cateogry
+                    if let checkedCategory = topTierData[0].items[0].volumeInfo.categories{
+                        if !checkedCategory.isEmpty {
+                            for i in 0...checkedCategory.count - 1 {
+                                category.append(checkedCategory[i])
+                            }
+                        }
+                    }
                 }
                 catch
                 {
@@ -197,9 +244,9 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
                 }
                 
                 
-                self.book = Books(title: title, author: author, photo: image, rating: 3, describeText: describeText, owner:nil, returnDate:nil)
+                self.book = Books(title: title, author: author, photo: image, rating: 0, describeText: describeText, owner: nil, returnDate: nil ,publishedDate: publishedDate, isbn: isbn, dateAdded: self.getTime(), publisher: publisher, category: category)
                 sem.signal()
-                }
+            }
             } as URLSessionTask
         
         dataTask.resume()
@@ -214,7 +261,7 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func urlHandler(keyword: String) -> URL {
-        let urlString = "https://www.googleapis.com/books/v1/volumes?q=" + keyword + "&maxResults=40"
+        let urlString = "https://www.googleapis.com/books/v1/volumes?q=" + keyword + "&maxResults=10"
         let jsonURL = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
         let url = URL(string: jsonURL!)
         return url!
@@ -222,12 +269,13 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
     
     //Also use for keyword and author search
     private func searchByTitle(keyword: String) -> Bool {
+        self.bookArray.removeAll()
         let sem = DispatchSemaphore(value: 0)
         var topTierData = [TopTier]()
         
         /* let urlString = "https://www.googleapis.com/books/v1/volumes?q=intitle:" + titleInput + "&maxResults=40"
-        let jsonURL = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
-        let url = URL(string: jsonURL!) */
+         let jsonURL = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+         let url = URL(string: jsonURL!) */
         
         let url = urlHandler(keyword: keyword)
         print(url)
@@ -237,6 +285,12 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
         var author = ""
         var image = #imageLiteral(resourceName: "defaultBookImage")
         var describeText = ""
+        var publishedDate = ""
+        var baseIsbn = ""
+        //var dateAdded = ""
+        var publisher = ""
+        var category = [String]()
+
         
         let dataTask = URLSession.shared.dataTask(with: url) {(data, response, error) in
             if error != nil {
@@ -249,30 +303,60 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
                     topTierData = try [jsonDecoder.decode(TopTier.self, from: data!)]
                     
                     var itemCount = topTierData[0].totalItems
-                    if(itemCount > 40) {
-                        itemCount = 40
+                    if(itemCount > 10) {
+                        itemCount = 10
                     }
                     for i in 0..<itemCount {
+                        
                         title = topTierData[0].items[i].volumeInfo.title
-                    
+                        
                         if topTierData[0].items[i].volumeInfo.authors != nil {
                             author = topTierData[0].items[i].volumeInfo.authors![0]
                         }
-                    
+                        
                         //Download Image
                         if topTierData[0].items[i].volumeInfo.imageLinks != nil {
                             if let imageLink = topTierData[0].items[i].volumeInfo.imageLinks!.thumbnail {
                                 image = self.downloadImage(link: imageLink)
                             }
                         }
-                    
+                        
                         //Description
-                        if topTierData[0].items[0].volumeInfo.description != nil {
-                            describeText = topTierData[0].items[0].volumeInfo.description!
+                        if topTierData[0].items[i].volumeInfo.description != nil {
+                            describeText = topTierData[0].items[i].volumeInfo.description!
                         }
                         
-                        self.book = Books(title: title, author: author, photo: image, rating: 0, describeText: describeText, owner:nil, returnDate:nil)!
+                        //PublishedDate
+                        if topTierData[0].items[i].volumeInfo.publishedDate != nil {
+                            publishedDate = topTierData[0].items[i].volumeInfo.publishedDate!
+                        }
+                        
+                        //ISBN
+                        if let readIndustryIdentifiers = topTierData[0].items[i].volumeInfo.industryIdentifiers?[0] {
+                            if  readIndustryIdentifiers.identifier != nil {
+                                baseIsbn = topTierData[0].items[i].volumeInfo.industryIdentifiers![0].identifier!
+                            }
+                        }
+                        
+                        //dateAdded
+                        
+                        //publisher
+                        if let checkedPublisher = topTierData[0].items[i].volumeInfo.publisher{
+                            publisher = checkedPublisher
+                        }
+                        
+                        //cateogry
+                        if let checkedCategory = topTierData[0].items[i].volumeInfo.categories{
+                            if !checkedCategory.isEmpty {
+                                for j in 0...checkedCategory.count - 1 {
+                                    category.append(checkedCategory[j])
+                                }
+                            }
+                        }
+                        
+                        self.book = Books(title: title, author: author, photo: image, rating: 0, describeText: describeText, owner: nil, returnDate: nil, publishedDate: publishedDate, isbn: baseIsbn, dateAdded: self.getTime(), publisher: publisher, category: category)!
                         self.bookArray.append(self.book!)
+                        category.removeAll()
                     }
                 }
                 catch
@@ -285,7 +369,6 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
             } as URLSessionTask
         
         dataTask.resume()
-        
         sem.wait()
         if self.book?.title == nil {
             print("Enter alert")
@@ -304,15 +387,24 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
         return image!
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    private func getTime() -> String{
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .medium
+        let timeStr = formatter.string(from: Date())
+        return timeStr
     }
-    */
-
+    
+    
+    /*
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
+

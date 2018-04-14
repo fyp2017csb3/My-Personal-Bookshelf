@@ -18,6 +18,11 @@ class Books: NSObject, NSCoding {
         aCoder.encode(describeText, forKey: PropertyKey.describeText)
         aCoder.encode(owner, forKey: PropertyKey.owner)
         aCoder.encode(returnDate, forKey: PropertyKey.returnDate)
+        aCoder.encode(publishedDate, forKey: PropertyKey.publishedDate)
+        aCoder.encode(isbn, forKey: PropertyKey.isbn)
+        aCoder.encode(dateAdded, forKey: PropertyKey.dateAdded)
+        aCoder.encode(publisher, forKey: PropertyKey.publisher)
+        aCoder.encode(category, forKey: PropertyKey.category)
     }
     
     required convenience init?(coder aDecoder: NSCoder){
@@ -33,8 +38,16 @@ class Books: NSObject, NSCoding {
         let describeText = aDecoder.decodeObject(forKey: PropertyKey.describeText) as? String
         let owner = aDecoder.decodeObject(forKey: PropertyKey.owner) as? String
         let returnDate = aDecoder.decodeObject(forKey: PropertyKey.returnDate) as? Date
+        let publishedDate = aDecoder.decodeObject(forKey: PropertyKey.publishedDate) as? String
+        let isbn = aDecoder.decodeObject(forKey: PropertyKey.isbn) as? String
+        let dateAdded = aDecoder.decodeObject(forKey: PropertyKey.dateAdded) as? String
+        let publisher = aDecoder.decodeObject(forKey: PropertyKey.publisher) as? String
+        var category = aDecoder.decodeObject(forKey: PropertyKey.category) as? Array<String>
+        if category == nil {
+            category = [String]()
+        }
         
-        self.init(title: title, author: author!, photo: photo, rating: rating, describeText: describeText, owner: owner, returnDate: returnDate)
+        self.init(title: title, author: author!, photo: photo, rating: rating, describeText: describeText, owner: owner, returnDate: returnDate, publishedDate: publishedDate, isbn: isbn, dateAdded: dateAdded, publisher: publisher, category: category!)
     }
     
     //MARK: Archiving Paths
@@ -51,9 +64,11 @@ class Books: NSObject, NSCoding {
     var describeText: String?
     var owner: String?
     var returnDate: Date?
-    /*var publishedDate: String?
+    var publishedDate: String?
     var isbn: String?
-    var dateAdded: String*/
+    var dateAdded: String?
+    var publisher: String?
+    var category: Array<String>?
     
     struct PropertyKey {
         static let title = "title"
@@ -63,10 +78,15 @@ class Books: NSObject, NSCoding {
         static let describeText = "describeText"
         static let owner = "owner"
         static let returnDate = "returnDate"
+        static let publishedDate = "publishedDate"
+        static let isbn = "isbn"
+        static let dateAdded = "dateAdded"
+        static let publisher = "publisher"
+        static let category = "category"
     }
     
     //MARK: Initialization
-    init?(title: String, author: String, photo: UIImage?, rating: Int, describeText: String?, owner:String?, returnDate: Date?){
+    init?(title: String, author: String, photo: UIImage?, rating: Int, describeText: String?, owner:String?, returnDate: Date?, publishedDate: String?, isbn: String?, dateAdded: String?, publisher: String?, category: Array<String>){
         
         guard !title.isEmpty else{
             return nil
@@ -83,6 +103,11 @@ class Books: NSObject, NSCoding {
         self.describeText = describeText
         self.owner = owner
         self.returnDate = returnDate
+        self.publishedDate = publishedDate
+        self.isbn = isbn
+        self.dateAdded = dateAdded
+        self.publisher = publisher
+        self.category = category
     }
     func setReturnDate(returnDate: Date?) {
         self.returnDate = returnDate

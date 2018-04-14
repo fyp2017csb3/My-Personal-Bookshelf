@@ -24,6 +24,8 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var borrowButton: UIBarButtonItem!
+    @IBOutlet weak var categoryTextField: UITextView!
+    @IBOutlet weak var publisherTextField: UITextView!
     
     @IBOutlet weak var ownerField: UITextView!
     @IBOutlet weak var toolBar: UIToolbar!
@@ -74,6 +76,18 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         
         if let describeText = manualSearchData?.describeText {
             descriptionTextField.text = describeText
+        }
+        
+        if let publishedDate = manualSearchData?.publishedDate {
+            publishedDateTextField.text = publishedDate
+        }
+        
+        if let isbn = manualSearchData?.isbn {
+            isbnTextField.text = isbn
+        }
+        
+        if let dateAdded = manualSearchData?.dateAdded {
+            dateAddedTextField.text = dateAdded
         }
         
         updateSaveButtonState()
@@ -250,6 +264,20 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
             bookImage.image = book.photo
             ratingInput.rating = book.rating
             descriptionTextField.text = book.describeText
+            publishedDateTextField.text = book.publishedDate
+            isbnTextField.text = book.isbn
+            dateAddedTextField.text = book.dateAdded
+            publisherTextField.text = book.publisher
+            if let category = book.category {
+                if !category.isEmpty {
+                    for i in 0..<category.count {
+                        if i != 0 {
+                            categoryTextField.text = categoryTextField.text + ", "
+                        }
+                        categoryTextField.text = categoryTextField.text + category[i]
+                    }
+                }
+            }
         }
 
         // Do any additional setup after loading the view.
@@ -315,6 +343,11 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         let rating = ratingInput.rating
         let describeText = descriptionTextField.text ?? ""
         let owner = ownerField.text
+        let publishedDate = publishedDateTextField.text ?? ""
+        let isbn = isbnTextField.text ?? ""
+        let dateAdded = dateAddedTextField.text ?? ""
+        let publisher = publisherTextField.text ?? ""
+        let category = categoryTextField.text.components(separatedBy: ", ")
         
         var dc = DateComponents()
         let today = Date()
@@ -327,7 +360,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         let returnDate = Calendar.current.date(byAdding: dc, to: today)
         
         
-        book = Books(title: title, author: author, photo: photo, rating: rating, describeText: describeText, owner:owner, returnDate:returnDate)
+        book = Books(title: title, author: author, photo: photo, rating: rating, describeText: describeText, owner: owner, returnDate: returnDate, publishedDate: publishedDate, isbn: isbn, dateAdded: dateAdded, publisher: publisher, category: category)
         
     }
     

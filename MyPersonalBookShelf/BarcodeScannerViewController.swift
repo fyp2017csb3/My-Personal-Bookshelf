@@ -34,6 +34,15 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
         var authors: Array<String>?
         var description: String?
         var imageLinks: ImageLinks?
+        var publishedDate: String?
+        var industryIdentifiers: [ISBN]
+        var publisher: String?
+        var categories: Array<String>?
+    }
+    
+    struct ISBN: Codable {
+        var type: String?
+        var identifier: String?
     }
     
     struct ImageLinks: Codable {
@@ -42,7 +51,7 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
     }
     
     var book: Books?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -105,15 +114,15 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
                     
                     present(alert, animated: true, completion: nil)
                     /*if !object.stringValue!.isEmpty {
-                        let isbnInput = object.stringValue!
-                        if self.searchByISBN(isbn: isbnInput) {
-                            self.performSegue(withIdentifier: "unwindToInput", sender: self)
-                        } else {
-                            let scanAlert = UIAlertController(title: "Book not available", message: "The information of the book was not found in the database", preferredStyle: .alert)
-                            scanAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
-                            self.present(scanAlert, animated: true, completion: nil)
-                        }
-                    }*/
+                     let isbnInput = object.stringValue!
+                     if self.searchByISBN(isbn: isbnInput) {
+                     self.performSegue(withIdentifier: "unwindToInput", sender: self)
+                     } else {
+                     let scanAlert = UIAlertController(title: "Book not available", message: "The information of the book was not found in the database", preferredStyle: .alert)
+                     scanAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+                     self.present(scanAlert, animated: true, completion: nil)
+                     }
+                     }*/
                 }
             }
         }
@@ -136,6 +145,11 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
         var author = ""
         var image = #imageLiteral(resourceName: "defaultBookImage")
         var describeText = ""
+        var publishedDate = ""
+        var baseIsbn = ""
+        var dateAdded = ""
+        var publisher = ""
+        var category = [String]()
         
         var topTierData = [TopTier]()
         
@@ -172,6 +186,29 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
                     if topTierData[0].items[0].volumeInfo.description != nil {
                         describeText = topTierData[0].items[0].volumeInfo.description!
                     }
+                    
+                    //PublishedDate
+                    if topTierData[0].items[0].volumeInfo.publishedDate != nil {
+                        publishedDate = topTierData[0].items[0].volumeInfo.publishedDate!
+                    }
+                    
+                    //ISBN
+                    
+                    //dateAdded
+                    
+                    //publisher
+                    if let checkedPublisher = topTierData[0].items[0].volumeInfo.publisher{
+                        publisher = checkedPublisher
+                    }
+                    
+                    //cateogry
+                    if let checkedCategory = topTierData[0].items[0].volumeInfo.categories{
+                        if !checkedCategory.isEmpty {
+                            for i in 0..<checkedCategory.count {
+                                category.append(checkedCategory[i])
+                            }
+                        }
+                    }
                 }
                 catch
                 {
@@ -179,7 +216,7 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
                 }
                 
                 
-                self.book = Books(title: title, author: author, photo: image, rating: 3, describeText: describeText, owner:nil, returnDate:nil)
+                self.book = Books(title: title, author: author, photo: image, rating: 0, describeText: describeText, owner: nil, returnDate: nil, publishedDate: publishedDate, isbn: isbn, dateAdded: self.getTime(), publisher: publisher, category: category)
                 sem.signal()
             }
             } as URLSessionTask
@@ -203,14 +240,23 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
         return image!
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    private func getTime() -> String{
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .medium
+        let timeStr = formatter.string(from: Date())
+        return timeStr
     }
-    */
-
+    
+    /*
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
+

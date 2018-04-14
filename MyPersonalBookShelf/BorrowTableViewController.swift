@@ -103,21 +103,21 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
         let photo1 = UIImage(named: "sampleBook1")
         let photo2 = UIImage(named: "sampleBook2")
         let photo3 = UIImage(named: "sampleBook3")
+        let sampleCategory = ["Sample"]
         
-        guard let book1 = Books(title: "Sample1", author: "Author1", photo: photo1, rating: 4, describeText: nil, owner:"Friend1", returnDate:Date()) else {
+        guard let book1 = Books(title: "Sample1", author: "Author1", photo: photo1, rating: 4, describeText: nil, owner:"Friend1", returnDate:Date(), publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory) else {
             fatalError("Unable to instantiate book1")
         }
         
-        guard let book2 = Books(title: "Sample2", author: "Author2", photo: photo2, rating: 5, describeText: nil, owner:"Friend1", returnDate:Date()) else {
+        guard let book2 = Books(title: "Sample2", author: "Author2", photo: photo2, rating: 5, describeText: nil, owner:"Friend1", returnDate:Date(), publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory) else {
             fatalError("Unable to instantiate book2")
         }
         
-        guard let book3 = Books(title: "Sample3", author: "Author3", photo: photo3, rating: 3, describeText: nil, owner:"Friend1", returnDate:Date()) else {
+        guard let book3 = Books(title: "Sample3", author: "Author3", photo: photo3, rating: 3, describeText: nil, owner:"Friend1", returnDate:Date(), publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory) else {
             fatalError("Unable to instantiate book3")
         }
         var temp = [book1, book2, book3]
         return temp
-        
     }
     
     private func saveBooks() {
@@ -186,12 +186,14 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
         else {
             bbooks = loadSampleBooks()!
             books = bbooks
+            saveBooks()
         }
         if let savedBooks = loadLBooks(){
             lbooks = savedBooks
         }
         else {
             lbooks = loadSampleBooks()!
+            saveBooks()
         }
     }
     

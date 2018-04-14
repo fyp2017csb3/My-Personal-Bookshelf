@@ -72,16 +72,17 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
         let photo1 = UIImage(named: "sampleBook1")
         let photo2 = UIImage(named: "sampleBook2")
         let photo3 = UIImage(named: "sampleBook3")
+        let sampleCategory = ["Sample"]
         
-        guard let book1 = Books(title: "Sample1", author: "Author1", photo: photo1, rating: 4, describeText: nil, owner:nil, returnDate:nil) else {
+        guard let book1 = Books(title: "Sample1", author: "Author1", photo: photo1, rating: 4, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory) else {
             fatalError("Unable to instantiate book1")
         }
         
-        guard let book2 = Books(title: "Sample2", author: "Author2", photo: photo2, rating: 5, describeText: nil, owner:nil, returnDate:nil) else {
+        guard let book2 = Books(title: "Sample2", author: "Author2", photo: photo2, rating: 5, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory) else {
             fatalError("Unable to instantiate book2")
         }
         
-        guard let book3 = Books(title: "Sample3", author: "Author3", photo: photo3, rating: 3, describeText: nil, owner:nil, returnDate:nil) else {
+        guard let book3 = Books(title: "Sample3", author: "Author3", photo: photo3, rating: 3, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory) else {
             fatalError("Unable to instantiate book3")
         }
         
@@ -170,13 +171,33 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
                 return books.title.lowercased().contains(text.lowercased())
             })
             
-            filteredArr += books.filter({books -> Bool in
+            //Filter Author
+            for items in (books.filter({books -> Bool in
                 guard let text = searchBar.text else {return false}
                 return books.author.lowercased().contains(text.lowercased())
-            })
+            })) {
+                filteredArr.append(items)
+            }
+            
+            removeDuplicate(sourceArray: filteredArr)
             
             tableView.reloadData()
         }
+    }
+    
+    private func removeDuplicate(sourceArray: Array<Books>) -> Array<Books> {
+        var encountered = Set<Books>()
+        var result: [Books] = []
+        for value in sourceArray {
+            if encountered.contains(value) {
+                
+            }
+            else {
+                encountered.insert(value)
+                result.append(value)
+            }
+        }
+        return result
     }
 
     override func didReceiveMemoryWarning() {
@@ -204,10 +225,13 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
             fatalError("The dequeued cell is not an instance of BooksTableViewCell.")
         }
         
-        var book = books[indexPath.row]
+        var book: Books
         
         if isSearching {
             book = filteredArr[indexPath.row]
+        }
+        else {
+            book = books[indexPath.row]
         }
         
         cell.titleLabel.text = book.title
@@ -282,8 +306,14 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
                     fatalError("The selected cell is not displayed by the table")
                 }
                 
-                let selectedBook = books[indexPath.row]
-                bookDetailViewController.book = selectedBook
+            var selectedBook: Books
+            if isSearching {
+                selectedBook = filteredArr[indexPath.row]
+            } else {
+                selectedBook = books[indexPath.row]
+            }
+            bookDetailViewController.book = selectedBook
+            
             bookDetailViewController.reader = reader
             
         default:
