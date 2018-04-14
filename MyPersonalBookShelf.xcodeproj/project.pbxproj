@@ -7,12 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A1482612017424C000F001D /* ManualISBNViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1482602017424C000F001D /* ManualISBNViewController.swift */; };
 		3A6A502220038F920041DA8A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A502120038F920041DA8A /* AppDelegate.swift */; };
 		3A6A502420038F920041DA8A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A502320038F920041DA8A /* ViewController.swift */; };
 		3A6A502720038F920041DA8A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A6A502520038F920041DA8A /* Main.storyboard */; };
 		3A6A502920038F920041DA8A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A6A502820038F920041DA8A /* Assets.xcassets */; };
 		3A6A502C20038F920041DA8A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A6A502A20038F920041DA8A /* LaunchScreen.storyboard */; };
 		3A6A503720038F920041DA8A /* MyPersonalBookShelfTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A503620038F920041DA8A /* MyPersonalBookShelfTests.swift */; };
+		3A6A50422006173F0041DA8A /* BooksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A50412006173F0041DA8A /* BooksTableViewCell.swift */; };
+		3A6A5044200619B80041DA8A /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A5043200619B80041DA8A /* RatingControl.swift */; };
+		3A711287202C5AF6003EA829 /* GoogleBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A711286202C5AF6003EA829 /* GoogleBook.swift */; };
+		3A7112892046C194003EA829 /* SearchResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7112882046C194003EA829 /* SearchResultTableViewController.swift */; };
+		3A71128B20480BB1003EA829 /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A71128A20480BB1003EA829 /* SearchResultTableViewCell.swift */; };
+		3A8C059D2007623C00985FC2 /* ManualInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C059C2007623C00985FC2 /* ManualInputViewController.swift */; };
+		3A8C059F20109E8B00985FC2 /* BarcodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8C059E20109E8B00985FC2 /* BarcodeScannerViewController.swift */; };
+		3AA310D12006666E00F9F9D7 /* Books.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA310D02006666E00F9F9D7 /* Books.swift */; };
+		3AA310D32006689C00F9F9D7 /* BooksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA310D22006689C00F9F9D7 /* BooksTableViewController.swift */; };
+		E9433DFF206D36970092A641 /* BorrowTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9433DFE206D36970092A641 /* BorrowTableViewController.swift */; };
+		E950AE3620713BC9007E63A7 /* user.swift in Sources */ = {isa = PBXBuildFile; fileRef = E950AE3520713BC9007E63A7 /* user.swift */; };
+		E950AE3820718CEA007E63A7 /* FdsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E950AE3720718CEA007E63A7 /* FdsTableViewController.swift */; };
+		E950AE3A20723AEE007E63A7 /* FdsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E950AE3920723AEE007E63A7 /* FdsTableViewCell.swift */; };
+		E950AE3C20743ADB007E63A7 /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E950AE3B20743ADB007E63A7 /* QRViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A1482602017424C000F001D /* ManualISBNViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualISBNViewController.swift; sourceTree = "<group>"; };
 		3A6A501E20038F920041DA8A /* MyPersonalBookShelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPersonalBookShelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A6A502120038F920041DA8A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A6A502320038F920041DA8A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -36,6 +52,20 @@
 		3A6A503220038F920041DA8A /* MyPersonalBookShelfTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyPersonalBookShelfTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A6A503620038F920041DA8A /* MyPersonalBookShelfTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPersonalBookShelfTests.swift; sourceTree = "<group>"; };
 		3A6A503820038F920041DA8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3A6A50412006173F0041DA8A /* BooksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTableViewCell.swift; sourceTree = "<group>"; };
+		3A6A5043200619B80041DA8A /* RatingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
+		3A711286202C5AF6003EA829 /* GoogleBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleBook.swift; sourceTree = "<group>"; };
+		3A7112882046C194003EA829 /* SearchResultTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewController.swift; sourceTree = "<group>"; };
+		3A71128A20480BB1003EA829 /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
+		3A8C059C2007623C00985FC2 /* ManualInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualInputViewController.swift; sourceTree = "<group>"; };
+		3A8C059E20109E8B00985FC2 /* BarcodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerViewController.swift; sourceTree = "<group>"; };
+		3AA310D02006666E00F9F9D7 /* Books.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Books.swift; sourceTree = "<group>"; };
+		3AA310D22006689C00F9F9D7 /* BooksTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTableViewController.swift; sourceTree = "<group>"; };
+		E9433DFE206D36970092A641 /* BorrowTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowTableViewController.swift; sourceTree = "<group>"; };
+		E950AE3520713BC9007E63A7 /* user.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = user.swift; sourceTree = "<group>"; };
+		E950AE3720718CEA007E63A7 /* FdsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FdsTableViewController.swift; sourceTree = "<group>"; };
+		E950AE3920723AEE007E63A7 /* FdsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FdsTableViewCell.swift; sourceTree = "<group>"; };
+		E950AE3B20743ADB007E63A7 /* QRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +109,22 @@
 			children = (
 				3A6A502120038F920041DA8A /* AppDelegate.swift */,
 				3A6A502320038F920041DA8A /* ViewController.swift */,
+				3A6A5043200619B80041DA8A /* RatingControl.swift */,
+				3A6A50412006173F0041DA8A /* BooksTableViewCell.swift */,
+				3AA310D22006689C00F9F9D7 /* BooksTableViewController.swift */,
 				3A6A502520038F920041DA8A /* Main.storyboard */,
+				E950AE3B20743ADB007E63A7 /* QRViewController.swift */,
+				E950AE3720718CEA007E63A7 /* FdsTableViewController.swift */,
+				E950AE3920723AEE007E63A7 /* FdsTableViewCell.swift */,
+				E9433DFE206D36970092A641 /* BorrowTableViewController.swift */,
+				E950AE3520713BC9007E63A7 /* user.swift */,
+				3A7112882046C194003EA829 /* SearchResultTableViewController.swift */,
+				3A71128A20480BB1003EA829 /* SearchResultTableViewCell.swift */,
+				3A1482602017424C000F001D /* ManualISBNViewController.swift */,
+				3A8C059E20109E8B00985FC2 /* BarcodeScannerViewController.swift */,
+				3A8C059C2007623C00985FC2 /* ManualInputViewController.swift */,
+				3AA310D02006666E00F9F9D7 /* Books.swift */,
+				3A711286202C5AF6003EA829 /* GoogleBook.swift */,
 				3A6A502820038F920041DA8A /* Assets.xcassets */,
 				3A6A502A20038F920041DA8A /* LaunchScreen.storyboard */,
 				3A6A502D20038F920041DA8A /* Info.plist */,
@@ -199,8 +244,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9433DFF206D36970092A641 /* BorrowTableViewController.swift in Sources */,
+				E950AE3A20723AEE007E63A7 /* FdsTableViewCell.swift in Sources */,
+				E950AE3C20743ADB007E63A7 /* QRViewController.swift in Sources */,
+				3A6A5044200619B80041DA8A /* RatingControl.swift in Sources */,
+				3A1482612017424C000F001D /* ManualISBNViewController.swift in Sources */,
+				3A71128B20480BB1003EA829 /* SearchResultTableViewCell.swift in Sources */,
+				E950AE3620713BC9007E63A7 /* user.swift in Sources */,
+				3A6A50422006173F0041DA8A /* BooksTableViewCell.swift in Sources */,
+				3AA310D32006689C00F9F9D7 /* BooksTableViewController.swift in Sources */,
 				3A6A502420038F920041DA8A /* ViewController.swift in Sources */,
+				3A8C059D2007623C00985FC2 /* ManualInputViewController.swift in Sources */,
 				3A6A502220038F920041DA8A /* AppDelegate.swift in Sources */,
+				3A711287202C5AF6003EA829 /* GoogleBook.swift in Sources */,
+				3A7112892046C194003EA829 /* SearchResultTableViewController.swift in Sources */,
+				3A8C059F20109E8B00985FC2 /* BarcodeScannerViewController.swift in Sources */,
+				E950AE3820718CEA007E63A7 /* FdsTableViewController.swift in Sources */,
+				3AA310D12006666E00F9F9D7 /* Books.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,7 +414,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N9Q6EAW4GG;
 				INFOPLIST_FILE = MyPersonalBookShelf/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.FYP.MyPersonalBookShelf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -368,7 +430,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N9Q6EAW4GG;
 				INFOPLIST_FILE = MyPersonalBookShelf/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.FYP.MyPersonalBookShelf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
