@@ -8,6 +8,8 @@
 
 import UIKit
 import os.log
+import Firebase
+
 
 class Books: NSObject, NSCoding {
     func encode(with aCoder: NSCoder) {
@@ -112,5 +114,55 @@ class Books: NSObject, NSCoding {
     func setReturnDate(returnDate: Date?) {
         self.returnDate = returnDate
     }
+    static func returnFirebook(uid:String, view:BooksTableViewController) -> [Books]? {
+        var ref: DatabaseReference!
+        ref = Database.database().reference()
+        var bks = [Books]()
+        bks = []
+        ref.child("users").child(uid).child("books").observeSingleEvent(of: .value, with: { (snapshot) in
+            for child in snapshot.children{
+                let bk = Books(
+                    title: (child as! DataSnapshot).childSnapshot(forPath: "title").value as! String,
+                    author: (child as! DataSnapshot).childSnapshot(forPath: "author").value as! String,
+                    photo:UIImage(named: "sampleBook1"),
+                    rating: (child as! DataSnapshot).childSnapshot(forPath: "rating").value as! Int,
+                    describeText: (child as! DataSnapshot).childSnapshot(forPath: "describeText").value as? String,
+                    owner: (child as! DataSnapshot).childSnapshot(forPath: "owner").value as? String,
+                    returnDate: nil,
+                    publishedDate: (child as! DataSnapshot).childSnapshot(forPath: "publishedDate").value as? String,
+                    isbn: (child as! DataSnapshot).childSnapshot(forPath: "isbn").value as? String,
+                    dateAdded: (child as! DataSnapshot).childSnapshot(forPath: "dateAdded").value as? String,
+                    publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
+                    category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String]
+                )
+                bks.append(bk!)
+                print("added a bk from base")
+                view.tableView.reloadData()
+
+    }
+
+        })
+        print("returned bks array")
+        return bks
     
+}
+    func saveFirebook(uid:String) {
+        var ref: DatabaseReference!
+        ref = Database.database().reference()
+        
+        let key = ref.child("users").child(uid).child("books").childByAutoId().key
+        ref.child("users").child(uid).child("books").child(key).child("title").setValue(title)
+        ref.child("users").child(uid).child("books").child(key).child("author").setValue(author)
+        ref.child("users").child(uid).child("books").child(key).child("rating").setValue(rating)
+        ref.child("users").child(uid).child("books").child(key).child("photo").setValue("imgURL")
+        ref.child("users").child(uid).child("books").child(key).child("describeText").setValue(describeText)
+        ref.child("users").child(uid).child("books").child(key).child("owner").setValue(owner)
+        ref.child("users").child(uid).child("books").child(key).child("returnDate").setValue(nil)
+        ref.child("users").child(uid).child("books").child(key).child("publishedDate").setValue(publishedDate)
+        ref.child("users").child(uid).child("books").child(key).child("isbn").setValue(isbn)
+        ref.child("users").child(uid).child("books").child(key).child("dateAdded").setValue(dateAdded)
+        ref.child("users").child(uid).child("books").child(key).child("publisher").setValue(publisher)
+        ref.child("users").child(uid).child("books").child(key).child("category").setValue(category)
+        
+    }
 }
