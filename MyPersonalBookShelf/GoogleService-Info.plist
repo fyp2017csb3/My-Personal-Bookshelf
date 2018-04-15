@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>778326267872-fpg9aci1d3qgql9gpudamdkus7odhcjc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.778326267872-fpg9aci1d3qgql9gpudamdkus7odhcjc</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDaU-yXYdoj67FE7DeJKwEp2Zvr4nodiDw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>778326267872</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.FYP.MyPersonalBookShelf</string>
+	<key>PROJECT_ID</key>
+	<string>fypcsb3</string>
+	<key>STORAGE_BUCKET</key>
+	<string>fypcsb3.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:778326267872:ios:806b230c57ef8ab2</string>
+	<key>DATABASE_URL</key>
+	<string>https://fypcsb3.firebaseio.com</string>
+</dict>
+</plist>
