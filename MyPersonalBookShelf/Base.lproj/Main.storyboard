@@ -236,6 +236,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="CI8-b0-dwv">
+                                <rect key="frame" x="179" y="343" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="pln-ig-v6T"/>
@@ -244,6 +248,7 @@
                         <outlet property="authorTextField" destination="7vR-mK-dZH" id="su6-mb-RoX"/>
                         <outlet property="isbnTextField" destination="Crq-Fl-bay" id="OiQ-Pc-1Ea"/>
                         <outlet property="keywordTextField" destination="fyU-hR-gMa" id="JEi-Qh-5fg"/>
+                        <outlet property="loadingIndicator" destination="CI8-b0-dwv" id="JSX-LI-MaU"/>
                         <outlet property="titleTextField" destination="Qqh-0m-PM5" id="EEJ-eP-D3f"/>
                         <segue destination="oey-Ki-SYq" kind="unwind" identifier="unwindToInput" unwindAction="unwindToInputWithSegue:" id="Uhi-9K-bHk"/>
                         <segue destination="A7I-d8-1dq" kind="show" identifier="searchResultSegue" id="wc1-aH-czq"/>
@@ -366,9 +371,10 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Author" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jRL-b5-StB">
-                                        <rect key="frame" x="124" y="135" width="220" height="28"/>
+                                        <rect key="frame" x="124" y="135" width="220" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
@@ -376,6 +382,7 @@
                                         <rect key="frame" x="124" y="58" width="220" height="69"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
@@ -788,6 +795,7 @@
         <image name="shareIcon" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Mf4-kf-Q2I"/>
         <segue reference="uhL-l7-xsD"/>
         <segue reference="KWf-as-EaE"/>
         <segue reference="bCl-LM-AM0"/>
