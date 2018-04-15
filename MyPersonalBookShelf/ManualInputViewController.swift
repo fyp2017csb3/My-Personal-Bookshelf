@@ -257,6 +257,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         //handle input
         titleTextField.delegate = self
         authorTextField.delegate = self
+        ownerField.delegate = self
         
         if let book = book {
             navigationItem.title = book.title
@@ -298,7 +299,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         
         //text view placeholder
         if titleTextField.text == "Title" {
-            print("textField.text = " + titleTextField.text)
+            //print("textField.text = " + titleTextField.text)
             titleTextField.textColor = UIColor.lightGray
         }
         
@@ -306,6 +307,13 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
             authorTextField.textColor = UIColor.lightGray
         }
         
+        if (dateAddedTextField.text == nil || dateAddedTextField.text == "") {
+            dateAddedTextField.text = getTime()
+        }
+        
+        if (ownerField.text == "Owner") {
+            ownerField.textColor = UIColor.lightGray
+        }
         
         updateSaveButtonState()
     }
@@ -350,7 +358,20 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
                 textView.text = "Author"
                 textView.textColor = UIColor.lightGray
             }
+            
+            if textView == ownerField {
+                textView.text = "Owner"
+                textView.textColor = UIColor.lightGray
+            }
         }
+    }
+    
+    private func getTime() -> String{
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .medium
+        let timeStr = formatter.string(from: Date())
+        return timeStr
     }
     
 
