@@ -19,7 +19,6 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     //Loading animation
-    var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
     
     //Struct of google book
     struct TopTier : Codable {
@@ -69,17 +68,14 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func titleSearchReturn(_ sender: UITextField) {
-        //Loading animation
         performTitleSearch()
     }
     
     @IBAction func authorSearchReturn(_ sender: UITextField) {
-        //Loading animation
         performAuthorSearch()
     }
     
     @IBAction func keywordSearchReturn(_ sender: UITextField) {
-        //Loading animation
         performKeywordSearch()
     }
     
@@ -149,6 +145,7 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
         
         // Do any additional setup after loading the view.
         loadingIndicator.isHidden = true
+        self.loadingIndicator.startAnimating()
         
     }
     
@@ -290,7 +287,6 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
         //var dateAdded = ""
         var publisher = ""
         var category = [String]()
-
         
         let dataTask = URLSession.shared.dataTask(with: url) {(data, response, error) in
             if error != nil {
@@ -367,7 +363,6 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
                 sem.signal()
             }
             } as URLSessionTask
-        
         dataTask.resume()
         sem.wait()
         if self.book?.title == nil {

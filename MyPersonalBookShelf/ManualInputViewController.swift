@@ -221,6 +221,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if (saveBtnTemp == nil) {
         saveBtnTemp = saveButton
         borrowBtnTemp = borrowButton
@@ -295,6 +296,16 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
             toolBar.items![6] = tbiSpace
         }
         
+        //text view placeholder
+        if titleTextField.text == "Title" {
+            print("textField.text = " + titleTextField.text)
+            titleTextField.textColor = UIColor.lightGray
+        }
+        
+        if authorTextField.text == "Author" {
+            authorTextField.textColor = UIColor.lightGray
+        }
+        
         
         updateSaveButtonState()
     }
@@ -320,6 +331,26 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
     private func updateSaveButtonState() {
         let text = titleTextField.text ?? ""
         saveButton.isEnabled = !text.isEmpty
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            if textView == titleTextField {
+                textView.text = "Title"
+                textView.textColor = UIColor.lightGray
+            }
+            if textView == authorTextField {
+                textView.text = "Author"
+                textView.textColor = UIColor.lightGray
+            }
+        }
     }
     
 
