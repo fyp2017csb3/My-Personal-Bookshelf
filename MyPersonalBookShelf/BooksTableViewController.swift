@@ -8,6 +8,9 @@
 
 import UIKit
 import os.log
+import Firebase
+
+
 
 var me = User.getUser()
 
@@ -19,6 +22,8 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
     var filteredArr = [Books]()
     var reader = me
     var isSearching = false
+    
+    var ref : DatabaseReference!
     
     @IBOutlet weak var searchBar: UISearchBar!
     
@@ -39,6 +44,12 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
                 books.append(book)
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
+            
+            book.saveFirebook(uid: (me?.UID)!)
+            book.saveFirebook(uid: "UID1")
+            
+            
+            
             
             //Save
             saveBooks()
@@ -95,7 +106,7 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
     private func saveBooks() {
         let successfulSave = NSKeyedArchiver.archiveRootObject(books, toFile: Books.ArchiveURL.path)
         if successfulSave {
-            os_log("Books is saved.", log: OSLog.default, type: . debug)
+           os_log("Books is saved.", log: OSLog.default, type: . debug)
         }
         else
         {
@@ -104,7 +115,8 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     private func loadBooks() -> [Books]? {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: Books.ArchiveURL.path) as? [Books]
+            return NSKeyedUnarchiver.unarchiveObject(withFile: Books.ArchiveURL.path) as? [Books]
+        
     }
     
     //MARK: SORTING
@@ -134,11 +146,46 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
         print(me?.UID)
         
         print("Viewing ", reader?.name)
+    
         
         if (reader == me) {
+            if let savedBooks = loadBooks() {
+                books += savedBooks
+            }
+            else {
+                loadSampleBooks()
+            }
             navigationItem.leftBarButtonItem = editButtonItem
         } else {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(back))
+            //loadFirebase
+            var ref: DatabaseReference!
+            ref = Database.database().reference()
+            ref.child("users").child((reader?.UID)!).child("books").observeSingleEvent(of: .value, with: { (snapshot) in
+                for child in snapshot.children{
+                    let bk = Books(
+                        title: (child as! DataSnapshot).childSnapshot(forPath: "title").value as! String,
+                        author: (child as! DataSnapshot).childSnapshot(forPath: "author").value as! String,
+                        photo:UIImage(named: "sampleBook1"),
+                        rating: (child as! DataSnapshot).childSnapshot(forPath: "rating").value as! Int,
+                        describeText: (child as! DataSnapshot).childSnapshot(forPath: "describeText").value as? String,
+                        owner: (child as! DataSnapshot).childSnapshot(forPath: "owner").value as? String,
+                        returnDate: nil,
+                        publishedDate: (child as! DataSnapshot).childSnapshot(forPath: "publishedDate").value as? String,
+                        isbn: (child as! DataSnapshot).childSnapshot(forPath: "isbn").value as? String,
+                        dateAdded: (child as! DataSnapshot).childSnapshot(forPath: "dateAdded").value as? String,
+                        publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
+                        category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String]
+                    )
+                    self.books.append(bk!)
+                    print("added a bk from base")
+                    self.tableView.reloadData()
+                    
+                }
+                
+            })
+            print("returned bks array")
+            
         }
         
         searchBar.delegate = self
@@ -146,12 +193,7 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
         searchBar.returnKeyType = UIReturnKeyType.done
         
         //Load saved books else sample
-        if let savedBooks = loadBooks() {
-            books += savedBooks
-        }
-        else {
-            loadSampleBooks()
-        }
+        
     }
     
     //MARK: SearchBar
@@ -256,6 +298,7 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if reader == me {
         if editingStyle == .delete {
             // Delete the row from the data source
             books.remove(at: indexPath.row)
@@ -264,7 +307,8 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
             
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
+        }
     }
 
     /*
