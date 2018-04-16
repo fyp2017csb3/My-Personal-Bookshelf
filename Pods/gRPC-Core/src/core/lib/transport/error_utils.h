@@ -23,6 +23,10 @@
 #include "src/core/lib/iomgr/exec_ctx.h"
 #include "src/core/lib/transport/http2_errors.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /// A utility function to get the status code and message to be returned
 /// to the application.  If not set in the top-level message, looks
 /// through child errors until it finds the first one with these attributes.
@@ -30,8 +34,9 @@
 /// be populated with the entire error string. If any of the attributes (code,
 /// msg, http_status, error_string) are unneeded, they can be passed as
 /// NULL.
-void grpc_error_get_status(grpc_error* error, grpc_millis deadline,
-                           grpc_status_code* code, grpc_slice* slice,
+void grpc_error_get_status(grpc_exec_ctx* exec_ctx, grpc_error* error,
+                           grpc_millis deadline, grpc_status_code* code,
+                           grpc_slice* slice,
                            grpc_http2_error_code* http_status,
                            const char** error_string);
 
@@ -40,5 +45,9 @@ void grpc_error_get_status(grpc_error* error, grpc_millis deadline,
 /// child has GRPC_ERROR_INT_GRPC_STATUS set, or that it is GRPC_ERROR_NONE or
 /// GRPC_ERROR_CANCELLED
 bool grpc_error_has_clear_grpc_status(grpc_error* error);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* GRPC_CORE_LIB_TRANSPORT_ERROR_UTILS_H */

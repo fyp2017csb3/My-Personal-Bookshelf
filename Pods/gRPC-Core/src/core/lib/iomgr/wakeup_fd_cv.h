@@ -40,28 +40,36 @@
 #define GRPC_FD_TO_IDX(fd) (-(fd)-1)
 #define GRPC_IDX_TO_FD(idx) (-(idx)-1)
 
-typedef struct grpc_cv_node {
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct cv_node {
   gpr_cv* cv;
-  struct grpc_cv_node* next;
-  struct grpc_cv_node* prev;
-} grpc_cv_node;
+  struct cv_node* next;
+  struct cv_node* prev;
+} cv_node;
 
-typedef struct grpc_fd_node {
+typedef struct fd_node {
   int is_set;
-  grpc_cv_node* cvs;
-  struct grpc_fd_node* next_free;
-} grpc_fd_node;
+  cv_node* cvs;
+  struct fd_node* next_free;
+} fd_node;
 
-typedef struct grpc_cv_fd_table {
+typedef struct cv_fd_table {
   gpr_mu mu;
   gpr_refcount pollcount;
   gpr_cv shutdown_cv;
-  grpc_fd_node* cvfds;
-  grpc_fd_node* free_fds;
+  fd_node* cvfds;
+  fd_node* free_fds;
   unsigned int size;
   grpc_poll_function_type poll;
-} grpc_cv_fd_table;
+} cv_fd_table;
 
 extern const grpc_wakeup_fd_vtable grpc_cv_wakeup_fd_vtable;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* GRPC_CORE_LIB_IOMGR_WAKEUP_FD_CV_H */

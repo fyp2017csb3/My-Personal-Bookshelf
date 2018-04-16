@@ -115,8 +115,7 @@ NS_SWIFT_NAME(StorageMetadata)
 /**
  * An array containing all download URLs available for the object.
  */
-@property(strong, nonatomic, readonly, nullable) NSArray<NSURL *> *downloadURLs __deprecated_msg(
-    "Use `StorageReference.downloadURLWithCompletion()` to obtain a current download URL.");
+@property(strong, nonatomic, readonly, nullable) NSArray<NSURL *> *downloadURLs;
 
 /**
  * Creates an instanece of FIRStorageMetadata from the contents of a dictionary.
@@ -146,8 +145,7 @@ NS_SWIFT_NAME(StorageMetadata)
  * Note that if there are many valid download tokens, this will always return the first
  * valid token created.
  */
-- (nullable NSURL *)downloadURL __deprecated_msg(
-    "Use `StorageReference.downloadURLWithCompletion()` to obtain a current download URL.");
+- (nullable NSURL *)downloadURL;
 
 @end
 

@@ -907,7 +907,7 @@
         <!--Firends' books-->
         <scene sceneID="PXa-HP-mZF">
             <objects>
-                <tableViewController id="OQb-mC-ETl" customClass="BooksTableViewController" customModule="MyPersonalBookShelf" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="OQb-mC-ETl" customClass="RecommendTableViewController" customModule="MyPersonalBookShelf" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="vWs-ld-gj0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -973,6 +973,11 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Item" id="XdE-vk-xjl"/>
                     <navigationItem key="navigationItem" title="Firends' books" id="nCs-U4-wqJ">
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="GcR-Iw-pkt">
+                            <connections>
+                                <segue destination="jMv-kU-8cJ" kind="show" identifier="ShowRecBk" id="Y5w-25-xnt"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="zUQ-8z-tmH"/>
                             <barButtonItem title="Sort" id="y9H-bP-iiN">
@@ -999,7 +1004,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="uhL-l7-xsD"/>
-        <segue reference="BAR-mP-at7"/>
+        <segue reference="Y5w-25-xnt"/>
         <segue reference="Enh-9A-rdg"/>
     </inferredMetricsTieBreakers>
 </document>

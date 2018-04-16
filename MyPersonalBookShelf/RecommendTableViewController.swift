@@ -14,6 +14,7 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
     
     //MARK: Properties
     var books = [Books]()
+    var myBooks = [Books]()
     var fds = [User]()
     var filteredArr = [Books]()
     var reader = me
@@ -23,43 +24,21 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
     
     
     //MARK: Actions
-    @IBAction func unwindToBookList(sender: UIStoryboardSegue){
-        if let sourceViewController = sender.source as? ManualInputViewController, let book = sourceViewController.book {
-            
-            if let selectedIndexPath = tableView.indexPathForSelectedRow{
-                //Update
-                books[selectedIndexPath.row] = book
-                tableView.reloadRows(at: [selectedIndexPath], with: .none)
-            }
-                
-            else
-            {   //Add
-                let newIndexPath = IndexPath(row: books.count, section: 0)
-                books.append(book)
-                tableView.insertRows(at: [newIndexPath], with: .automatic)
-            }
-            
-            //Save
-            saveBooks()
-        }
-    }
+    
     
     @IBAction func sortButton(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "Sorting", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Sort by title", style: .default, handler: { (nil) in
             self.books = self.sortTitle()
             self.tableView.reloadData()
-            self.saveBooks()
         }))
         alert.addAction(UIAlertAction(title: "Sort by author", style: .default, handler: { (nil) in
             self.books = self.sortAuthor()
             self.tableView.reloadData()
-            self.saveBooks()
         }))
         alert.addAction(UIAlertAction(title: "Sort by rating", style: .default, handler: { (nil) in
             self.books = self.sortRating()
             self.tableView.reloadData()
-            self.saveBooks()
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
@@ -92,20 +71,6 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
     
     
     
-    private func saveBooks() {
-        let successfulSave = NSKeyedArchiver.archiveRootObject(books, toFile: Books.ArchiveURL.path)
-        if successfulSave {
-            os_log("Books is saved.", log: OSLog.default, type: . debug)
-        }
-        else
-        {
-            os_log("Failed to save book", log: OSLog.default, type: .error)
-        }
-    }
-    
-    private func loadBooks() -> [Books]? {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: Books.ArchiveURL.path) as? [Books]
-    }
     
     //MARK: SORTING
     private func sortTitle() -> [Books] {
@@ -117,6 +82,12 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
         let sortedArr = books.sorted(by: {$0.author < $1.author})
         return sortedArr
     }
+    
+    private func loadBooks() -> [Books]? {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: Books.ArchiveURL.path) as? [Books]
+        
+    }
+    
     
     private func sortRating() -> [Books] {
         let sortedArr = books.sorted(by: {$0.rating > $1.rating})
@@ -132,7 +103,11 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if let selfBooks = loadBooks() {
+            myBooks = selfBooks
+        } else {
+            myBooks = []
+        }
         if let savedFds = loadFds() {
             fds += savedFds
         }
@@ -140,13 +115,11 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
             fds = []
         }
         for i in fds {
-            //getBookWith(i.UID)
-            //books.append(book)
+            Books.returnFirebook(uid: i.UID, view: self)
         }
         
         
         
-        print("Viewing ", reader?.name)
         
         
         searchBar.delegate = self
@@ -157,14 +130,6 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
         
         
         
-        
-        //Load saved books else sample
-        if let savedBooks = loadBooks() {
-            books += savedBooks
-        }
-        else {
-            loadSampleBooks()
-        }
     }
     
     //MARK: SearchBar
@@ -245,17 +210,17 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
     
     
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            books.remove(at: indexPath.row)
-            saveBooks()
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }
-    }
+    //    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    //        if editingStyle == .delete {
+    //            // Delete the row from the data source
+    //            books.remove(at: indexPath.row)
+    //
+    //            tableView.deleteRows(at: [indexPath], with: .fade)
+    //
+    //        } else if editingStyle == .insert {
+    //            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    //        }
+    //    }
     
     /*
      // Override to support rearranging the table view.
@@ -282,8 +247,47 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
         switch(segue.identifier ?? "") {
         case "AddBook":
             os_log("Adding a new book.", log: OSLog.default, type: .debug)
+        case "ShowRecBk":
+            var bayes = Books.getCatCount(srcBks: books)
+            var myBayes = Books.getCatCount(srcBks: myBooks)
+            var sum = 0
+            var cat : String?
+            for i in bayes {
+                if myBayes[i.key] != nil {
+                    bayes[i.key] = myBayes[i.key]!+1
+                } else {
+                    bayes[i.key] = 1
+                }
+                sum += bayes[i.key]!
+            }
+            var num = Int(arc4random_uniform(UInt32(sum)))
+            for i in bayes {
+                num -= i.value
+                if num <= 0 {
+                    cat = i.key
+                    break
+                }
+            }
+            var tmpBks = [Books]()
+            tmpBks = []
+            for i in books {
+                if(i.category?.contains(cat!))! {
+                    tmpBks.append(i)
+                }
+            }
+            num = Int(arc4random_uniform(UInt32(tmpBks.count)))
             
-        case "ShowDetail":
+            guard let bookDetailViewController = segue.destination as? ManualInputViewController else {
+                fatalError("Unexpected Destination: \(segue.destination)")
+            }
+            
+            
+            let selectedBook = tmpBks[num]
+            bookDetailViewController.book = selectedBook
+            bookDetailViewController.reader = nil
+            
+            
+        case "ShowAllFdsBook":
             guard let bookDetailViewController = segue.destination as? ManualInputViewController else {
                 fatalError("Unexpected Destination: \(segue.destination)")
             }
@@ -298,7 +302,7 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
             
             let selectedBook = books[indexPath.row]
             bookDetailViewController.book = selectedBook
-            bookDetailViewController.reader = reader
+            bookDetailViewController.reader = nil
             
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")

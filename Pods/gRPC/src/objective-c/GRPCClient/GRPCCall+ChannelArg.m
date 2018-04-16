@@ -20,8 +20,6 @@
 
 #import "private/GRPCHost.h"
 
-#import <grpc/impl/codegen/compression_types.h>
-
 @implementation GRPCCall (ChannelArg)
 
 + (void)setUserAgentPrefix:(nonnull NSString *)userAgentPrefix forHost:(nonnull NSString *)host {
@@ -36,25 +34,6 @@
 
 + (void)closeOpenConnections {
   [GRPCHost flushChannelCache];
-}
-
-+ (void)setDefaultCompressMethod:(GRPCCompressAlgorithm)algorithm
-                         forhost:(nonnull NSString *)host {
-  GRPCHost *hostConfig = [GRPCHost hostWithAddress:host];
-  switch (algorithm) {
-    case GRPCCompressNone:
-      hostConfig.compressAlgorithm = GRPC_COMPRESS_NONE;
-      break;
-    case GRPCCompressDeflate:
-      hostConfig.compressAlgorithm = GRPC_COMPRESS_DEFLATE;
-      break;
-    case GRPCCompressGzip:
-      hostConfig.compressAlgorithm = GRPC_COMPRESS_GZIP;
-      break;
-    default:
-      NSLog(@"Invalid compression algorithm");
-      abort();
-  }
 }
 
 @end

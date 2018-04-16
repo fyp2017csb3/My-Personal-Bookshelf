@@ -28,18 +28,17 @@
 #include <sys/types.h>
 
 #include <grpc/support/alloc.h>
+#include <grpc/support/host_port.h>
 #include <grpc/support/log.h>
 #include <grpc/support/log_windows.h>
 #include <grpc/support/string_util.h>
+#include <grpc/support/thd.h>
 #include <grpc/support/time.h>
-
-#include "src/core/lib/gpr/host_port.h"
-#include "src/core/lib/gpr/string.h"
-#include "src/core/lib/gpr/thd.h"
 #include "src/core/lib/iomgr/block_annotate.h"
 #include "src/core/lib/iomgr/executor.h"
 #include "src/core/lib/iomgr/iomgr_internal.h"
 #include "src/core/lib/iomgr/sockaddr_utils.h"
+#include "src/core/lib/support/string.h"
 
 typedef struct {
   char* name;
@@ -52,7 +51,6 @@ typedef struct {
 static grpc_error* blocking_resolve_address_impl(
     const char* name, const char* default_port,
     grpc_resolved_addresses** addresses) {
-  grpc_core::ExecCtx exec_ctx;
   struct addrinfo hints;
   struct addrinfo *result = NULL, *resp;
   char* host;
@@ -89,7 +87,7 @@ static grpc_error* blocking_resolve_address_impl(
 
   GRPC_SCHEDULING_START_BLOCKING_REGION;
   s = getaddrinfo(host, port, &hints, &result);
-  GRPC_SCHEDULING_END_BLOCKING_REGION;
+  GRPC_SCHEDULING_END_BLOCKING_REGION_NO_EXEC_CTX;
   if (s != 0) {
     error = GRPC_WSA_ERROR(WSAGetLastError(), "getaddrinfo");
     goto done;
@@ -134,7 +132,8 @@ grpc_error* (*grpc_blocking_resolve_address)(
 
 /* Callback to be passed to grpc_executor to asynch-ify
  * grpc_blocking_resolve_address */
-static void do_request_thread(void* rp, grpc_error* error) {
+static void do_request_thread(grpc_exec_ctx* exec_ctx, void* rp,
+                              grpc_error* error) {
   request* r = (request*)rp;
   if (error == GRPC_ERROR_NONE) {
     error =
@@ -142,7 +141,7 @@ static void do_request_thread(void* rp, grpc_error* error) {
   } else {
     GRPC_ERROR_REF(error);
   }
-  GRPC_CLOSURE_SCHED(r->on_done, error);
+  GRPC_CLOSURE_SCHED(exec_ctx, r->on_done, error);
   gpr_free(r->name);
   gpr_free(r->default_port);
   gpr_free(r);
@@ -155,7 +154,8 @@ void grpc_resolved_addresses_destroy(grpc_resolved_addresses* addrs) {
   gpr_free(addrs);
 }
 
-static void resolve_address_impl(const char* name, const char* default_port,
+static void resolve_address_impl(grpc_exec_ctx* exec_ctx, const char* name,
+                                 const char* default_port,
                                  grpc_pollset_set* interested_parties,
                                  grpc_closure* on_done,
                                  grpc_resolved_addresses** addresses) {
@@ -166,11 +166,11 @@ static void resolve_address_impl(const char* name, const char* default_port,
   r->default_port = gpr_strdup(default_port);
   r->on_done = on_done;
   r->addresses = addresses;
-  GRPC_CLOSURE_SCHED(&r->request_closure, GRPC_ERROR_NONE);
+  GRPC_CLOSURE_SCHED(exec_ctx, &r->request_closure, GRPC_ERROR_NONE);
 }
 
 void (*grpc_resolve_address)(
-    const char* name, const char* default_port,
+    grpc_exec_ctx* exec_ctx, const char* name, const char* default_port,
     grpc_pollset_set* interested_parties, grpc_closure* on_done,
     grpc_resolved_addresses** addresses) = resolve_address_impl;
 

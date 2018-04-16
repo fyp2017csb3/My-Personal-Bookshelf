@@ -18,7 +18,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class FIRQueryDocumentSnapshot;
+@class FIRDocumentSnapshot;
 
 /** An enumeration of document change types. */
 typedef NS_ENUM(NSInteger, FIRDocumentChangeType) {
@@ -47,7 +47,7 @@ NS_SWIFT_NAME(DocumentChange)
 @property(nonatomic, readonly) FIRDocumentChangeType type;
 
 /** The document affected by this change. */
-@property(nonatomic, strong, readonly) FIRQueryDocumentSnapshot *document;
+@property(nonatomic, strong, readonly) FIRDocumentSnapshot *document;
 
 /**
  * The index of the changed document in the result set immediately prior to this FIRDocumentChange

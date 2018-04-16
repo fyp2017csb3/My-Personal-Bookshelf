@@ -23,6 +23,10 @@
 #include "src/core/lib/debug/trace.h"
 #include "src/core/lib/iomgr/exec_ctx.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct grpc_connectivity_state_watcher {
   /** we keep watchers in a linked list */
   struct grpc_connectivity_state_watcher* next;
@@ -51,11 +55,13 @@ const char* grpc_connectivity_state_name(grpc_connectivity_state state);
 void grpc_connectivity_state_init(grpc_connectivity_state_tracker* tracker,
                                   grpc_connectivity_state init_state,
                                   const char* name);
-void grpc_connectivity_state_destroy(grpc_connectivity_state_tracker* tracker);
+void grpc_connectivity_state_destroy(grpc_exec_ctx* exec_ctx,
+                                     grpc_connectivity_state_tracker* tracker);
 
 /** Set connectivity state; not thread safe; access must be serialized with an
  *  external lock */
-void grpc_connectivity_state_set(grpc_connectivity_state_tracker* tracker,
+void grpc_connectivity_state_set(grpc_exec_ctx* exec_ctx,
+                                 grpc_connectivity_state_tracker* tracker,
                                  grpc_connectivity_state state,
                                  grpc_error* associated_error,
                                  const char* reason);
@@ -79,7 +85,11 @@ grpc_connectivity_state grpc_connectivity_state_get(
     case).
     Access must be serialized with an external lock. */
 bool grpc_connectivity_state_notify_on_state_change(
-    grpc_connectivity_state_tracker* tracker, grpc_connectivity_state* current,
-    grpc_closure* notify);
+    grpc_exec_ctx* exec_ctx, grpc_connectivity_state_tracker* tracker,
+    grpc_connectivity_state* current, grpc_closure* notify);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* GRPC_CORE_LIB_TRANSPORT_CONNECTIVITY_STATE_H */

@@ -114,12 +114,13 @@ class Books: NSObject, NSCoding {
     func setReturnDate(returnDate: Date?) {
         self.returnDate = returnDate
     }
-    static func returnFirebook(uid:String, view:BooksTableViewController)  {
+    static func returnFirebook(uid:String, view:Any)  {
         var ref: DatabaseReference!
         ref = Database.database().reference()
         var bks = [Books]()
         bks = []
         var img:UIImage?
+        
         ref.child("users").child(uid).child("books").observeSingleEvent(of: .value, with: { (snapshot) in
             for child in snapshot.children{
                 if let imgURL = (child as! DataSnapshot).childSnapshot(forPath: "photo").value as? String {
@@ -142,39 +143,56 @@ class Books: NSObject, NSCoding {
                             publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
                             category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String]
                         )
-                        view.books.append(bk!)
-                        print("added a bk from base")
-                        view.tableView.reloadData()
-
+                        if let sourceView = view as? BooksTableViewController {
+                            sourceView.books.append(bk!)
+                            print("added a bk from base")
+                            sourceView.tableView.reloadData()
+                        } else {
+                            if let sourceView = view as? RecommendTableViewController {
+                                sourceView.books.append(bk!)
+                                print("added a bk from base")
+                                sourceView.tableView.reloadData()
+                            }
+                        }
+                        
+                        
                     })
                 }
                 else {
-
-                
-                let bk = Books(
-                    title: (child as! DataSnapshot).childSnapshot(forPath: "title").value as! String,
-                    author: (child as! DataSnapshot).childSnapshot(forPath: "author").value as! String,
-                    photo:img != nil ? img : UIImage(named: "defaultBookImage"),
-                    rating: (child as! DataSnapshot).childSnapshot(forPath: "rating").value as! Int,
-                    describeText: (child as! DataSnapshot).childSnapshot(forPath: "describeText").value as? String,
-                    owner: (child as! DataSnapshot).childSnapshot(forPath: "owner").value as? String,
-                    returnDate: nil,
-                    publishedDate: (child as! DataSnapshot).childSnapshot(forPath: "publishedDate").value as? String,
-                    isbn: (child as! DataSnapshot).childSnapshot(forPath: "isbn").value as? String,
-                    dateAdded: (child as! DataSnapshot).childSnapshot(forPath: "dateAdded").value as? String,
-                    publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
-                    category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String]
-                )
-                view.books.append(bk!)
-                print("added a bk from base")
-                view.tableView.reloadData()
+                    
+                    
+                    let bk = Books(
+                        title: (child as! DataSnapshot).childSnapshot(forPath: "title").value as! String,
+                        author: (child as! DataSnapshot).childSnapshot(forPath: "author").value as! String,
+                        photo:img != nil ? img : UIImage(named: "defaultBookImage"),
+                        rating: (child as! DataSnapshot).childSnapshot(forPath: "rating").value as! Int,
+                        describeText: (child as! DataSnapshot).childSnapshot(forPath: "describeText").value as? String,
+                        owner: (child as! DataSnapshot).childSnapshot(forPath: "owner").value as? String,
+                        returnDate: nil,
+                        publishedDate: (child as! DataSnapshot).childSnapshot(forPath: "publishedDate").value as? String,
+                        isbn: (child as! DataSnapshot).childSnapshot(forPath: "isbn").value as? String,
+                        dateAdded: (child as! DataSnapshot).childSnapshot(forPath: "dateAdded").value as? String,
+                        publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
+                        category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String]
+                    )
+                    if let sourceView = view as? BooksTableViewController {
+                        sourceView.books.append(bk!)
+                        print("added a bk from base")
+                        sourceView.tableView.reloadData()
+                    } else {
+                        if let sourceView = view as? RecommendTableViewController {
+                            sourceView.books.append(bk!)
+                            print("added a bk from base")
+                            sourceView.tableView.reloadData()
+                        }
+                    }
                 }
-
-    }
-
+                
+            }
+            
         })
-    
-}
+        
+    }
     func saveFirebook(uid:String) {
         var ref: DatabaseReference!
         ref = Database.database().reference()
@@ -188,7 +206,7 @@ class Books: NSObject, NSCoding {
             data = UIImageJPEGRepresentation(img, 0.5) as! NSData
             imgRef.putData(data as Data)
         }
-       
+        
         
         ref.child("users").child(uid).child("books").child(key).child("title").setValue(title)
         ref.child("users").child(uid).child("books").child(key).child("author").setValue(author)
@@ -204,4 +222,20 @@ class Books: NSObject, NSCoding {
         ref.child("users").child(uid).child("books").child(key).child("category").setValue(category)
         
     }
+    static func getCatCount(srcBks:[Books]) -> [String:Int]{
+        var cat = [String:Int]()
+        cat = [:]
+        
+        for i in srcBks {
+            for j in i.category! {
+                if cat[j] == nil {
+                    cat[j] = 1
+                } else {
+                    cat[j] = cat[j]! + 1
+                }
+            }
+        }
+        return cat
+    }
 }
+

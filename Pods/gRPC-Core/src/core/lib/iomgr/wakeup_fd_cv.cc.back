@@ -28,14 +28,13 @@
 #include <grpc/support/alloc.h>
 #include <grpc/support/log.h>
 #include <grpc/support/sync.h>
+#include <grpc/support/thd.h>
 #include <grpc/support/time.h>
-
-#include "src/core/lib/gpr/thd.h"
-#include "src/core/lib/gpr/useful.h"
+#include <grpc/support/useful.h>
 
 #define MAX_TABLE_RESIZE 256
 
-extern grpc_cv_fd_table g_cvfds;
+extern cv_fd_table g_cvfds;
 
 static grpc_error* cv_fd_init(grpc_wakeup_fd* fd_info) {
   unsigned int i, newsize;
@@ -43,8 +42,8 @@ static grpc_error* cv_fd_init(grpc_wakeup_fd* fd_info) {
   gpr_mu_lock(&g_cvfds.mu);
   if (!g_cvfds.free_fds) {
     newsize = GPR_MIN(g_cvfds.size * 2, g_cvfds.size + MAX_TABLE_RESIZE);
-    g_cvfds.cvfds = static_cast<grpc_fd_node*>(
-        gpr_realloc(g_cvfds.cvfds, sizeof(grpc_fd_node) * newsize));
+    g_cvfds.cvfds =
+        (fd_node*)gpr_realloc(g_cvfds.cvfds, sizeof(fd_node) * newsize);
     for (i = g_cvfds.size; i < newsize; i++) {
       g_cvfds.cvfds[i].is_set = 0;
       g_cvfds.cvfds[i].cvs = nullptr;
@@ -54,7 +53,7 @@ static grpc_error* cv_fd_init(grpc_wakeup_fd* fd_info) {
     g_cvfds.size = newsize;
   }
 
-  idx = static_cast<int>(g_cvfds.free_fds - g_cvfds.cvfds);
+  idx = (int)(g_cvfds.free_fds - g_cvfds.cvfds);
   g_cvfds.free_fds = g_cvfds.free_fds->next_free;
   g_cvfds.cvfds[idx].cvs = nullptr;
   g_cvfds.cvfds[idx].is_set = 0;
@@ -65,7 +64,7 @@ static grpc_error* cv_fd_init(grpc_wakeup_fd* fd_info) {
 }
 
 static grpc_error* cv_fd_wakeup(grpc_wakeup_fd* fd_info) {
-  grpc_cv_node* cvn;
+  cv_node* cvn;
   gpr_mu_lock(&g_cvfds.mu);
   g_cvfds.cvfds[GRPC_FD_TO_IDX(fd_info->read_fd)].is_set = 1;
   cvn = g_cvfds.cvfds[GRPC_FD_TO_IDX(fd_info->read_fd)].cvs;

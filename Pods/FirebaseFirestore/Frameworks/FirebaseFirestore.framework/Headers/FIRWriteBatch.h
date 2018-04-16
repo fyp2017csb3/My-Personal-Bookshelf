@@ -94,11 +94,6 @@ NS_SWIFT_NAME(WriteBatch)
 
 /**
  * Commits all of the writes in this write batch as a single atomic unit.
- */
-- (void)commit;
-
-/**
- * Commits all of the writes in this write batch as a single atomic unit.
  *
  * @param completion A block to be called once all of the writes in the batch have been
  *     successfully written to the backend as an atomic unit. This block will only execute
@@ -106,7 +101,7 @@ NS_SWIFT_NAME(WriteBatch)
  *     completion handler will not be called when the device is offline, though local
  *     changes will be visible immediately.
  */
-- (void)commitWithCompletion:(nullable void (^)(NSError *_Nullable error))completion;
+- (void)commitWithCompletion:(void (^)(NSError *_Nullable error))completion;
 
 @end
 

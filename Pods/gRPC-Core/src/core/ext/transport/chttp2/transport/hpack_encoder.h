@@ -36,6 +36,10 @@
 
 extern grpc_core::TraceFlag grpc_http_trace;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
   uint32_t filter_elems_sum;
   uint32_t max_table_size;
@@ -70,7 +74,8 @@ typedef struct {
 } grpc_chttp2_hpack_compressor;
 
 void grpc_chttp2_hpack_compressor_init(grpc_chttp2_hpack_compressor* c);
-void grpc_chttp2_hpack_compressor_destroy(grpc_chttp2_hpack_compressor* c);
+void grpc_chttp2_hpack_compressor_destroy(grpc_exec_ctx* exec_ctx,
+                                          grpc_chttp2_hpack_compressor* c);
 void grpc_chttp2_hpack_compressor_set_max_table_size(
     grpc_chttp2_hpack_compressor* c, uint32_t max_table_size);
 void grpc_chttp2_hpack_compressor_set_max_usable_size(
@@ -84,11 +89,16 @@ typedef struct {
   grpc_transport_one_way_stats* stats;
 } grpc_encode_header_options;
 
-void grpc_chttp2_encode_header(grpc_chttp2_hpack_compressor* c,
+void grpc_chttp2_encode_header(grpc_exec_ctx* exec_ctx,
+                               grpc_chttp2_hpack_compressor* c,
                                grpc_mdelem** extra_headers,
                                size_t extra_headers_size,
                                grpc_metadata_batch* metadata,
                                const grpc_encode_header_options* options,
                                grpc_slice_buffer* outbuf);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* GRPC_CORE_EXT_TRANSPORT_CHTTP2_TRANSPORT_HPACK_ENCODER_H */

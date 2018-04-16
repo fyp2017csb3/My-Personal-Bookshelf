@@ -18,8 +18,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import <grpc/impl/codegen/compression_types.h>
-
 NS_ASSUME_NONNULL_BEGIN
 
 @class GRPCCompletionQueue;
@@ -34,7 +32,6 @@ struct grpc_channel_credentials;
 @property(nonatomic, readonly) NSString *address;
 @property(nonatomic, copy, nullable) NSString *userAgentPrefix;
 @property(nonatomic, nullable) struct grpc_channel_credentials *channelCreds;
-@property(nonatomic) grpc_compression_algorithm compressAlgorithm;
 
 /** The following properties should only be modified for testing: */
 
