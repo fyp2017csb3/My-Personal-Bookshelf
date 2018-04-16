@@ -85,6 +85,7 @@ class QRViewController: UIViewController {
                         self.performSegue(withIdentifier: "ManualBorrow", sender: self)
                         ref.removeAllObservers()
                         ref.child("users").child((me?.UID)!).child("borrowAlert").setValue(nil)
+                        ref.child("users").child((me?.UID)!).child("borrow").setValue(nil)
                         
                         
                     })
@@ -110,6 +111,7 @@ class QRViewController: UIViewController {
                     self.performSegue(withIdentifier: "ManualBorrow", sender: self)
                     ref.removeAllObservers()
                     ref.child("users").child((me?.UID)!).child("borrowAlert").setValue(nil)
+                    ref.child("users").child((me?.UID)!).child("borrow").setValue(nil)
                 }
                 
             }
