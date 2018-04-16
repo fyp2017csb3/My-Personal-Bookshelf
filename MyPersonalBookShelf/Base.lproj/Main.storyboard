@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4zl-Qa-uUk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4zl-Qa-uUk">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -141,6 +141,99 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KsJ-MY-qcA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-344.92753623188406" y="143.47826086956522"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="Edb-Je-AJI">
+            <objects>
+                <viewController id="uTr-RS-PkP" customClass="profileViewController" customModule="MyPersonalBookShelf" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mpJ-Qv-3HQ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XBX-Da-xlQ">
+                                <rect key="frame" x="115" y="114" width="184" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="bsT-b2-ajw"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JRc-ip-xD3">
+                                <rect key="frame" x="164" y="451.66666666666669" width="87" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Show UID"/>
+                                <connections>
+                                    <action selector="showHideID:" destination="uTr-RS-PkP" eventType="touchUpInside" id="idQ-rg-zvb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WT8-sb-PYh">
+                                <rect key="frame" x="128" y="532.66666666666663" width="158" height="39"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <state key="normal" title="Pass Information">
+                                    <color key="titleColor" red="1" green="0.25214237560000002" blue="0.14951659619999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="pass:" destination="uTr-RS-PkP" eventType="touchUpInside" id="N12-Ul-j5h"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="brW-EH-W2X">
+                                <rect key="frame" x="20" y="497.66666666666674" width="374" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Your Name" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PIH-hK-2wV">
+                                <rect key="frame" x="115" y="353" width="184" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="serial number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azo-Fd-qEC">
+                                <rect key="frame" x="20" y="403" width="374" height="28.666666666666686"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="PIH-hK-2wV" firstAttribute="top" secondItem="XBX-Da-xlQ" secondAttribute="bottom" constant="39" id="1rS-Py-bsE"/>
+                            <constraint firstItem="brW-EH-W2X" firstAttribute="centerX" secondItem="NDo-XW-2wT" secondAttribute="centerX" id="3AL-QJ-Zog"/>
+                            <constraint firstItem="azo-Fd-qEC" firstAttribute="top" secondItem="PIH-hK-2wV" secondAttribute="bottom" constant="20" id="72L-4f-hyv"/>
+                            <constraint firstItem="azo-Fd-qEC" firstAttribute="leading" secondItem="NDo-XW-2wT" secondAttribute="leading" constant="20" id="9d8-Rj-Ecy"/>
+                            <constraint firstItem="azo-Fd-qEC" firstAttribute="centerX" secondItem="NDo-XW-2wT" secondAttribute="centerX" id="INW-8t-3ff"/>
+                            <constraint firstItem="brW-EH-W2X" firstAttribute="top" secondItem="JRc-ip-xD3" secondAttribute="bottom" constant="10" id="RNk-Ol-8lv"/>
+                            <constraint firstItem="XBX-Da-xlQ" firstAttribute="centerX" secondItem="NDo-XW-2wT" secondAttribute="centerX" id="W7c-GW-11j"/>
+                            <constraint firstItem="JRc-ip-xD3" firstAttribute="centerX" secondItem="NDo-XW-2wT" secondAttribute="centerX" id="WGB-RH-fxh"/>
+                            <constraint firstItem="NDo-XW-2wT" firstAttribute="trailing" secondItem="brW-EH-W2X" secondAttribute="trailing" constant="20" id="XTW-tk-fJE"/>
+                            <constraint firstItem="PIH-hK-2wV" firstAttribute="leading" secondItem="NDo-XW-2wT" secondAttribute="leading" constant="115" id="Y5R-h0-jgI"/>
+                            <constraint firstItem="WT8-sb-PYh" firstAttribute="top" secondItem="brW-EH-W2X" secondAttribute="bottom" constant="5" id="cDE-YE-xUU"/>
+                            <constraint firstItem="XBX-Da-xlQ" firstAttribute="top" secondItem="NDo-XW-2wT" secondAttribute="top" constant="50" id="fmZ-8w-jOE"/>
+                            <constraint firstItem="brW-EH-W2X" firstAttribute="leading" secondItem="NDo-XW-2wT" secondAttribute="leading" constant="20" id="hRE-5e-42u"/>
+                            <constraint firstItem="NDo-XW-2wT" firstAttribute="trailing" secondItem="azo-Fd-qEC" secondAttribute="trailing" constant="20" id="jUW-Bw-MvA"/>
+                            <constraint firstItem="WT8-sb-PYh" firstAttribute="centerX" secondItem="NDo-XW-2wT" secondAttribute="centerX" id="mV5-Ir-rgx"/>
+                            <constraint firstItem="NDo-XW-2wT" firstAttribute="trailing" secondItem="PIH-hK-2wV" secondAttribute="trailing" constant="115" id="nXT-Y4-wRD"/>
+                            <constraint firstItem="JRc-ip-xD3" firstAttribute="top" secondItem="azo-Fd-qEC" secondAttribute="bottom" constant="20" id="qgm-K9-K9F"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="NDo-XW-2wT"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Profile" id="dBF-B7-AdX">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="cx6-0b-61K">
+                            <connections>
+                                <action selector="saveUser:" destination="uTr-RS-PkP" id="apW-0l-1ZA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="id" destination="brW-EH-W2X" id="SYi-KZ-Klj"/>
+                        <outlet property="idBtn" destination="JRc-ip-xD3" id="dOe-H6-qlb"/>
+                        <outlet property="name" destination="PIH-hK-2wV" id="fra-UI-qmw"/>
+                        <outlet property="passBtn" destination="WT8-sb-PYh" id="Cgc-Dq-zBh"/>
+                        <outlet property="proPic" destination="XBX-Da-xlQ" id="Q1e-3g-rgE"/>
+                        <outlet property="serial" destination="azo-Fd-qEC" id="f9u-TS-tnb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bpC-YS-qdP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="376.81159420289856" y="-337.5"/>
         </scene>
         <!--Barcode Scanner View Controller-->
         <scene sceneID="dUD-Np-fHD">
@@ -560,7 +653,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="531.8840579710145" y="-358.69565217391306"/>
+            <point key="canvasLocation" x="1494" y="-255"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="wT2-DK-lMQ">
@@ -643,7 +736,13 @@
                             <outlet property="delegate" destination="va1-Tp-gF8" id="hPJ-g4-8N1"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Friends" id="mbC-la-GGI"/>
+                    <navigationItem key="navigationItem" title="Friends" id="mbC-la-GGI">
+                        <barButtonItem key="leftBarButtonItem" title="Profile" id="oVs-Ug-lLe">
+                            <connections>
+                                <segue destination="uTr-RS-PkP" kind="show" identifier="ShowProfile" id="ZYf-jF-bqX"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J8H-Kh-aEv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

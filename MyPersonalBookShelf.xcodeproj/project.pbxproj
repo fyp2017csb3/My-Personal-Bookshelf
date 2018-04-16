@@ -30,6 +30,7 @@
 		E950AE3820718CEA007E63A7 /* FdsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E950AE3720718CEA007E63A7 /* FdsTableViewController.swift */; };
 		E950AE3A20723AEE007E63A7 /* FdsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E950AE3920723AEE007E63A7 /* FdsTableViewCell.swift */; };
 		E950AE3C20743ADB007E63A7 /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E950AE3B20743ADB007E63A7 /* QRViewController.swift */; };
+		E978023220843F690021E83B /* profileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E978023120843F690021E83B /* profileViewController.swift */; };
 		E9F07355208286CE0023A04D /* RecommendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F07354208286CE0023A04D /* RecommendTableViewController.swift */; };
 		E9F073572082B0C60023A04D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9F073562082B0C60023A04D /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
@@ -76,6 +77,7 @@
 		E950AE3720718CEA007E63A7 /* FdsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FdsTableViewController.swift; sourceTree = "<group>"; };
 		E950AE3920723AEE007E63A7 /* FdsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FdsTableViewCell.swift; sourceTree = "<group>"; };
 		E950AE3B20743ADB007E63A7 /* QRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRViewController.swift; sourceTree = "<group>"; };
+		E978023120843F690021E83B /* profileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileViewController.swift; sourceTree = "<group>"; };
 		E9F07354208286CE0023A04D /* RecommendTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendTableViewController.swift; sourceTree = "<group>"; };
 		E9F073562082B0C60023A04D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -144,6 +146,7 @@
 				E9F07354208286CE0023A04D /* RecommendTableViewController.swift */,
 				E950AE3B20743ADB007E63A7 /* QRViewController.swift */,
 				E950AE3720718CEA007E63A7 /* FdsTableViewController.swift */,
+				E978023120843F690021E83B /* profileViewController.swift */,
 				E950AE3920723AEE007E63A7 /* FdsTableViewCell.swift */,
 				E9433DFE206D36970092A641 /* BorrowTableViewController.swift */,
 				E950AE3520713BC9007E63A7 /* user.swift */,
@@ -361,6 +364,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E978023220843F690021E83B /* profileViewController.swift in Sources */,
 				E9433DFF206D36970092A641 /* BorrowTableViewController.swift in Sources */,
 				E950AE3A20723AEE007E63A7 /* FdsTableViewCell.swift in Sources */,
 				E950AE3C20743ADB007E63A7 /* QRViewController.swift in Sources */,
