@@ -61,19 +61,24 @@ class User: NSObject, NSCoding {
         }
         else {
             let unq = UIDevice.current.identifierForVendor?.uuidString
-            let usr = User(name: "Name",UID: unq!,photo: nil)
+            let usr = User(name: "Name",UID: unq!,photo: UIImage(named:"defaultBookImage"))
             NSKeyedArchiver.archiveRootObject(usr, toFile: User.UserArchiveURL.path)
             return usr
         }
     }
+    static func setUserID(newID:String) {
+        let usr = NSKeyedUnarchiver.unarchiveObject(withFile: User.UserArchiveURL.path) as? User
+        usr?.UID = newID
+        NSKeyedArchiver.archiveRootObject(usr, toFile: User.UserArchiveURL.path)
+    }
     
-    func setUserName(newName:String) {
+    static func setUserName(newName:String) {
         let usr = NSKeyedUnarchiver.unarchiveObject(withFile: User.UserArchiveURL.path) as? User
         usr?.name = newName
         NSKeyedArchiver.archiveRootObject(usr, toFile: User.UserArchiveURL.path)
     }
     
-    func setUserPic(newPic:UIImage) {
+    static func setUserPic(newPic:UIImage) {
         let usr = NSKeyedUnarchiver.unarchiveObject(withFile: User.UserArchiveURL.path) as? User
         usr?.photo = newPic
         NSKeyedArchiver.archiveRootObject(usr, toFile: User.UserArchiveURL.path)

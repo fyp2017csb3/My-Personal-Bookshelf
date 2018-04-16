@@ -8,6 +8,7 @@
 
 import UIKit
 import os.log
+import Firebase
 
 class FdsTableViewController: UITableViewController, UISearchBarDelegate {
 
@@ -77,13 +78,70 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     @objc func addFd() {
-        print("add Friend")
+        //1. Create the alert controller.
+        let alert = UIAlertController(title: "Add Friend", message: nil, preferredStyle: .alert)
+        
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField { (textField) in
+            textField.text = "Input friend's serial number"
+        }
+        
+        // 3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { [weak alert] (_) in
+            let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            let code = textField?.text
+            var ref: DatabaseReference!
+            ref = Database.database().reference()
+            
+            ref.child("serial").child(code!).observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                if let fdUID = dataSnapshot.value as? String
+                {
+                    ref.child("users").child(fdUID).child("name").observeSingleEvent(of: .value, with: { (dataSnapshot2) in
+                        let fdName = dataSnapshot2.value as! String
+                        
+                        let storageRef = Storage.storage().reference()
+                        let imgURL = fdUID+"/propic"
+                        storageRef.child(imgURL).getData(maxSize: 10*1024*1024, completion: { (data, error) in
+                            if(error == nil) {
+                                let img = UIImage(data: data!)
+                                let newfd = User(name: fdName, UID: fdUID, photo: img)
+                                self.fds.append(newfd!)
+                                print("added a fd from base")
+                                self.tableView.reloadData()
+                            }
+                            else {
+                                let newfd = User(name: fdName, UID: fdUID, photo: UIImage(named: "defaultBookImage"))
+                                self.fds.append(newfd!)
+                                print("added a fd from base")
+                                self.tableView.reloadData()
+                            }
+                        }
+                        )
+                    })
+                    
+                    
+                    
+                }
+                else
+                {
+                    alert?.message = "Friend Not Found"
+                }
+            })
+            
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { [weak alert] (_) in
+            alert?.dismiss(animated: true, completion: nil)
+        }))
+        
+        // 4. Present the alert.
+        self.present(alert, animated: true, completion: nil)
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "My Profile", style: .plain, target: self, action: #selector(showProfile))
         
         var navItems = [UIBarButtonItem]()
         
@@ -181,6 +239,9 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
         super.prepare(for: segue, sender: sender)
         
         switch(segue.identifier ?? "") {
+        
+        case "ShowProfile":
+            break
             
         case "ShowFd":
             guard let booksTableViewController = segue.destination as? BooksTableViewController else {
@@ -199,6 +260,7 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
             booksTableViewController.reader = selectedFd
             
         default:
+            print(segue.identifier)
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
     }
