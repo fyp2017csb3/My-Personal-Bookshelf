@@ -159,32 +159,7 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
         } else {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(back))
             //loadFirebase
-            var ref: DatabaseReference!
-            ref = Database.database().reference()
-            ref.child("users").child((reader?.UID)!).child("books").observeSingleEvent(of: .value, with: { (snapshot) in
-                for child in snapshot.children{
-                    let bk = Books(
-                        title: (child as! DataSnapshot).childSnapshot(forPath: "title").value as! String,
-                        author: (child as! DataSnapshot).childSnapshot(forPath: "author").value as! String,
-                        photo:UIImage(named: "sampleBook1"),
-                        rating: (child as! DataSnapshot).childSnapshot(forPath: "rating").value as! Int,
-                        describeText: (child as! DataSnapshot).childSnapshot(forPath: "describeText").value as? String,
-                        owner: (child as! DataSnapshot).childSnapshot(forPath: "owner").value as? String,
-                        returnDate: nil,
-                        publishedDate: (child as! DataSnapshot).childSnapshot(forPath: "publishedDate").value as? String,
-                        isbn: (child as! DataSnapshot).childSnapshot(forPath: "isbn").value as? String,
-                        dateAdded: (child as! DataSnapshot).childSnapshot(forPath: "dateAdded").value as? String,
-                        publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
-                        category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String]
-                    )
-                    self.books.append(bk!)
-                    print("added a bk from base")
-                    self.tableView.reloadData()
-                    
-                }
-                
-            })
-            print("returned bks array")
+            Books.returnFirebook(uid: (reader?.UID)!, view: self)
             
         }
         

@@ -114,17 +114,47 @@ class Books: NSObject, NSCoding {
     func setReturnDate(returnDate: Date?) {
         self.returnDate = returnDate
     }
-    static func returnFirebook(uid:String, view:BooksTableViewController) -> [Books]? {
+    static func returnFirebook(uid:String, view:BooksTableViewController)  {
         var ref: DatabaseReference!
         ref = Database.database().reference()
         var bks = [Books]()
         bks = []
+        var img:UIImage?
         ref.child("users").child(uid).child("books").observeSingleEvent(of: .value, with: { (snapshot) in
             for child in snapshot.children{
+                if let imgURL = (child as! DataSnapshot).childSnapshot(forPath: "photo").value as? String {
+                    print(imgURL)
+                    let storageRef = Storage.storage().reference()
+                    storageRef.child(imgURL).getData(maxSize: 10*1024*1024, completion: { (data, error) in
+                        img = UIImage(data: data!)
+                        
+                        let bk = Books(
+                            title: (child as! DataSnapshot).childSnapshot(forPath: "title").value as! String,
+                            author: (child as! DataSnapshot).childSnapshot(forPath: "author").value as! String,
+                            photo:img,
+                            rating: (child as! DataSnapshot).childSnapshot(forPath: "rating").value as! Int,
+                            describeText: (child as! DataSnapshot).childSnapshot(forPath: "describeText").value as? String,
+                            owner: (child as! DataSnapshot).childSnapshot(forPath: "owner").value as? String,
+                            returnDate: nil,
+                            publishedDate: (child as! DataSnapshot).childSnapshot(forPath: "publishedDate").value as? String,
+                            isbn: (child as! DataSnapshot).childSnapshot(forPath: "isbn").value as? String,
+                            dateAdded: (child as! DataSnapshot).childSnapshot(forPath: "dateAdded").value as? String,
+                            publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
+                            category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String]
+                        )
+                        view.books.append(bk!)
+                        print("added a bk from base")
+                        view.tableView.reloadData()
+
+                    })
+                }
+                else {
+
+                
                 let bk = Books(
                     title: (child as! DataSnapshot).childSnapshot(forPath: "title").value as! String,
                     author: (child as! DataSnapshot).childSnapshot(forPath: "author").value as! String,
-                    photo:UIImage(named: "sampleBook1"),
+                    photo:img != nil ? img : UIImage(named: "defaultBookImage"),
                     rating: (child as! DataSnapshot).childSnapshot(forPath: "rating").value as! Int,
                     describeText: (child as! DataSnapshot).childSnapshot(forPath: "describeText").value as? String,
                     owner: (child as! DataSnapshot).childSnapshot(forPath: "owner").value as? String,
@@ -135,26 +165,35 @@ class Books: NSObject, NSCoding {
                     publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
                     category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String]
                 )
-                bks.append(bk!)
+                view.books.append(bk!)
                 print("added a bk from base")
                 view.tableView.reloadData()
+                }
 
     }
 
         })
-        print("returned bks array")
-        return bks
     
 }
     func saveFirebook(uid:String) {
         var ref: DatabaseReference!
         ref = Database.database().reference()
+        let storageRef = Storage.storage().reference()
+        
         
         let key = ref.child("users").child(uid).child("books").childByAutoId().key
+        if let img = photo {
+            let imgRef = storageRef.child(uid+"/"+key)
+            var data = NSData()
+            data = UIImageJPEGRepresentation(img, 0.5) as! NSData
+            imgRef.putData(data as Data)
+        }
+       
+        
         ref.child("users").child(uid).child("books").child(key).child("title").setValue(title)
         ref.child("users").child(uid).child("books").child(key).child("author").setValue(author)
         ref.child("users").child(uid).child("books").child(key).child("rating").setValue(rating)
-        ref.child("users").child(uid).child("books").child(key).child("photo").setValue("imgURL")
+        ref.child("users").child(uid).child("books").child(key).child("photo").setValue(uid+"/"+key)
         ref.child("users").child(uid).child("books").child(key).child("describeText").setValue(describeText)
         ref.child("users").child(uid).child("books").child(key).child("owner").setValue(owner)
         ref.child("users").child(uid).child("books").child(key).child("returnDate").setValue(nil)
