@@ -17,6 +17,9 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var authorTextField: UITextField!
     @IBOutlet weak var keywordTextField: UITextField!
     
+    var reader = me
+    var state = "read"
+    
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     //Loading animation
     
@@ -155,11 +158,14 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print(state)
         if let destination = segue.destination as? ManualInputViewController {
             destination.manualSearchData = book
+            destination.state = state
         }
         if let destination2 = segue.destination as? SearchResultTableViewController {
             destination2.searchResultArray = bookArray
+            destination2.state = state
         }
     }
     
@@ -399,7 +405,8 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
      // Get the new view controller using segue.destinationViewController.
      // Pass the selected object to the new view controller.
      }
-     */
+ */
+     
     
 }
 

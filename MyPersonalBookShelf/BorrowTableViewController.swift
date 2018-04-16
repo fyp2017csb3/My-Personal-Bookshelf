@@ -320,7 +320,7 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
         case "AddBook":
             os_log("Adding a new book.", log: OSLog.default, type: .debug)
             
-        case "ShowDetail":
+        case "ShowBorrowBk":
             guard let bookDetailViewController = segue.destination as? ManualInputViewController else {
                 fatalError("Unexpected Destination: \(segue.destination)")
             }
@@ -335,6 +335,8 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
             
             let selectedBook = books[indexPath.row]
             bookDetailViewController.book = selectedBook
+            bookDetailViewController.reader = nil
+            bookDetailViewController.state = state
         case "ShowQR":
             break
             

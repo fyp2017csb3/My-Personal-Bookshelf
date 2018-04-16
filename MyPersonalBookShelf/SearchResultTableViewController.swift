@@ -12,6 +12,7 @@ class SearchResultTableViewController: UITableViewController, UINavigationContro
     
     var searchResultArray = [Books]()
     var books = [Books]()
+    var state = "read"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -149,6 +150,8 @@ class SearchResultTableViewController: UITableViewController, UINavigationContro
         
         let selectedBook = books[indexPath.row]
         bookDetailViewController.book = selectedBook
+        bookDetailViewController.state = state
+        print(state)
     }
     
 

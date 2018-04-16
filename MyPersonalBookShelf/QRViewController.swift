@@ -7,14 +7,26 @@
 //
 
 import UIKit
+import Firebase
 
 class QRViewController: UIViewController {
     
     var bbook : Books?
     
+    @IBAction func test(_ sender: Any) {
+        let photo3 = UIImage(named: "sampleBook3")
+        let sampleCategory = ["Sample"]
+        guard let book1 = Books(title: "BorrowTester", author: "Author3", photo: photo3, rating: 3, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory) else {
+            fatalError("Unable to instantiate book3")
+        }
+        book1.saveFireBorrow(uid: (me?.UID)!,bday: 14)
+    }
     @IBOutlet weak var QRImg: UIImageView!
     
     @IBAction func back(_ sender: Any) {
+        var ref: DatabaseReference!
+        ref = Database.database().reference()
+        ref.removeAllObservers()
         dismiss(animated:  true, completion: nil)
     }
     override func viewDidLoad() {
@@ -25,8 +37,86 @@ class QRViewController: UIViewController {
         filter?.setValue(data, forKey: "inputMessage")
         let img = UIImage(ciImage: (filter?.outputImage)!)
         QRImg.image = img
+        var bkimg:UIImage?
         
-        //upload uid to firebase
+        
+        
+        var ref: DatabaseReference!
+        ref = Database.database().reference()
+        
+        var dc = DateComponents()
+        let today = Date()
+        
+        
+        ref.child("users").child((me?.UID)!).child("borrowAlert").observeSingleEvent(of: .childAdded) { (snap1) in
+            ref.child("users").child((me?.UID)!).child("borrow").observeSingleEvent(of: .value, with: { (snapshot) in
+                for child in snapshot.children{
+                
+                if let addDay = (child as! DataSnapshot).childSnapshot(forPath: "returnDate").value as? Int {
+                    dc.day = addDay
+                } else {
+                    dc.day = 14
+                }
+                
+                let returnDate = Calendar.current.date(byAdding: dc, to: today)
+                if let imgURL = (child as! DataSnapshot).childSnapshot(forPath: "photo").value as? String {
+                    let storageRef = Storage.storage().reference()
+                    storageRef.child(imgURL).getData(maxSize: 10*1024*1024, completion: { (data, error) in
+                        if let datax = data {
+                            bkimg = UIImage(data: datax)
+                        }
+                        
+                        
+                        let bk = Books(
+                            title: (child as! DataSnapshot).childSnapshot(forPath: "title").value as! String,
+                            author: (child as! DataSnapshot).childSnapshot(forPath: "author").value as! String,
+                            photo:bkimg,
+                            rating: (child as! DataSnapshot).childSnapshot(forPath: "rating").value as! Int,
+                            describeText: (child as! DataSnapshot).childSnapshot(forPath: "describeText").value as? String,
+                            owner: (child as! DataSnapshot).childSnapshot(forPath: "owner").value as? String,
+                            returnDate: returnDate,
+                            publishedDate: (child as! DataSnapshot).childSnapshot(forPath: "publishedDate").value as? String,
+                            isbn: (child as! DataSnapshot).childSnapshot(forPath: "isbn").value as? String,
+                            dateAdded: (child as! DataSnapshot).childSnapshot(forPath: "dateAdded").value as? String,
+                            publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
+                            category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String]
+                        )
+                        self.bbook = bk
+                        self.performSegue(withIdentifier: "ManualBorrow", sender: self)
+                        ref.removeAllObservers()
+                        ref.child("users").child((me?.UID)!).child("borrowAlert").setValue(nil)
+                        
+                        
+                    })
+                }
+                else {
+                    
+                    
+                    let bk = Books(
+                        title: (child as! DataSnapshot).childSnapshot(forPath: "title").value as! String,
+                        author: (child as! DataSnapshot).childSnapshot(forPath: "author").value as! String,
+                        photo:bkimg,
+                        rating: (child as! DataSnapshot).childSnapshot(forPath: "rating").value as! Int,
+                        describeText: (child as! DataSnapshot).childSnapshot(forPath: "describeText").value as? String,
+                        owner: (child as! DataSnapshot).childSnapshot(forPath: "owner").value as? String,
+                        returnDate: returnDate,
+                        publishedDate: (child as! DataSnapshot).childSnapshot(forPath: "publishedDate").value as? String,
+                        isbn: (child as! DataSnapshot).childSnapshot(forPath: "isbn").value as? String,
+                        dateAdded: (child as! DataSnapshot).childSnapshot(forPath: "dateAdded").value as? String,
+                        publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
+                        category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String]
+                    )
+                    self.bbook = bk
+                    self.performSegue(withIdentifier: "ManualBorrow", sender: self)
+                    ref.removeAllObservers()
+                    ref.child("users").child((me?.UID)!).child("borrowAlert").setValue(nil)
+                }
+                
+            }
+                
+            })
+        }
+        
         //if uid deleted back()
         
         super.viewDidLoad()
@@ -68,6 +158,7 @@ class QRViewController: UIViewController {
                 fatalError("Unexpected Destination: \(segue.destination)")
             }
             bookDetailViewController.state = "borrow"
+            bookDetailViewController.book = bbook
             
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")

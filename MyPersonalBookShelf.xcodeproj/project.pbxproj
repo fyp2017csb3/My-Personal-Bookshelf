@@ -25,6 +25,7 @@
 		3AA310D32006689C00F9F9D7 /* BooksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA310D22006689C00F9F9D7 /* BooksTableViewController.swift */; };
 		3AAA791C70831E08C015B0FC /* Pods_MyPersonalBookShelf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D021E9E745EBBEEA08ED85A0 /* Pods_MyPersonalBookShelf.framework */; };
 		82275DF73C5BF86450327BE0 /* Pods_MyPersonalBookShelfTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98C30163D5D5CEC60C7B1DE4 /* Pods_MyPersonalBookShelfTests.framework */; };
+		E930D8B02085464E00C4A488 /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E930D8AF2085464E00C4A488 /* QRScannerViewController.swift */; };
 		E9433DFF206D36970092A641 /* BorrowTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9433DFE206D36970092A641 /* BorrowTableViewController.swift */; };
 		E950AE3620713BC9007E63A7 /* user.swift in Sources */ = {isa = PBXBuildFile; fileRef = E950AE3520713BC9007E63A7 /* user.swift */; };
 		E950AE3820718CEA007E63A7 /* FdsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E950AE3720718CEA007E63A7 /* FdsTableViewController.swift */; };
@@ -72,6 +73,7 @@
 		98C30163D5D5CEC60C7B1DE4 /* Pods_MyPersonalBookShelfTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyPersonalBookShelfTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BA1C471D5442E77501BD7D /* Pods-MyPersonalBookShelf.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPersonalBookShelf.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyPersonalBookShelf/Pods-MyPersonalBookShelf.debug.xcconfig"; sourceTree = "<group>"; };
 		D021E9E745EBBEEA08ED85A0 /* Pods_MyPersonalBookShelf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyPersonalBookShelf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E930D8AF2085464E00C4A488 /* QRScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
 		E9433DFE206D36970092A641 /* BorrowTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowTableViewController.swift; sourceTree = "<group>"; };
 		E950AE3520713BC9007E63A7 /* user.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = user.swift; sourceTree = "<group>"; };
 		E950AE3720718CEA007E63A7 /* FdsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FdsTableViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				3A6A502520038F920041DA8A /* Main.storyboard */,
 				E9F07354208286CE0023A04D /* RecommendTableViewController.swift */,
 				E950AE3B20743ADB007E63A7 /* QRViewController.swift */,
+				E930D8AF2085464E00C4A488 /* QRScannerViewController.swift */,
 				E950AE3720718CEA007E63A7 /* FdsTableViewController.swift */,
 				E978023120843F690021E83B /* profileViewController.swift */,
 				E950AE3920723AEE007E63A7 /* FdsTableViewCell.swift */,
@@ -412,6 +415,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E930D8B02085464E00C4A488 /* QRScannerViewController.swift in Sources */,
 				E978023220843F690021E83B /* profileViewController.swift in Sources */,
 				E9433DFF206D36970092A641 /* BorrowTableViewController.swift in Sources */,
 				E950AE3A20723AEE007E63A7 /* FdsTableViewCell.swift in Sources */,

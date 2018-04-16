@@ -184,6 +184,22 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         
         let actionScan = UIAlertAction(title: "Scan borrower's ID", style: .default) { (action) in
             //jump to qr scanner
+            let alert2 = UIAlertController(title: "Lend for how many days?", message: nil, preferredStyle: .alert)
+            
+            //2. Add the text field. You can configure it however you need.
+            alert2.addTextField { (textField) in
+                textField.text = "14"
+            }
+            alert2.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+                let textField = alert2.textFields![0]
+                self.performSegue(withIdentifier: "ShowQRScanner", sender: textField.text)
+                
+            }))
+            alert2.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { [weak alert] (_) in
+                alert2.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alert2, animated: true, completion: nil)
+            
         }
         let actionSave = UIAlertAction(title: "Save manually", style: .default) { (action) in
             self.state = "lend"
@@ -243,6 +259,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         saveBtnTemp = saveButton
         borrowBtnTemp = borrowButton
         }
+        print(state)
          self.navigationItem.rightBarButtonItems?.removeAll()
         if (state == "read") {
             ratingInput.isHidden = false
@@ -403,8 +420,18 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         guard let button = sender as? UIBarButtonItem, button === saveButton || button === borrowButton
             else {
             os_log("The save button was not pressed", log: OSLog.default, type:.debug)
+                if let tar = segue.destination as? ManualISBNViewController {
+                    tar.state = state
+                }
+                
+                if let tar = segue.destination as? QRScannerController {
+                    tar.bk = book
+                    tar.bday = Int(sender as! String)!
+                }
+                
             return
         }
+        
         
         let title = titleTextField.text ?? ""
         let author = authorTextField.text ?? ""
