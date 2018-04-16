@@ -65,9 +65,11 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
     @IBAction func unwindToInput(segue: UIStoryboardSegue) {
         if let bookTitle = manualSearchData?.title {
             titleTextField.text = bookTitle
+            titleTextField.textColor = UIColor.black
         }
         if let bookAuthor = manualSearchData?.author {
             authorTextField.text = bookAuthor
+            authorTextField.textColor = UIColor.black
         }
         
         if let bookPhoto = manualSearchData?.photo {
@@ -88,6 +90,21 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         
         if let dateAdded = manualSearchData?.dateAdded {
             dateAddedTextField.text = dateAdded
+        }
+        
+        if let category = manualSearchData?.category {
+            if !category.isEmpty {
+                for i in 0..<category.count {
+                    if i != 0 {
+                        categoryTextField.text = categoryTextField.text + ", "
+                    }
+                    categoryTextField.text = categoryTextField.text + category[i]
+                }
+            }
+        }
+        
+        if let publisher = manualSearchData?.publisher {
+            publisherTextField.text = publisher
         }
         
         updateSaveButtonState()
