@@ -152,7 +152,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cmf-b0-0M6">
-                                <rect key="frame" x="67" y="248" width="240" height="240"/>
+                                <rect key="frame" x="67" y="174" width="240" height="240"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -176,7 +176,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XBX-Da-xlQ">
-                                <rect key="frame" x="100" y="87" width="184" height="200"/>
+                                <rect key="frame" x="100" y="102" width="184" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
                                 <connections>
@@ -184,7 +184,7 @@
                                 </connections>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JRc-ip-xD3">
-                                <rect key="frame" x="116" y="394" width="152" height="36"/>
+                                <rect key="frame" x="116" y="479" width="152" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Show UID"/>
@@ -193,28 +193,28 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="brW-EH-W2X">
-                                <rect key="frame" x="34" y="438" width="316" height="30"/>
+                                <rect key="frame" x="34" y="523" width="316" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Your Name" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PIH-hK-2wV">
-                                <rect key="frame" x="100" y="312" width="184" height="30"/>
+                                <rect key="frame" x="100" y="397" width="184" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="onDrag" editable="NO" text="1122312312" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="EAv-QT-BqA">
-                                <rect key="frame" x="72" y="350" width="240" height="36"/>
+                                <rect key="frame" x="72" y="435" width="240" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WT8-sb-PYh">
-                                <rect key="frame" x="74" y="492" width="237" height="39"/>
+                                <rect key="frame" x="74" y="577" width="237" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Pass Information">
@@ -225,7 +225,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ygO-mv-l6x">
-                                <rect key="frame" x="292" y="353" width="30" height="30"/>
+                                <rect key="frame" x="291" y="438" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button" image="qrcode"/>
                                 <connections>
@@ -261,7 +261,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="583" y="-125"/>
+            <point key="canvasLocation" x="582.60869565217399" y="-125.54347826086958"/>
         </scene>
         <!--Barcode Scanner View Controller-->
         <scene sceneID="dUD-Np-fHD">
@@ -966,7 +966,7 @@
             </objects>
             <point key="canvasLocation" x="-1436" y="-1162"/>
         </scene>
-        <!--Firends' books-->
+        <!--Friends' books-->
         <scene sceneID="PXa-HP-mZF">
             <objects>
                 <tableViewController id="OQb-mC-ETl" customClass="RecommendTableViewController" customModule="MyPersonalBookShelf" customModuleProvider="target" sceneMemberID="viewController">
@@ -1035,7 +1035,7 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Item" id="XdE-vk-xjl"/>
-                    <navigationItem key="navigationItem" title="Firends' books" id="nCs-U4-wqJ">
+                    <navigationItem key="navigationItem" title="Friends' books" id="nCs-U4-wqJ">
                         <barButtonItem key="leftBarButtonItem" title="Recommend" id="GcR-Iw-pkt">
                             <connections>
                                 <action selector="recBk:" destination="OQb-mC-ETl" id="fDL-b4-gTE"/>
@@ -1094,7 +1094,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="uhL-l7-xsD"/>
         <segue reference="oue-HU-Q1d"/>
-        <segue reference="AHD-2f-fnf"/>
+        <segue reference="Gz1-6v-V6s"/>
         <segue reference="Enh-9A-rdg"/>
     </inferredMetricsTieBreakers>
 </document>

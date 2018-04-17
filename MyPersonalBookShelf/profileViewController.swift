@@ -131,6 +131,9 @@ class profileViewController: UIViewController, UITextViewDelegate, UIImagePicker
             
             destination.uid = serial.text
             
+        case "returnFriendsTableView":
+            break
+            
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
