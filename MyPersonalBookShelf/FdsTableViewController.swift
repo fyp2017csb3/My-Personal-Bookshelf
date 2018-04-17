@@ -31,40 +31,17 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
     
     
     //MARK: Private Methods
-    private func loadSampleBooks()-> [User]? {
-        let photo1 = UIImage(named: "sampleBook1")
-        let photo2 = UIImage(named: "sampleBook2")
-        let photo3 = UIImage(named: "sampleBook3")
-        
-        guard let fd1 = User(name: "friend1", UID: "UID1", photo: photo1) else {
-            fatalError("Unable to instantiate book1")
-        }
-        guard let fd2 = User(name: "friend2", UID: "UID2", photo: photo1) else {
-            fatalError("Unable to instantiate book1")
-        }
-        guard let fd3 = User(name: "friend3", UID: "UID3", photo: photo1) else {
-            fatalError("Unable to instantiate book1")
-        }
-        var temp = [fd1, fd2, fd3]
-        return temp
-        
-    }
     
     private func saveFds() {
             let successfulSave = NSKeyedArchiver.archiveRootObject(fds, toFile: User.FdsArchiveURL.path)
 
-        
-        //        if successfulSave {
-        //            os_log("Books is saved.", log: OSLog.default, type: . debug)
-        //        }
-        //        else
-        //        {
-        //            os_log("Failed to save book", log: OSLog.default, type: .error)
-        //        }
     }
     
     private func loadFds() -> [User]? {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: User.FdsArchiveURL.path) as? [User]
+        if let fdss = NSKeyedUnarchiver.unarchiveObject(withFile: User.FdsArchiveURL.path) as? [User] {
+            return fdss
+        }
+        return []
     }
     
     //MARK: SORTING
@@ -108,15 +85,18 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
                                 self.fds.append(newfd!)
                                 print("added a fd from base")
                                 self.tableView.reloadData()
+                                self.saveFds()
                             }
                             else {
                                 let newfd = User(name: fdName, UID: fdUID, photo: UIImage(named: "defaultBookImage"))
                                 self.fds.append(newfd!)
                                 print("added a fd from base")
                                 self.tableView.reloadData()
+                                self.saveFds()
                             }
                         }
                         )
+                       
                     })
                     
                     
@@ -154,12 +134,7 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
      
         
         //Load saved books else sample
-        if let savedFds = loadFds() {
-            fds += savedFds
-        }
-        else {
-            fds = loadSampleBooks()!
-        }
+        fds = loadFds()!
     }
     
 

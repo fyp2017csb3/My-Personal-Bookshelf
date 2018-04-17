@@ -76,7 +76,7 @@ class profileViewController: UIViewController {
         name.text = me?.name
         print("name", name.text)
         hashID = me?.UID.hashValue
-        serial.text = String(hash)
+        serial.text = String(hashID)
 
         // Do any additional setup after loading the view.
     }

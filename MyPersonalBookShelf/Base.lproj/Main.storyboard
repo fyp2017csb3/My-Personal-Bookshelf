@@ -1019,12 +1019,13 @@
                     </view>
                     <connections>
                         <segue destination="yRw-VO-GxG" kind="unwind" identifier="unwindToInput" unwindAction="unwindToInputWithSegue:" id="Gji-wf-Bos"/>
+                        <segue destination="Y83-IG-2hm" kind="show" identifier="ShowLend" id="FqG-AR-dtU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kXL-cn-XuN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="yRw-VO-GxG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2486" y="-839"/>
+            <point key="canvasLocation" x="2690" y="-858"/>
         </scene>
     </scenes>
     <resources>
@@ -1034,8 +1035,8 @@
         <image name="shareIcon" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uhL-l7-xsD"/>
-        <segue reference="KWf-as-EaE"/>
+        <segue reference="FqG-AR-dtU"/>
+        <segue reference="nCm-60-f4y"/>
         <segue reference="Enh-9A-rdg"/>
     </inferredMetricsTieBreakers>
 </document>

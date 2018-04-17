@@ -16,12 +16,12 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     //Session
     let session = AVCaptureSession()
     
-    var bk : Books!
+    var book : Books!
     var bday = 14
     
     
     private func lendBook(uid:String) {
-        bk.saveFireBorrow(uid: uid, bday: bday)
+        book.saveFireBorrow(uid: uid, bday: bday)
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -67,8 +67,9 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             if let object = metadataObjects[0] as? AVMetadataMachineReadableCodeObject
             {
                 if !object.stringValue!.isEmpty {
-                    print(object.stringValue!)
+                    lendBook(uid: object.stringValue!)
                     self.session.stopRunning()
+                    performSegue(withIdentifier: "ShowLend", sender: self)
                 } else {
                     let scanAlert = UIAlertController(title: "Book not available", message: "The information of the book was not found in the database", preferredStyle: .alert)
                     scanAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
@@ -77,6 +78,24 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             }
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        switch(segue.identifier ?? "") {
+            
+            
+        case "ShowLend":
+           let tar = segue.destination as! BorrowTableViewController
+            tar.state = "lend"
+           
+           tar.saveLendBook(book:book)
+        default:
+            print(segue.identifier)
+            //fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
+        }
+    }
+    
 
 
 }

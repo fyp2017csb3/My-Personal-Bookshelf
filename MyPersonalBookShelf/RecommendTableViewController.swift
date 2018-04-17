@@ -98,22 +98,21 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     private func loadFds() -> [User]? {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: User.FdsArchiveURL.path) as? [User]
+        if let fds =  NSKeyedUnarchiver.unarchiveObject(withFile: User.FdsArchiveURL.path) as? [User] {
+            return fds
+        }
+        return []
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        books = []
         if let selfBooks = loadBooks() {
             myBooks = selfBooks
         } else {
             myBooks = []
         }
-        if let savedFds = loadFds() {
-            fds += savedFds
-        }
-        else {
-            fds = []
-        }
+        fds = loadFds()!
         for i in fds {
             Books.returnFirebook(uid: i.UID, view: self)
         }

@@ -34,25 +34,24 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
             
             if let selectedIndexPath = tableView.indexPathForSelectedRow{
                 //Update
-                books[selectedIndexPath.row] = book
+                books[selectedIndexPath.row] = book.saveFirebook(uid: (me?.UID)!)
                 tableView.reloadRows(at: [selectedIndexPath], with: .none)
+                
             }
             
             else
             {   //Add
                 let newIndexPath = IndexPath(row: books.count, section: 0)
-                books.append(book)
+                books.append(book.saveFirebook(uid: (me?.UID)!))
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
-            
-            book.saveFirebook(uid: (me?.UID)!)
-            book.saveFirebook(uid: "UID1")
-            
-            
-            
-            
             //Save
             saveBooks()
+            
+            
+            
+            
+            
         }
     }
     

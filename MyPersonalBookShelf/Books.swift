@@ -25,6 +25,7 @@ class Books: NSObject, NSCoding {
         aCoder.encode(dateAdded, forKey: PropertyKey.dateAdded)
         aCoder.encode(publisher, forKey: PropertyKey.publisher)
         aCoder.encode(category, forKey: PropertyKey.category)
+        aCoder.encode(firKey, forKey: PropertyKey.firKey)
     }
     
     required convenience init?(coder aDecoder: NSCoder){
@@ -48,6 +49,7 @@ class Books: NSObject, NSCoding {
         if category == nil {
             category = [String]()
         }
+        let firKey = aDecoder.decodeObject(forKey: PropertyKey.firKey) as? String
         
         self.init(title: title, author: author!, photo: photo, rating: rating, describeText: describeText, owner: owner, returnDate: returnDate, publishedDate: publishedDate, isbn: isbn, dateAdded: dateAdded, publisher: publisher, category: category!)
     }
@@ -71,6 +73,7 @@ class Books: NSObject, NSCoding {
     var dateAdded: String?
     var publisher: String?
     var category: Array<String>?
+    var firKey:String?
     
     struct PropertyKey {
         static let title = "title"
@@ -85,6 +88,7 @@ class Books: NSObject, NSCoding {
         static let dateAdded = "dateAdded"
         static let publisher = "publisher"
         static let category = "category"
+        static let firKey = "firKey"
     }
     
     //MARK: Initialization
@@ -110,6 +114,7 @@ class Books: NSObject, NSCoding {
         self.dateAdded = dateAdded
         self.publisher = publisher
         self.category = category
+        self.firKey = nil
     }
     func setReturnDate(returnDate: Date?) {
         self.returnDate = returnDate
@@ -193,13 +198,21 @@ class Books: NSObject, NSCoding {
         })
         
     }
-    func saveFirebook(uid:String) {
+    func saveFirebook(uid:String) -> Books {
         var ref: DatabaseReference!
         ref = Database.database().reference()
         let storageRef = Storage.storage().reference()
         
+        print(firKey)
+        var key:String!
+        if firKey == nil {
+            key = ref.child("users").child(uid).child("books").childByAutoId().key
+            firKey = key
+        } else {
+            key = firKey
+        }
         
-        let key = ref.child("users").child(uid).child("books").childByAutoId().key
+        
         if let img = photo {
             let imgRef = storageRef.child(uid+"/"+key)
             var data = NSData()
@@ -221,6 +234,10 @@ class Books: NSObject, NSCoding {
         ref.child("users").child(uid).child("books").child(key).child("publisher").setValue(publisher)
         ref.child("users").child(uid).child("books").child(key).child("category").setValue(category)
         
+        return self
+    }
+    func setFIRKey(uid:String?) {
+        firKey = uid
     }
     
     func saveFireBorrow(uid:String, bday:Int) {
@@ -250,7 +267,9 @@ class Books: NSObject, NSCoding {
         ref.child("users").child(uid).child("borrow").child(key).child("publisher").setValue(publisher)
         ref.child("users").child(uid).child("borrow").child(key).child("category").setValue(category)
         
-        ref.child("users").child((me?.UID)!).child("borrowAlert").childByAutoId().setValue(1)
+        ref.child("users").child(uid).child("borrowAlert").childByAutoId().setValue(1)
+
+        
         
     }
     
