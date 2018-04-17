@@ -191,6 +191,7 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         searchBar.delegate = self
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Switch View", style: .plain, target: self, action: #selector(lbSwitchClick))
         
@@ -284,9 +285,10 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
         dateFormatter.dateStyle = .medium
         
         cell.titleLabel.text = book.title
-        cell.authorLabel.text = "Owner: " + book.owner!
         if (state == "lend") {
            cell.authorLabel.text = "Lent to: " + book.owner!
+        } else {
+            cell.authorLabel.text = "Owner: " + book.owner!
         }
         
         cell.photoImageView.image = book.photo

@@ -56,12 +56,8 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
     
     @objc func addFd() {
         //1. Create the alert controller.
-        let alert = UIAlertController(title: "Add Friend", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Add Friend", message: "Input friend's serial number", preferredStyle: .alert)
         
-        //2. Add the text field. You can configure it however you need.
-        alert.addTextField { (textField) in
-            textField.text = "Input friend's serial number"
-        }
         
         // 3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { [weak alert] (_) in

@@ -68,6 +68,13 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             {
                 if !object.stringValue!.isEmpty {
                     lendBook(uid: object.stringValue!)
+                    var ref: DatabaseReference!
+                    ref = Database.database().reference()
+                    ref.child("users").child(object.stringValue!).child("name").observeSingleEvent(of: .value) { (snapshot) in
+                        self.book.owner = snapshot.value as! String
+                        self.performSegue(withIdentifier: "ShowLend", sender: self)
+                    }
+                    
                     self.session.stopRunning()
                     performSegue(withIdentifier: "ShowLend", sender: self)
                 } else {

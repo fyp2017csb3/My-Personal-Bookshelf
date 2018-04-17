@@ -9,10 +9,36 @@
 import UIKit
 import Firebase
 
-class profileViewController: UIViewController, UITextViewDelegate {
+class profileViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var proPic: UIImageView!
     
     @IBOutlet weak var name: UITextField!
+    
+    @IBAction func pickPhoto(_ sender: UITapGestureRecognizer) {
+        print("tapping photo")
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = .photoLibrary
+        
+        imagePickerController.delegate = self
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    //Image of book
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage
+            else
+        {
+            fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
+        }
+        
+        proPic.image = selectedImage
+        
+        dismiss(animated: true, completion: nil)
+    }
     
     @IBAction func pass(_ sender: Any) {
         let alert = UIAlertController(title: "Add Friend", message: "Passing data from old devices will erase all current data", preferredStyle: .alert)
