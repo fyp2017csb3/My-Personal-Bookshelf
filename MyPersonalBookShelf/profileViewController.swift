@@ -14,6 +14,9 @@ class profileViewController: UIViewController, UITextViewDelegate, UIImagePicker
     
     @IBOutlet weak var name: UITextField!
     
+    @IBAction func qrButton(_ sender: Any) {
+    }
+    
     @IBAction func pickPhoto(_ sender: UITapGestureRecognizer) {
         print("tapping photo")
         let imagePickerController = UIImagePickerController()

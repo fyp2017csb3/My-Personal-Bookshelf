@@ -58,15 +58,22 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
         //1. Create the alert controller.
         let alert = UIAlertController(title: "Add Friend", message: "Input friend's serial number", preferredStyle: .alert)
         
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField { (textField) in
+            textField.text = " "
+        }
         
         // 3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
-            let code = textField?.text
+            var code = "11111111"
+            if textField?.text != "" || textField?.text != nil {
+                code = (textField?.text!)!
+            }
             var ref: DatabaseReference!
             ref = Database.database().reference()
             
-            ref.child("serial").child(code!).observeSingleEvent(of: .value, with: { (dataSnapshot) in
+            ref.child("serial").child(code).observeSingleEvent(of: .value, with: { (dataSnapshot) in
                 if let fdUID = dataSnapshot.value as? String
                 {
                     ref.child("users").child(fdUID).child("name").observeSingleEvent(of: .value, with: { (dataSnapshot2) in

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3A1482612017424C000F001D /* ManualISBNViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1482602017424C000F001D /* ManualISBNViewController.swift */; };
+		3A5AA28B20863CF200037394 /* uidQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5AA28A20863CF100037394 /* uidQRViewController.swift */; };
 		3A6A502220038F920041DA8A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A502120038F920041DA8A /* AppDelegate.swift */; };
 		3A6A502420038F920041DA8A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A502320038F920041DA8A /* ViewController.swift */; };
 		3A6A502720038F920041DA8A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A6A502520038F920041DA8A /* Main.storyboard */; };
@@ -50,6 +51,7 @@
 		0C754AACADFDCE61F4A2EDBB /* Pods-MyPersonalBookShelfTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPersonalBookShelfTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyPersonalBookShelfTests/Pods-MyPersonalBookShelfTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1BAF54D277FAD42C4735AB47 /* Pods-MyPersonalBookShelfTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPersonalBookShelfTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyPersonalBookShelfTests/Pods-MyPersonalBookShelfTests.release.xcconfig"; sourceTree = "<group>"; };
 		3A1482602017424C000F001D /* ManualISBNViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualISBNViewController.swift; sourceTree = "<group>"; };
+		3A5AA28A20863CF100037394 /* uidQRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uidQRViewController.swift; sourceTree = "<group>"; };
 		3A6A501E20038F920041DA8A /* MyPersonalBookShelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPersonalBookShelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A6A502120038F920041DA8A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A6A502320038F920041DA8A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				3A6A50412006173F0041DA8A /* BooksTableViewCell.swift */,
 				3AA310D22006689C00F9F9D7 /* BooksTableViewController.swift */,
 				3A6A502520038F920041DA8A /* Main.storyboard */,
+				3A5AA28A20863CF100037394 /* uidQRViewController.swift */,
 				E9F07354208286CE0023A04D /* RecommendTableViewController.swift */,
 				E950AE3B20743ADB007E63A7 /* QRViewController.swift */,
 				E930D8AF2085464E00C4A488 /* QRScannerViewController.swift */,
@@ -380,6 +383,7 @@
 				3A6A50422006173F0041DA8A /* BooksTableViewCell.swift in Sources */,
 				3AA310D32006689C00F9F9D7 /* BooksTableViewController.swift in Sources */,
 				3A6A502420038F920041DA8A /* ViewController.swift in Sources */,
+				3A5AA28B20863CF200037394 /* uidQRViewController.swift in Sources */,
 				3A8C059D2007623C00985FC2 /* ManualInputViewController.swift in Sources */,
 				3A6A502220038F920041DA8A /* AppDelegate.swift in Sources */,
 				3A711287202C5AF6003EA829 /* GoogleBook.swift in Sources */,
