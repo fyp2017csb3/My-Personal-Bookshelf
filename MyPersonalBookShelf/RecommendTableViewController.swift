@@ -25,6 +25,16 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
     
     //MARK: Actions
     
+    @IBAction func recBk(_ sender: Any) {
+        if !books.isEmpty {
+            performSegue(withIdentifier: "ShowRecBk", sender: self)
+        } else {
+            let alert = UIAlertController(title: "Fatal Error", message: "Not enough books to perform recommendation.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
+        
+    }
     
     @IBAction func sortButton(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "Sorting", message: nil, preferredStyle: .alert)
@@ -105,17 +115,20 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         books = []
+        tableView.reloadData()
         if let selfBooks = loadBooks() {
             myBooks = selfBooks
         } else {
             myBooks = []
         }
         fds = loadFds()!
+        print(fds.count)
         for i in fds {
             Books.returnFirebook(uid: i.UID, view: self)
         }
+        super.viewDidLoad()
+        
         
         
         
@@ -129,6 +142,9 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
         
         
         
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        viewDidLoad()
     }
     
     //MARK: SearchBar
@@ -181,7 +197,7 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? BooksTableViewCell else {
             fatalError("The dequeued cell is not an instance of BooksTableViewCell.")
         }
-        
+
         var book = books[indexPath.row]
         
         if isSearching {
@@ -247,6 +263,7 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
         case "AddBook":
             os_log("Adding a new book.", log: OSLog.default, type: .debug)
         case "ShowRecBk":
+
             var bayes = Books.getCatCount(srcBks: books)
             var myBayes = Books.getCatCount(srcBks: myBooks)
             var sum = 0
@@ -260,6 +277,9 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
                 sum += bayes[i.key]!
             }
             var num = Int(arc4random_uniform(UInt32(sum)))
+            
+            //print ("initial num = " +  String(num))
+            
             for i in bayes {
                 num -= i.value
                 if num <= 0 {
@@ -274,6 +294,15 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
                     tmpBks.append(i)
                 }
             }
+            
+            /*print("cat = " + cat!)
+            
+            for i in tmpBks {
+                print("title = " + i.title)
+            }
+            
+            print ("num = " +  String(num))*/
+            
             num = Int(arc4random_uniform(UInt32(tmpBks.count)))
             
             guard let bookDetailViewController = segue.destination as? ManualInputViewController else {

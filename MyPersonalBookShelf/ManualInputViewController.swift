@@ -42,6 +42,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
     var saveBtnTemp : UIBarButtonItem?
     var borrowBtnTemp : UIBarButtonItem?
     
+    @IBOutlet weak var ownerLbl: UILabel!
     //MARK: Actions
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         let addMode = presentedViewController is UINavigationController
@@ -266,6 +267,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
             ratingInput.isHidden = false
             ratingLabel.isHidden = false
             ownerField.isHidden = true
+            ownerLbl.isHidden = true
             borrowDays.isHidden = true
             borrowLabel1.isHidden = true
             borrowLabel2.isHidden = true
@@ -275,12 +277,15 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
             ratingInput.isHidden = true
             ratingLabel.isHidden = true
             ownerField.isHidden = false
+            ownerLbl.isHidden = false
             borrowDays.isHidden = false
             borrowLabel1.isHidden = false
             borrowLabel2.isHidden = false
             self.navigationItem.rightBarButtonItems?.append(borrowBtnTemp!)
             if (state == "lend") {
-                ownerField.text = "Lend to"
+                ownerLbl.text = "Lend to"
+            } else {
+                ownerLbl.text = "Owner"
             }
         
         }
@@ -300,6 +305,14 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
             authorTextField.text = book.author
             bookImage.image = book.photo
             ratingInput.rating = book.rating
+            if (state == "borrow") {
+                ownerLbl.text = "Owner"
+                ownerField.text = book.owner != nil ? book.owner! : nil
+            } else {
+                ownerLbl.text = "Lent to"
+                ownerField.text = book.owner != nil ? book.owner! : nil
+            }
+            
             descriptionTextField.text = book.describeText
             publishedDateTextField.text = book.publishedDate
             isbnTextField.text = book.isbn

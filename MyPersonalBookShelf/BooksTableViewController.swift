@@ -275,6 +275,10 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
         if reader == me {
         if editingStyle == .delete {
             // Delete the row from the data source
+            var ref: DatabaseReference!
+            ref = Database.database().reference()
+            ref.child("users").child((me?.UID)!).child("books").child(books[indexPath.row].firKey!).setValue(nil)
+            
             books.remove(at: indexPath.row)
             saveBooks()
             tableView.deleteRows(at: [indexPath], with: .fade)

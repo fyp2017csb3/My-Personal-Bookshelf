@@ -1,30 +1,20 @@
 //
-//  QRScannerController.swift
-//  QRCodeReader
+//  uidQRScannerViewController.swift
+//  MyPersonalBookShelf
 //
-//  Created by Simon Ng on 13/10/2016.
-//  Copyright © 2016 AppCoda. All rights reserved.
+//  Created by FYP on 17/4/2018.
+//  Copyright © 2018 FYP. All rights reserved.
 //
+
 import UIKit
 import AVFoundation
-import Firebase
-import FirebaseDatabase
 
-class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDelegate{
+class uidQRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate{
     var video = AVCaptureVideoPreviewLayer()
     let qrType = [AVMetadataObject.ObjectType.qr]
     //Session
     let session = AVCaptureSession()
-    
-    var book : Books!
-    var bday = 14
-    
-    
-    private func lendBook(uid:String) {
-        book.saveFireBorrow(uid: uid, bday: bday)
-        self.navigationController?.popViewController(animated: true)
-    }
-    
+    var qrCode = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,23 +57,21 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             if let object = metadataObjects[0] as? AVMetadataMachineReadableCodeObject
             {
                 if !object.stringValue!.isEmpty {
-                    lendBook(uid: object.stringValue!)
-                    var ref: DatabaseReference!
-                    ref = Database.database().reference()
-                    ref.child("users").child(object.stringValue!).child("name").observeSingleEvent(of: .value) { (snapshot) in
-                        self.book.owner = snapshot.value as! String
-                        self.performSegue(withIdentifier: "ShowLend", sender: self)
-                    }
-                    
+                    qrCode = object.stringValue!
                     self.session.stopRunning()
-                    performSegue(withIdentifier: "ShowLend", sender: self)
+                    performSegue(withIdentifier: "unwindToFriendsList", sender: self)
                 } else {
                     let scanAlert = UIAlertController(title: "Book not available", message: "The information of the book was not found in the database", preferredStyle: .alert)
                     scanAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
                     self.present(scanAlert, animated: true, completion: nil)
-                    }
+                }
             }
         }
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -92,17 +80,25 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
         switch(segue.identifier ?? "") {
             
             
-        case "ShowLend":
-           let tar = segue.destination as! BorrowTableViewController
-            tar.state = "lend"
-           
-           tar.saveLendBook(book:book)
+        case "unwindToFriendsList":
+            let destination = segue.destination as! FdsTableViewController
+            destination.qrCode = self.qrCode
+            
         default:
-            print(segue.identifier)
+            print("Error unwind to friends list")
             //fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
     }
     
 
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
 
 }

@@ -259,7 +259,7 @@ class Books: NSObject, NSCoding {
         ref.child("users").child(uid).child("borrow").child(key).child("rating").setValue(rating)
         ref.child("users").child(uid).child("borrow").child(key).child("photo").setValue(uid+"/"+key)
         ref.child("users").child(uid).child("borrow").child(key).child("describeText").setValue(describeText)
-        ref.child("users").child(uid).child("borrow").child(key).child("owner").setValue(owner)
+        ref.child("users").child(uid).child("borrow").child(key).child("owner").setValue(me?.name)
         ref.child("users").child(uid).child("borrow").child(key).child("returnDate").setValue(bday)
         ref.child("users").child(uid).child("borrow").child(key).child("publishedDate").setValue(publishedDate)
         ref.child("users").child(uid).child("borrow").child(key).child("isbn").setValue(isbn)
