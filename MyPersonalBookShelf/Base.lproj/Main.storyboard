@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4zl-Qa-uUk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4zl-Qa-uUk">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -640,7 +640,6 @@
                         <outlet property="titleTextField" destination="DPm-W2-mf3" id="pvJ-86-yPp"/>
                         <outlet property="toolBar" destination="M2b-yn-FGq" id="XID-i0-MiO"/>
                         <segue destination="Y83-IG-2hm" kind="show" identifier="SaveBorrow" id="uhL-l7-xsD"/>
-                        <segue destination="SPD-3W-xtn" kind="show" identifier="ShowQRScanner" id="dn7-RU-SwS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6NS-Qr-guS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -788,19 +787,6 @@
                                             <rect key="frame" x="0.0" y="2" width="89" height="120"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XoC-HI-hbC">
-                                            <rect key="frame" x="97" y="2" width="250" height="55"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <attributedString key="attributedText">
-                                                <fragment content="Title:">
-                                                    <attributes>
-                                                        <font key="NSFont" size="18" name="Helvetica-LightOblique"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rating: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JdV-A3-Qew">
                                             <rect key="frame" x="97" y="90" width="245" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -814,6 +800,19 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <nil key="textColor"/>
                                             <color key="highlightedColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XoC-HI-hbC">
+                                            <rect key="frame" x="121" y="11" width="250" height="55"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <attributedString key="attributedText">
+                                                <fragment content="Title:">
+                                                    <attributes>
+                                                        <font key="NSFont" size="18" name="Helvetica-LightOblique"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                            <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
@@ -834,12 +833,14 @@
                     <navigationItem key="navigationItem" title="Borrow" id="ILY-dB-GGk">
                         <barButtonItem key="rightBarButtonItem" title="Borrow" id="ly6-kd-ibo">
                             <connections>
-                                <segue destination="qK5-g5-cYy" kind="show" identifier="ShowQR" id="tyq-28-Jts"/>
+                                <action selector="borrowButton:" destination="Y83-IG-2hm" id="wGa-XN-uIt"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="searchBar" destination="vrb-d1-gcI" id="FNA-UH-wf9"/>
+                        <segue destination="qK5-g5-cYy" kind="show" identifier="ShowQR" id="qSQ-DH-HBe"/>
+                        <segue destination="jMv-kU-8cJ" kind="show" identifier="borrowManually" id="Gz1-6v-V6s"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EaT-A5-VOr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1032,7 +1033,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="uhL-l7-xsD"/>
-        <segue reference="KWf-as-EaE"/>
+        <segue reference="nCm-60-f4y"/>
         <segue reference="Enh-9A-rdg"/>
     </inferredMetricsTieBreakers>
 </document>
