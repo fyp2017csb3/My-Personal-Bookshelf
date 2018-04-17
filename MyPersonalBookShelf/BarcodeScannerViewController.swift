@@ -11,6 +11,9 @@ import AVFoundation
 
 class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
+    //Session
+    let session = AVCaptureSession()
+    
     //MARK: Properties
     var video = AVCaptureVideoPreviewLayer()
     let barcodeType = [AVMetadataObject.ObjectType.upce, AVMetadataObject.ObjectType.code39, AVMetadataObject.ObjectType.code39Mod43, AVMetadataObject.ObjectType.code93, AVMetadataObject.ObjectType.code128, AVMetadataObject.ObjectType.ean8, AVMetadataObject.ObjectType.ean13, AVMetadataObject.ObjectType.aztec, AVMetadataObject.ObjectType.pdf417, AVMetadataObject.ObjectType.itf14, AVMetadataObject.ObjectType.interleaved2of5, AVMetadataObject.ObjectType.dataMatrix]
@@ -56,8 +59,6 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        //Session
-        let session = AVCaptureSession()
         
         //Define Capture Device
         let captureDevice = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInWideAngleCamera, for: AVMediaType.video, position: .back)
@@ -98,35 +99,22 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
                 //Check if barcode
                 if object.type == AVMetadataObject.ObjectType.ean8 || object.type == AVMetadataObject.ObjectType.ean13
                 {
-                    let alert = UIAlertController(title: "Barcode", message: object.stringValue, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Retake", style: .default, handler: nil))
-                    alert.addAction(UIAlertAction(title: "Search", style: .default, handler: { (nil) in
                         if !object.stringValue!.isEmpty {
                             let isbnInput = object.stringValue!
+                            session.stopRunning()
                             if self.searchByISBN(isbn: isbnInput) {
                                 self.performSegue(withIdentifier: "unwindToInput", sender: self)
                             } else {
                                 let scanAlert = UIAlertController(title: "Book not available", message: "The information of the book was not found in the database", preferredStyle: .alert)
                                 scanAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
                                 self.present(scanAlert, animated: true, completion: nil)
-                            }
-                        }}))
-                    
-                    present(alert, animated: true, completion: nil)
-                    /*if !object.stringValue!.isEmpty {
-                     let isbnInput = object.stringValue!
-                     if self.searchByISBN(isbn: isbnInput) {
-                     self.performSegue(withIdentifier: "unwindToInput", sender: self)
-                     } else {
-                     let scanAlert = UIAlertController(title: "Book not available", message: "The information of the book was not found in the database", preferredStyle: .alert)
-                     scanAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
-                     self.present(scanAlert, animated: true, completion: nil)
-                     }
-                     }*/
+                    }
                 }
             }
         }
     }
+}
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
