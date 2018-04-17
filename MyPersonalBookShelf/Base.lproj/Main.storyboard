@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4zl-Qa-uUk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4zl-Qa-uUk">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -252,7 +252,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eBj-r8-SC3" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="DnX-5M-PUd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3115.9420289855075" y="-229.07608695652175"/>
+            <point key="canvasLocation" x="3535" y="-272"/>
         </scene>
         <!--ManualISBN View Controller-->
         <scene sceneID="Pbb-qQ-fOD">
@@ -643,7 +643,7 @@
                         <outlet property="titleTextField" destination="DPm-W2-mf3" id="pvJ-86-yPp"/>
                         <outlet property="toolBar" destination="M2b-yn-FGq" id="XID-i0-MiO"/>
                         <segue destination="Y83-IG-2hm" kind="show" identifier="SaveBorrow" id="uhL-l7-xsD"/>
-                        <segue destination="amW-No-2qe" kind="show" identifier="ShowQRScanner" id="CuK-G0-OPu"/>
+                        <segue destination="SPD-3W-xtn" kind="show" identifier="ShowQRScanner" id="dn7-RU-SwS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6NS-Qr-guS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1008,87 +1008,34 @@
             <point key="canvasLocation" x="-346" y="-1855"/>
         </scene>
         <!--Scanner Controller-->
-        <scene sceneID="9mj-KA-Uua">
+        <scene sceneID="Rw9-2N-pkC">
             <objects>
-                <viewController id="amW-No-2qe" customClass="QRScannerController" customModule="fypui" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="xso-Qb-wBN">
+                <viewController id="SPD-3W-xtn" customClass="QRScannerController" customModule="MyPersonalBookShelf" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pHK-1H-AUK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No QR code is detected" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X2k-2v-Gay">
-                                <rect key="frame" x="0.0" y="696" width="414" height="40"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="rWG-6z-VQg"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view alpha="0.80000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vy4-aa-0r0">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scan" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GWl-Tf-Lel">
-                                        <rect key="frame" x="185" y="38" width="44" height="24"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzG-hJ-anU">
-                                        <rect key="frame" x="15" y="39" width="18" height="18"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="18" id="JLn-1A-5qv"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="18" id="lhV-1j-zcV"/>
-                                            <constraint firstAttribute="height" constant="18" id="vn7-IN-kwZ"/>
-                                        </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="cross"/>
-                                        <connections>
-                                            <action selector="back:" destination="amW-No-2qe" eventType="touchUpInside" id="9wO-fQ-tE0"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="kzG-hJ-anU" secondAttribute="bottom" constant="13" id="0QT-FS-mEK"/>
-                                    <constraint firstItem="GWl-Tf-Lel" firstAttribute="centerX" secondItem="vy4-aa-0r0" secondAttribute="centerX" id="5gS-FA-TH9"/>
-                                    <constraint firstItem="kzG-hJ-anU" firstAttribute="leading" secondItem="vy4-aa-0r0" secondAttribute="leading" constant="15" id="BRr-yb-vbb"/>
-                                    <constraint firstAttribute="height" constant="70" id="Z7t-eN-v2R"/>
-                                    <constraint firstAttribute="bottom" secondItem="GWl-Tf-Lel" secondAttribute="bottom" constant="8" id="hDr-uz-y5y"/>
-                                </constraints>
-                            </view>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="vy4-aa-0r0" firstAttribute="top" secondItem="xso-Qb-wBN" secondAttribute="top" id="17f-3l-GVN"/>
-                            <constraint firstItem="X2k-2v-Gay" firstAttribute="leading" secondItem="aAT-cV-hRz" secondAttribute="leading" id="M17-aQ-Won"/>
-                            <constraint firstItem="vy4-aa-0r0" firstAttribute="leading" secondItem="xso-Qb-wBN" secondAttribute="leading" id="Pfa-oX-co3"/>
-                            <constraint firstItem="aAT-cV-hRz" firstAttribute="bottom" secondItem="X2k-2v-Gay" secondAttribute="bottom" id="dv2-v2-naO"/>
-                            <constraint firstItem="aAT-cV-hRz" firstAttribute="trailing" secondItem="X2k-2v-Gay" secondAttribute="trailing" id="pyW-5T-hK9"/>
-                            <constraint firstItem="aAT-cV-hRz" firstAttribute="trailing" secondItem="vy4-aa-0r0" secondAttribute="trailing" id="xRj-2K-5rJ"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="aAT-cV-hRz"/>
+                        <viewLayoutGuide key="safeArea" id="Nav-nr-fYv"/>
                     </view>
                     <connections>
-                        <outlet property="messageLabel" destination="X2k-2v-Gay" id="Y1J-hL-d67"/>
-                        <outlet property="topbar" destination="vy4-aa-0r0" id="Yc6-4v-Sw0"/>
+                        <segue destination="yRw-VO-GxG" kind="unwind" identifier="unwindToInput" unwindAction="unwindToInputWithSegue:" id="Gji-wf-Bos"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="05J-R7-6nT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kXL-cn-XuN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="yRw-VO-GxG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2323" y="-764"/>
+            <point key="canvasLocation" x="2486" y="-839"/>
         </scene>
     </scenes>
     <resources>
         <image name="barcodeIcon" width="25" height="25"/>
-        <image name="cross" width="16" height="16"/>
         <image name="defaultBookImage" width="200" height="300"/>
         <image name="searchIcon" width="25" height="25"/>
         <image name="shareIcon" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="uhL-l7-xsD"/>
-        <segue reference="nCm-60-f4y"/>
+        <segue reference="KWf-as-EaE"/>
         <segue reference="Enh-9A-rdg"/>
     </inferredMetricsTieBreakers>
 </document>
