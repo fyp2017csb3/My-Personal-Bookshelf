@@ -18,6 +18,8 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
     //MARK: Properties
     var fds = [User]()
     
+    var qrCode = ""
+    
     var isSearching = false
     
     
@@ -27,6 +29,52 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
         self.fds = self.sortName()
         self.tableView.reloadData()
         self.saveFds()
+    }
+    
+    @IBAction func unwindToFriendsList(sender: UIStoryboardSegue) {
+        var code = qrCode
+        var ref: DatabaseReference!
+        ref = Database.database().reference()
+        
+        ref.child("serial").child(code).observeSingleEvent(of: .value, with: { (dataSnapshot) in
+            if let fdUID = dataSnapshot.value as? String
+            {
+                ref.child("users").child(fdUID).child("name").observeSingleEvent(of: .value, with: { (dataSnapshot2) in
+                    let fdName = dataSnapshot2.value as! String
+                    
+                    let storageRef = Storage.storage().reference()
+                    let imgURL = fdUID+"/propic"
+                    storageRef.child(imgURL).getData(maxSize: 10*1024*1024, completion: { (data, error) in
+                        if(error == nil) {
+                            let img = UIImage(data: data!)
+                            let newfd = User(name: fdName, UID: fdUID, photo: img)
+                            self.fds.append(newfd!)
+                            print("added a fd from base")
+                            self.tableView.reloadData()
+                            self.saveFds()
+                        }
+                        else {
+                            let newfd = User(name: fdName, UID: fdUID, photo: UIImage(named: "defaultBookImage"))
+                            self.fds.append(newfd!)
+                            print("added a fd from base")
+                            self.tableView.reloadData()
+                            self.saveFds()
+                        }
+                    }
+                    )
+                    
+                })
+                
+                
+                
+            }
+            else
+            {
+                let errorAlert = UIAlertController(title: "Friend not found", message: nil, preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(errorAlert, animated: true, completion: nil)
+            }
+        })
     }
     
     
@@ -107,12 +155,18 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
                 }
                 else
                 {
-                    alert?.message = "Friend Not Found"
+                    let errorAlert = UIAlertController(title: "Friend not found", message: nil, preferredStyle: .alert)
+                    errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(errorAlert, animated: true, completion: nil)
                 }
             })
             
             
         }))
+        alert.addAction(UIAlertAction(title: "QR", style: .default, handler: { [weak alert] (_) in
+            self.performSegue(withIdentifier: "ShowQRScanner", sender: self)
+        }))
+        
         alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { [weak alert] (_) in
             alert?.dismiss(animated: true, completion: nil)
         }))
@@ -236,6 +290,9 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
             
             let selectedFd = fds[indexPath.row]
             booksTableViewController.reader = selectedFd
+            
+        case "ShowQRScanner":
+            break
             
         default:
             print(segue.identifier)

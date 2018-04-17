@@ -25,6 +25,7 @@
 		3AA310D12006666E00F9F9D7 /* Books.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA310D02006666E00F9F9D7 /* Books.swift */; };
 		3AA310D32006689C00F9F9D7 /* BooksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA310D22006689C00F9F9D7 /* BooksTableViewController.swift */; };
 		3AAA791C70831E08C015B0FC /* Pods_MyPersonalBookShelf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D021E9E745EBBEEA08ED85A0 /* Pods_MyPersonalBookShelf.framework */; };
+		3AECE030208648E0005F9171 /* uidQRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AECE02F208648E0005F9171 /* uidQRScannerViewController.swift */; };
 		82275DF73C5BF86450327BE0 /* Pods_MyPersonalBookShelfTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98C30163D5D5CEC60C7B1DE4 /* Pods_MyPersonalBookShelfTests.framework */; };
 		E930D8B02085464E00C4A488 /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E930D8AF2085464E00C4A488 /* QRScannerViewController.swift */; };
 		E9433DFF206D36970092A641 /* BorrowTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9433DFE206D36970092A641 /* BorrowTableViewController.swift */; };
@@ -71,6 +72,7 @@
 		3A8C059E20109E8B00985FC2 /* BarcodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerViewController.swift; sourceTree = "<group>"; };
 		3AA310D02006666E00F9F9D7 /* Books.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Books.swift; sourceTree = "<group>"; };
 		3AA310D22006689C00F9F9D7 /* BooksTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTableViewController.swift; sourceTree = "<group>"; };
+		3AECE02F208648E0005F9171 /* uidQRScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uidQRScannerViewController.swift; sourceTree = "<group>"; };
 		7D77371CBD95903D7D673D80 /* Pods-MyPersonalBookShelf.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPersonalBookShelf.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyPersonalBookShelf/Pods-MyPersonalBookShelf.release.xcconfig"; sourceTree = "<group>"; };
 		98C30163D5D5CEC60C7B1DE4 /* Pods_MyPersonalBookShelfTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyPersonalBookShelfTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BA1C471D5442E77501BD7D /* Pods-MyPersonalBookShelf.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPersonalBookShelf.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyPersonalBookShelf/Pods-MyPersonalBookShelf.debug.xcconfig"; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				3A6A50412006173F0041DA8A /* BooksTableViewCell.swift */,
 				3AA310D22006689C00F9F9D7 /* BooksTableViewController.swift */,
 				3A6A502520038F920041DA8A /* Main.storyboard */,
+				3AECE02F208648E0005F9171 /* uidQRScannerViewController.swift */,
 				3A5AA28A20863CF100037394 /* uidQRViewController.swift */,
 				E9F07354208286CE0023A04D /* RecommendTableViewController.swift */,
 				E950AE3B20743ADB007E63A7 /* QRViewController.swift */,
@@ -374,6 +377,7 @@
 				E978023220843F690021E83B /* profileViewController.swift in Sources */,
 				E9433DFF206D36970092A641 /* BorrowTableViewController.swift in Sources */,
 				E950AE3A20723AEE007E63A7 /* FdsTableViewCell.swift in Sources */,
+				3AECE030208648E0005F9171 /* uidQRScannerViewController.swift in Sources */,
 				E950AE3C20743ADB007E63A7 /* QRViewController.swift in Sources */,
 				3A6A5044200619B80041DA8A /* RatingControl.swift in Sources */,
 				3A1482612017424C000F001D /* ManualISBNViewController.swift in Sources */,

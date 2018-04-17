@@ -165,7 +165,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qYM-gv-HGz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="583" y="404"/>
+            <point key="canvasLocation" x="583" y="643"/>
         </scene>
         <!--Profile-->
         <scene sceneID="Edb-Je-AJI">
@@ -261,7 +261,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="584" y="-394"/>
+            <point key="canvasLocation" x="583" y="-125"/>
         </scene>
         <!--Barcode Scanner View Controller-->
         <scene sceneID="dUD-Np-fHD">
@@ -280,7 +280,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eBj-r8-SC3" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="DnX-5M-PUd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3535" y="-257"/>
+            <point key="canvasLocation" x="4442.0289855072469" y="-257.60869565217394"/>
         </scene>
         <!--ManualISBN View Controller-->
         <scene sceneID="Pbb-qQ-fOD">
@@ -690,7 +690,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1564" y="-287"/>
+            <point key="canvasLocation" x="2471.0144927536235" y="-287.77173913043481"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="wT2-DK-lMQ">
@@ -780,6 +780,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="Dmj-4a-eVE" kind="show" identifier="ShowQRScanner" id="b7t-fl-6KH"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J8H-Kh-aEv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -887,6 +890,30 @@
             </objects>
             <point key="canvasLocation" x="-346" y="-1113"/>
         </scene>
+        <!--QR Scanner-->
+        <scene sceneID="9IX-U2-hLb">
+            <objects>
+                <viewController id="Dmj-4a-eVE" customClass="uidQRScannerViewController" customModule="MyPersonalBookShelf" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aVX-5m-GWO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="hzH-cD-Qop"/>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem title="Back" id="WNt-j4-usC"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="QR Scanner" id="wsY-f1-b15"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="xOO-5a-yWU" kind="unwind" identifier="unwindToFriendsList" unwindAction="unwindToFriendsListWithSender:" id="ZTs-LT-mNe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7kS-f0-VlZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="xOO-5a-yWU" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="583" y="-833"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="8TA-un-Emq">
             <objects>
@@ -918,7 +945,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U6Z-q8-9mI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="920" y="-1473"/>
+            <point key="canvasLocation" x="801" y="-1552"/>
         </scene>
         <!--Borrow/Lend-->
         <scene sceneID="6j1-1X-YIO">
@@ -1050,7 +1077,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kXL-cn-XuN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="yRw-VO-GxG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2570" y="-977"/>
+            <point key="canvasLocation" x="3476.811594202899" y="-977.44565217391312"/>
         </scene>
     </scenes>
     <resources>
@@ -1068,6 +1095,6 @@
         <segue reference="uhL-l7-xsD"/>
         <segue reference="oue-HU-Q1d"/>
         <segue reference="AHD-2f-fnf"/>
-        <segue reference="bCl-LM-AM0"/>
+        <segue reference="Enh-9A-rdg"/>
     </inferredMetricsTieBreakers>
 </document>
