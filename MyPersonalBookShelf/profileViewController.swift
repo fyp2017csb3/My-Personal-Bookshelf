@@ -15,6 +15,7 @@ class profileViewController: UIViewController, UITextViewDelegate, UIImagePicker
     @IBOutlet weak var name: UITextField!
     
     @IBAction func qrButton(_ sender: Any) {
+        performSegue(withIdentifier: "ShowQR", sender: self)
     }
     
     @IBAction func pickPhoto(_ sender: UITapGestureRecognizer) {
@@ -92,7 +93,8 @@ class profileViewController: UIViewController, UITextViewDelegate, UIImagePicker
         var data = NSData()
         data = UIImageJPEGRepresentation(proPic.image!, 0.5) as! NSData
         imgRef.putData(data as Data)
-
+        
+        performSegue(withIdentifier: "returnFriendsTableView", sender: self)
     }
     
 
@@ -118,6 +120,22 @@ class profileViewController: UIViewController, UITextViewDelegate, UIImagePicker
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        switch(segue.identifier ?? "") {
+        case "ShowQR":
+            guard let destination = segue.destination as? uidQRViewController else {
+                fatalError("Unexpected Destination")
+            }
+            
+            destination.uid = serial.text
+            
+        default:
+            fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
+        }
+    }
+
 
     /*
     // MARK: - Navigation

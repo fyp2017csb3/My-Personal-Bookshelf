@@ -9,9 +9,20 @@
 import UIKit
 
 class uidQRViewController: UIViewController {
-
+    @IBOutlet weak var qrImage: UIImageView!
+    
+    var uid = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let data = uid.data(using: .ascii, allowLossyConversion: false)
+        let filter = CIFilter(name: "CIQRCodeGenerator")
+        filter?.setValue(data, forKey: "inputMessage")
+        
+        let image = UIImage(ciImage: (filter?.outputImage)!)
+        
+        qrImage.image = image
 
         // Do any additional setup after loading the view.
     }

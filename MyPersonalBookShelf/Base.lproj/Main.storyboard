@@ -151,17 +151,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cmf-b0-0M6">
-                                <rect key="frame" x="87" y="248" width="240" height="240"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cmf-b0-0M6">
+                                <rect key="frame" x="67" y="248" width="240" height="240"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="cmf-b0-0M6" firstAttribute="centerY" secondItem="NcI-BD-bko" secondAttribute="centerY" id="3ex-cX-rzl"/>
-                            <constraint firstItem="cmf-b0-0M6" firstAttribute="centerX" secondItem="NcI-BD-bko" secondAttribute="centerX" id="vJg-RR-OIu"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="NcI-BD-bko"/>
                     </view>
+                    <connections>
+                        <outlet property="qrImage" destination="cmf-b0-0M6" id="IFK-0g-7UG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qYM-gv-HGz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -250,6 +250,8 @@
                         <outlet property="passBtn" destination="WT8-sb-PYh" id="Cgc-Dq-zBh"/>
                         <outlet property="proPic" destination="XBX-Da-xlQ" id="Q1e-3g-rgE"/>
                         <outlet property="serial" destination="EAv-QT-BqA" id="vPX-gf-fDJ"/>
+                        <segue destination="5Q7-4W-Lij" kind="show" identifier="ShowQR" id="Wkf-rH-pnl"/>
+                        <segue destination="va1-Tp-gF8" kind="show" identifier="returnFriendsTableView" id="oue-HU-Q1d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bpC-YS-qdP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1064,6 +1066,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="uhL-l7-xsD"/>
+        <segue reference="oue-HU-Q1d"/>
         <segue reference="AHD-2f-fnf"/>
         <segue reference="bCl-LM-AM0"/>
     </inferredMetricsTieBreakers>
