@@ -68,6 +68,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             {
                 if !object.stringValue!.isEmpty {
                     print(object.stringValue!)
+                    self.session.stopRunning()
                 } else {
                     let scanAlert = UIAlertController(title: "Book not available", message: "The information of the book was not found in the database", preferredStyle: .alert)
                     scanAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
