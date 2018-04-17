@@ -20,10 +20,10 @@ PODS:
   - FirebaseAnalytics (4.2.0):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - nanopb (~> 0.3)
   - FirebaseCore (4.0.20):
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseDatabase (4.1.5):
     - FirebaseAnalytics (~> 4.1)
     - FirebaseCore (~> 4.0)
@@ -41,7 +41,7 @@ PODS:
     - FirebaseCore (~> 4.0)
     - GTMSessionFetcher/Core (~> 1.1)
   - GoogleToolboxForMac/Defines (2.1.3)
-  - "GoogleToolboxForMac/NSData+zlib (2.1.3)":
+  - GoogleToolboxForMac/NSData+zlib (2.1.3):
     - GoogleToolboxForMac/Defines (= 2.1.3)
   - gRPC (1.11.0):
     - gRPC-RxLibrary (= 1.11.0)
@@ -77,26 +77,6 @@ DEPENDENCIES:
   - Firebase/Firestore
   - Firebase/Storage
 
-SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
-    - BoringSSL
-    - Firebase
-    - FirebaseAnalytics
-    - FirebaseCore
-    - FirebaseDatabase
-    - FirebaseFirestore
-    - FirebaseInstanceID
-    - FirebaseStorage
-    - GoogleToolboxForMac
-    - gRPC
-    - gRPC-Core
-    - gRPC-ProtoRPC
-    - gRPC-RxLibrary
-    - GTMSessionFetcher
-    - leveldb-library
-    - nanopb
-    - Protobuf
-
 SPEC CHECKSUMS:
   BoringSSL: 60dd24df4af296bf41d78e5841dbb95d75f88c0d
   Firebase: 5ec5e863d269d82d66b4bf56856726f8fb8f0fb3
@@ -118,4 +98,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 0439df58291a800e38289ef8c3be2795a11af476
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.3.1

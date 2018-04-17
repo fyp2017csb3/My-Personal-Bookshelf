@@ -26,6 +26,19 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     
     //MARK: Actions
+    @IBAction func borrowButton(_ sender: Any) {
+        let alert = UIAlertController(title: "Borrow Method", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Scan with QR", style: .default, handler: { (nil) in
+            self.performSegue(withIdentifier: "ShowQR", sender: self)
+        }))
+        alert.addAction(UIAlertAction(title: "Input manually", style: .default, handler: { (nil) in
+            self.performSegue(withIdentifier: "borrowManually", sender: self)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (nil) in
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func unwindToBorrowList(sender: UIStoryboardSegue){
         if let sourceViewController = sender.source as? ManualInputViewController, let book = sourceViewController.book {
             
@@ -352,6 +365,12 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
             bookDetailViewController.state = state
         case "ShowQR":
             break
+            
+        case "borrowManually":
+            guard let bookDetailViewController = segue.destination as? ManualInputViewController else {
+                fatalError("Unexpected Destination: \(segue.destination)")
+            }
+            bookDetailViewController.state = "borrow"
             
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")

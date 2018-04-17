@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class profileViewController: UIViewController {
+class profileViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var proPic: UIImageView!
     
     @IBOutlet weak var name: UITextField!
@@ -46,7 +46,7 @@ class profileViewController: UIViewController {
         
     }
     @IBOutlet weak var idBtn: UIButton!
-    @IBOutlet weak var serial: UILabel!
+    @IBOutlet weak var serial: UITextView!
     var hashID :Int!
     @IBAction func saveUser(_ sender: Any) {
         User.setUserPic(newPic: proPic.image!)
@@ -69,6 +69,9 @@ class profileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        serial.delegate = self
+        
         id.isHidden = true
         passBtn.isHidden = true
         proPic.image = me?.photo
