@@ -862,28 +862,8 @@
                                     <constraint firstAttribute="width" constant="374" id="ysb-eI-Ty5"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g6y-rC-rbc">
-                                <rect key="frame" x="20" y="20" width="93" height="30"/>
-                                <state key="normal" title="Add manually"/>
-                                <connections>
-                                    <segue destination="jMv-kU-8cJ" kind="show" identifier="ManualBorrow" id="nCm-60-f4y"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yML-Sw-vCp">
-                                <rect key="frame" x="184" y="20" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="test:" destination="qK5-g5-cYy" eventType="touchUpInside" id="N82-a5-n82"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="0DQ-GZ-EZE" firstAttribute="top" secondItem="yML-Sw-vCp" secondAttribute="bottom" constant="68" id="7wx-zD-9bm"/>
-                            <constraint firstItem="g6y-rC-rbc" firstAttribute="top" secondItem="ssT-EQ-8yO" secondAttribute="top" id="BjA-84-W1t"/>
-                            <constraint firstItem="0DQ-GZ-EZE" firstAttribute="top" secondItem="g6y-rC-rbc" secondAttribute="bottom" constant="68" id="f4Y-ei-fqJ"/>
-                            <constraint firstItem="yML-Sw-vCp" firstAttribute="leading" secondItem="g6y-rC-rbc" secondAttribute="trailing" constant="71" id="q7h-2a-az7"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="ssT-EQ-8yO"/>
                     </view>
                     <connections>
@@ -1033,7 +1013,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="uhL-l7-xsD"/>
-        <segue reference="nCm-60-f4y"/>
+        <segue reference="Gz1-6v-V6s"/>
         <segue reference="Enh-9A-rdg"/>
     </inferredMetricsTieBreakers>
 </document>
