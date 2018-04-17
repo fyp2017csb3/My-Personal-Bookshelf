@@ -14,12 +14,7 @@ class QRViewController: UIViewController {
     var bbook : Books?
     
     @IBAction func test(_ sender: Any) {
-        let photo3 = UIImage(named: "sampleBook3")
-        let sampleCategory = ["Sample"]
-        guard let book1 = Books(title: "BorrowTester", author: "Author3", photo: photo3, rating: 3, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory) else {
-            fatalError("Unable to instantiate book3")
-        }
-        book1.saveFireBorrow(uid: (me?.UID)!,bday: 14)
+
     }
     @IBOutlet weak var QRImg: UIImageView!
     

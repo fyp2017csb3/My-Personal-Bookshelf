@@ -252,22 +252,26 @@ class Books: NSObject, NSCoding {
             var data = NSData()
             data = UIImageJPEGRepresentation(img, 0.5) as! NSData
             imgRef.putData(data as Data)
+            
+            ref.child("users").child(uid).child("borrow").child(key).child("title").setValue(title)
+            ref.child("users").child(uid).child("borrow").child(key).child("author").setValue(author)
+            ref.child("users").child(uid).child("borrow").child(key).child("rating").setValue(rating)
+            ref.child("users").child(uid).child("borrow").child(key).child("photo").setValue(uid+"/"+key)
+            ref.child("users").child(uid).child("borrow").child(key).child("describeText").setValue(describeText)
+            ref.child("users").child(uid).child("borrow").child(key).child("owner").setValue(me?.name)
+            ref.child("users").child(uid).child("borrow").child(key).child("returnDate").setValue(bday)
+            ref.child("users").child(uid).child("borrow").child(key).child("publishedDate").setValue(publishedDate)
+            ref.child("users").child(uid).child("borrow").child(key).child("isbn").setValue(isbn)
+            ref.child("users").child(uid).child("borrow").child(key).child("dateAdded").setValue(dateAdded)
+            ref.child("users").child(uid).child("borrow").child(key).child("publisher").setValue(publisher)
+            ref.child("users").child(uid).child("borrow").child(key).child("category").setValue(category)
+            
+            ref.child("users").child(uid).child("borrowAlert").childByAutoId().setValue(1)
+            
+            
         }
         
-        ref.child("users").child(uid).child("borrow").child(key).child("title").setValue(title)
-        ref.child("users").child(uid).child("borrow").child(key).child("author").setValue(author)
-        ref.child("users").child(uid).child("borrow").child(key).child("rating").setValue(rating)
-        ref.child("users").child(uid).child("borrow").child(key).child("photo").setValue(uid+"/"+key)
-        ref.child("users").child(uid).child("borrow").child(key).child("describeText").setValue(describeText)
-        ref.child("users").child(uid).child("borrow").child(key).child("owner").setValue(me?.name)
-        ref.child("users").child(uid).child("borrow").child(key).child("returnDate").setValue(bday)
-        ref.child("users").child(uid).child("borrow").child(key).child("publishedDate").setValue(publishedDate)
-        ref.child("users").child(uid).child("borrow").child(key).child("isbn").setValue(isbn)
-        ref.child("users").child(uid).child("borrow").child(key).child("dateAdded").setValue(dateAdded)
-        ref.child("users").child(uid).child("borrow").child(key).child("publisher").setValue(publisher)
-        ref.child("users").child(uid).child("borrow").child(key).child("category").setValue(category)
         
-        ref.child("users").child(uid).child("borrowAlert").childByAutoId().setValue(1)
 
         
         
