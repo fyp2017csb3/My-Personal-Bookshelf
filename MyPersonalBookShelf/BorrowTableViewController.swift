@@ -70,6 +70,13 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
         }
     }
     
+    func saveLendBook(book:Books) {
+        lbooks = loadLBooks()!
+        lbooks.append(book)
+        books = lbooks
+        saveBooks()
+    }
+    
     
     @objc func lbSwitchClick() {
         if (state == "borrow"){
@@ -153,10 +160,16 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     private func loadBBooks() -> [Books]? {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: Books.BorrowArchiveURL.path) as? [Books]
+        if let bks = NSKeyedUnarchiver.unarchiveObject(withFile: Books.BorrowArchiveURL.path) as? [Books] {
+            return bks
+        }
+        return []
     }
     private func loadLBooks() -> [Books]? {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: Books.LendArchiveURL.path) as? [Books]
+        if let bks = NSKeyedUnarchiver.unarchiveObject(withFile: Books.LendArchiveURL.path) as? [Books] {
+            return bks
+        }
+        return []
     }
     
     //MARK: SORTING

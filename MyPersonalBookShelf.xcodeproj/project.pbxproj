@@ -197,7 +197,6 @@
 				3A6A501B20038F920041DA8A /* Frameworks */,
 				3A6A501C20038F920041DA8A /* Resources */,
 				2DFE142554D8C7CDA3E930A4 /* [CP] Embed Pods Frameworks */,
-				91C3C399080A03111F3C0AF2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -216,8 +215,6 @@
 				3A6A502E20038F920041DA8A /* Sources */,
 				3A6A502F20038F920041DA8A /* Frameworks */,
 				3A6A503020038F920041DA8A /* Resources */,
-				C01C3B594029A966FA0DE501 /* [CP] Embed Pods Frameworks */,
-				F96ED16571505C627E39F2A3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -345,36 +342,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyPersonalBookShelf/Pods-MyPersonalBookShelf-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		91C3C399080A03111F3C0AF2 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyPersonalBookShelf/Pods-MyPersonalBookShelf-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C01C3B594029A966FA0DE501 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyPersonalBookShelfTests/Pods-MyPersonalBookShelfTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		D06EC50FDEF76A338A3BB68D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -391,21 +358,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F96ED16571505C627E39F2A3 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyPersonalBookShelfTests/Pods-MyPersonalBookShelfTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

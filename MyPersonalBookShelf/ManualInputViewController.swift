@@ -259,6 +259,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         saveBtnTemp = saveButton
         borrowBtnTemp = borrowButton
         }
+        print(book?.firKey)
         print(state)
          self.navigationItem.rightBarButtonItems?.removeAll()
         if (state == "read") {
@@ -425,7 +426,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
                 }
                 
                 if let tar = segue.destination as? QRScannerController {
-                    tar.bk = book
+                    tar.book = book
                     tar.bday = Int(sender as! String)!
                 }
                 
@@ -455,9 +456,10 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         
         let returnDate = Calendar.current.date(byAdding: dc, to: today)
         
+        let bookFIR = book?.firKey
         
         book = Books(title: title, author: author, photo: photo, rating: rating, describeText: describeText, owner: owner, returnDate: returnDate, publishedDate: publishedDate, isbn: isbn, dateAdded: dateAdded, publisher: publisher, category: category)
-        
+        book?.setFIRKey(uid: bookFIR)
     }
     
     //Hide keyboard

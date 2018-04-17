@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4zl-Qa-uUk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4zl-Qa-uUk">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -640,6 +640,7 @@
                         <outlet property="titleTextField" destination="DPm-W2-mf3" id="pvJ-86-yPp"/>
                         <outlet property="toolBar" destination="M2b-yn-FGq" id="XID-i0-MiO"/>
                         <segue destination="Y83-IG-2hm" kind="show" identifier="SaveBorrow" id="uhL-l7-xsD"/>
+                        <segue destination="amW-No-2qe" kind="show" identifier="ShowQRScanner" id="TBl-Dj-qG8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6NS-Qr-guS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -963,7 +964,7 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Item" id="XdE-vk-xjl"/>
                     <navigationItem key="navigationItem" title="Firends' books" id="nCs-U4-wqJ">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="GcR-Iw-pkt">
+                        <barButtonItem key="leftBarButtonItem" title="Recommend" id="GcR-Iw-pkt">
                             <connections>
                                 <segue destination="jMv-kU-8cJ" kind="show" identifier="ShowRecBk" id="Y5w-25-xnt"/>
                             </connections>
@@ -997,12 +998,13 @@
                     </view>
                     <connections>
                         <segue destination="yRw-VO-GxG" kind="unwind" identifier="unwindToInput" unwindAction="unwindToInputWithSegue:" id="Gji-wf-Bos"/>
+                        <segue destination="Y83-IG-2hm" kind="show" identifier="ShowLend" id="3eu-5D-aHC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kXL-cn-XuN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="yRw-VO-GxG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2486" y="-839"/>
+            <point key="canvasLocation" x="2570" y="-977"/>
         </scene>
     </scenes>
     <resources>
@@ -1012,8 +1014,8 @@
         <image name="shareIcon" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uhL-l7-xsD"/>
-        <segue reference="Gz1-6v-V6s"/>
+        <segue reference="3eu-5D-aHC"/>
+        <segue reference="Y5w-25-xnt"/>
         <segue reference="Enh-9A-rdg"/>
     </inferredMetricsTieBreakers>
 </document>

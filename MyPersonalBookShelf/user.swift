@@ -57,11 +57,14 @@ class User: NSObject, NSCoding {
     
     static func getUser() -> User? {
         if let usr = NSKeyedUnarchiver.unarchiveObject(withFile: User.UserArchiveURL.path) as? User {
+            if usr.photo == nil {
+                setUserPic(newPic: UIImage(named: "profilePic")!)
+            }
             return usr
         }
         else {
             let unq = UIDevice.current.identifierForVendor?.uuidString
-            let usr = User(name: "Name",UID: unq!,photo: UIImage(named:"defaultBookImage"))
+            let usr = User(name: "Name",UID: unq!,photo: UIImage(named: "profilePic")!)
             NSKeyedArchiver.archiveRootObject(usr, toFile: User.UserArchiveURL.path)
             return usr
         }
