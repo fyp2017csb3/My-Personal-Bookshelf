@@ -277,6 +277,9 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
                 sum += bayes[i.key]!
             }
             var num = Int(arc4random_uniform(UInt32(sum)))
+            
+            //print ("initial num = " +  String(num))
+            
             for i in bayes {
                 num -= i.value
                 if num <= 0 {
@@ -291,6 +294,15 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
                     tmpBks.append(i)
                 }
             }
+            
+            /*print("cat = " + cat!)
+            
+            for i in tmpBks {
+                print("title = " + i.title)
+            }
+            
+            print ("num = " +  String(num))*/
+            
             num = Int(arc4random_uniform(UInt32(tmpBks.count)))
             
             guard let bookDetailViewController = segue.destination as? ManualInputViewController else {

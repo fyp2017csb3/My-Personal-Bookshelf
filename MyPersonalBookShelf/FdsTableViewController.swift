@@ -290,6 +290,7 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
             
             let selectedFd = fds[indexPath.row]
             booksTableViewController.reader = selectedFd
+            booksTableViewController.navigationItem.title = selectedFd.name + "'s Books"
             
         case "ShowQRScanner":
             break
