@@ -18,7 +18,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     
     var book : Books!
     var bday = 14
-    
+    var borrower:String?
     
     private func lendBook(uid:String) {
         book.saveFireBorrow(uid: uid, bday: bday)
@@ -29,6 +29,11 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        //byPasser
+        
+        
+        //byPasserEnd
+        
         
         //Define Capture Device
         let captureDevice = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInWideAngleCamera, for: AVMediaType.video, position: .back)
@@ -71,7 +76,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
                     var ref: DatabaseReference!
                     ref = Database.database().reference()
                     ref.child("users").child(object.stringValue!).child("name").observeSingleEvent(of: .value) { (snapshot) in
-                        self.book.owner = snapshot.value as! String
+                        self.borrower = snapshot.value as? String
                         self.performSegue(withIdentifier: "ShowLend", sender: self)
                     }
                     
@@ -93,10 +98,13 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             
             
         case "ShowLend":
+            book.owner = borrower
            let tar = segue.destination as! BorrowTableViewController
             tar.state = "lend"
-           
-           tar.saveLendBook(book:book)
+           tar.lbooks = tar.loadLBooks()!
+           tar.lbooks.append(book)
+           tar.books = tar.lbooks
+           tar.saveBooks()
         default:
             print(segue.identifier)
             //fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")

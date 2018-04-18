@@ -51,6 +51,8 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
 //            else
 //            {   //Add
             
+            state = sourceViewController.state
+            
             if (sourceViewController.state == "borrow") {
                 bbooks = loadBBooks()!
                 bbooks.append(book)
@@ -61,7 +63,7 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
                 books = lbooks
             }
             saveBooks()
-            state = sourceViewController.state
+            
             tableView.reloadData()
 
             
@@ -70,12 +72,7 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
         }
     }
     
-    func saveLendBook(book:Books) {
-        lbooks = loadLBooks()!
-        lbooks.append(book)
-        books = lbooks
-        saveBooks()
-    }
+
     
     
     @objc func lbSwitchClick() {
@@ -140,7 +137,7 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
         return temp
     }
     
-    private func saveBooks() {
+    func saveBooks() {
         if state == "borrow" {
             bbooks = books
             let successfulSave = NSKeyedArchiver.archiveRootObject(bbooks, toFile: Books.BorrowArchiveURL.path)
@@ -159,13 +156,13 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
 //        }
     }
     
-    private func loadBBooks() -> [Books]? {
+    func loadBBooks() -> [Books]? {
         if let bks = NSKeyedUnarchiver.unarchiveObject(withFile: Books.BorrowArchiveURL.path) as? [Books] {
             return bks
         }
         return []
     }
-    private func loadLBooks() -> [Books]? {
+    func loadLBooks() -> [Books]? {
         if let bks = NSKeyedUnarchiver.unarchiveObject(withFile: Books.LendArchiveURL.path) as? [Books] {
             return bks
         }
