@@ -105,6 +105,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
            tar.lbooks.append(book)
            tar.books = tar.lbooks
            tar.saveBooks()
+           tar.tableView.reloadData()
         default:
             print(segue.identifier)
             //fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
