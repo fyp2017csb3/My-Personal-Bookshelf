@@ -25,19 +25,22 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
         self.navigationController?.popViewController(animated: true)
     }
     
-    
+    func bypass() {
+        borrower = "DEBUGGER"
+        performSegue(withIdentifier: "ShowLend", sender: self)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view.
         //byPasser
-        
-        
+        //bypass()
         //byPasserEnd
         
         
         //Define Capture Device
         let captureDevice = AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInWideAngleCamera, for: AVMediaType.video, position: .back)
-        
+
         if(captureDevice != nil){
             do
             {
@@ -54,16 +57,16 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
         }
         let output = AVCaptureMetadataOutput()
         session.addOutput(output)
-        
+
         output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-        
+
         //Set recognizing barcode
         output.metadataObjectTypes = qrType
-        
+
         video = AVCaptureVideoPreviewLayer(session: session)
         video.frame = view.layer.bounds
         view.layer.addSublayer(video)
-        
+
         session.startRunning()
     }
     
@@ -99,8 +102,14 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             
         case "ShowLend":
             book.owner = borrower
+            var dc = DateComponents()
+            let today = Date()
+            dc.day = bday
+            
+            book.returnDate = Calendar.current.date(byAdding: dc, to: today)
            let tar = segue.destination as! BorrowTableViewController
             tar.state = "lend"
+            tar.navigationItem.title = "Lend"
            tar.lbooks = tar.loadLBooks()!
            tar.lbooks.append(book)
            tar.books = tar.lbooks

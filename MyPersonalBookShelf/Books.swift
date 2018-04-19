@@ -116,9 +116,7 @@ class Books: NSObject, NSCoding {
         self.category = category
         self.firKey = nil
     }
-    func setReturnDate(returnDate: Date?) {
-        self.returnDate = returnDate
-    }
+
     static func returnFirebook(uid:String, view:Any)  {
         var ref: DatabaseReference!
         ref = Database.database().reference()
@@ -198,6 +196,9 @@ class Books: NSObject, NSCoding {
         })
         
     }
+    
+
+    
     func saveFirebook(uid:String) -> Books {
         var ref: DatabaseReference!
         ref = Database.database().reference()

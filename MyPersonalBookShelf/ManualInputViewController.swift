@@ -41,6 +41,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
     var state = "read"
     var saveBtnTemp : UIBarButtonItem?
     var borrowBtnTemp : UIBarButtonItem?
+    var borrower:String?
     
     @IBOutlet weak var ownerLbl: UILabel!
     //MARK: Actions
@@ -180,6 +181,8 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
             
         }
     }
+    
+
     private func lendBook() {
         let alert = UIAlertController(title: "Lend this book!", message: "", preferredStyle: .actionSheet)
         
@@ -193,6 +196,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
             }
             alert2.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
                 let textField = alert2.textFields![0]
+                
                 self.performSegue(withIdentifier: "ShowQRScanner", sender: textField.text)
                 
             }))

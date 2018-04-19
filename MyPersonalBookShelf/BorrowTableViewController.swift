@@ -186,39 +186,47 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool)
+        {
+            super.viewDidLoad()
+            
+            
+            searchBar.delegate = self
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Switch View", style: .plain, target: self, action: #selector(lbSwitchClick))
+            
+            var navItems = [UIBarButtonItem]()
+            navItems.append(navigationItem.rightBarButtonItems![0])
+            
+            
+            navItems.append(UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(sortButton)))
+            navigationItem.setRightBarButtonItems(navItems, animated: true)
+            
+            
+            searchBar.returnKeyType = UIReturnKeyType.done
+            
+            //Load saved books else sample
+            if let savedBooks = loadBBooks(){
+                bbooks = savedBooks
+            }
+            else {
+                bbooks = []
+            }
+            if let savedBooks = loadLBooks(){
+                lbooks = savedBooks
+            }
+            else {
+                lbooks = []
+            }
+            if state == "borrow" {
+                books = bbooks
+            } else {
+                books = lbooks
+            }
+            tableView.reloadData()
         
-        searchBar.delegate = self
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Switch View", style: .plain, target: self, action: #selector(lbSwitchClick))
-        
-        var navItems = [UIBarButtonItem]()
-        navItems.append(navigationItem.rightBarButtonItems![0])
-        
-
-        navItems.append(UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(sortButton)))
-    navigationItem.setRightBarButtonItems(navItems, animated: true)
-        
-        
-        searchBar.returnKeyType = UIReturnKeyType.done
-        
-        //Load saved books else sample
-        if let savedBooks = loadBBooks(){
-            bbooks = savedBooks
-            books = bbooks
-        }
-        else {
-            bbooks = loadSampleBooks()!
-            books = bbooks
-            saveBooks()
-        }
-        if let savedBooks = loadLBooks(){
-            lbooks = savedBooks
-        }
-        else {
-            lbooks = loadSampleBooks()!
-            saveBooks()
-        }
     }
     
     //MARK: SearchBar
