@@ -51,7 +51,7 @@ class Books: NSObject, NSCoding {
         }
         let firKey = aDecoder.decodeObject(forKey: PropertyKey.firKey) as? String
         
-        self.init(title: title, author: author!, photo: photo, rating: rating, describeText: describeText, owner: owner, returnDate: returnDate, publishedDate: publishedDate, isbn: isbn, dateAdded: dateAdded, publisher: publisher, category: category!)
+        self.init(title: title, author: author!, photo: photo, rating: rating, describeText: describeText, owner: owner, returnDate: returnDate, publishedDate: publishedDate, isbn: isbn, dateAdded: dateAdded, publisher: publisher, category: category!,firKey:firKey!)
     }
     
     //MARK: Archiving Paths
@@ -92,7 +92,7 @@ class Books: NSObject, NSCoding {
     }
     
     //MARK: Initialization
-    init?(title: String, author: String, photo: UIImage?, rating: Int, describeText: String?, owner:String?, returnDate: Date?, publishedDate: String?, isbn: String?, dateAdded: String?, publisher: String?, category: Array<String>){
+    init?(title: String, author: String, photo: UIImage?, rating: Int, describeText: String?, owner:String?, returnDate: Date?, publishedDate: String?, isbn: String?, dateAdded: String?, publisher: String?, category: Array<String>, firKey:String){
         
         guard !title.isEmpty else{
             return nil
@@ -114,7 +114,7 @@ class Books: NSObject, NSCoding {
         self.dateAdded = dateAdded
         self.publisher = publisher
         self.category = category
-        self.firKey = nil
+        self.firKey = firKey
     }
 
     static func returnFirebook(uid:String, view:Any)  {
@@ -144,7 +144,8 @@ class Books: NSObject, NSCoding {
                             isbn: (child as! DataSnapshot).childSnapshot(forPath: "isbn").value as? String,
                             dateAdded: (child as! DataSnapshot).childSnapshot(forPath: "dateAdded").value as? String,
                             publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
-                            category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String]
+                            category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String],
+                            firKey:""
                         )
                         if let sourceView = view as? BooksTableViewController {
                             sourceView.books.append(bk!)
@@ -176,7 +177,8 @@ class Books: NSObject, NSCoding {
                         isbn: (child as! DataSnapshot).childSnapshot(forPath: "isbn").value as? String,
                         dateAdded: (child as! DataSnapshot).childSnapshot(forPath: "dateAdded").value as? String,
                         publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
-                        category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String]
+                        category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String],
+                        firKey:""
                     )
                     if let sourceView = view as? BooksTableViewController {
                         sourceView.books.append(bk!)
@@ -204,7 +206,7 @@ class Books: NSObject, NSCoding {
         ref = Database.database().reference()
         let storageRef = Storage.storage().reference()
         
-        print(firKey)
+
         var key:String!
         if firKey == nil {
             key = ref.child("users").child(uid).child("books").childByAutoId().key

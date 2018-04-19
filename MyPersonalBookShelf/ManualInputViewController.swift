@@ -475,7 +475,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         
         let bookFIR = book?.firKey
         
-        book = Books(title: title, author: author, photo: photo, rating: rating, describeText: describeText, owner: owner, returnDate: returnDate, publishedDate: publishedDate, isbn: isbn, dateAdded: dateAdded, publisher: publisher, category: category)
+        book = Books(title: title, author: author, photo: photo, rating: rating, describeText: describeText, owner: owner, returnDate: returnDate, publishedDate: publishedDate, isbn: isbn, dateAdded: dateAdded, publisher: publisher, category: category,firKey:"")
         book?.setFIRKey(uid: bookFIR)
     }
     

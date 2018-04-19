@@ -74,7 +74,8 @@ class QRViewController: UIViewController {
                             isbn: (child as! DataSnapshot).childSnapshot(forPath: "isbn").value as? String,
                             dateAdded: (child as! DataSnapshot).childSnapshot(forPath: "dateAdded").value as? String,
                             publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
-                            category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String]
+                            category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String],
+                            firKey:""
                         )
                         self.bbook = bk
                         self.performSegue(withIdentifier: "ManualBorrow", sender: self)
@@ -100,7 +101,8 @@ class QRViewController: UIViewController {
                         isbn: (child as! DataSnapshot).childSnapshot(forPath: "isbn").value as? String,
                         dateAdded: (child as! DataSnapshot).childSnapshot(forPath: "dateAdded").value as? String,
                         publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
-                        category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String]
+                        category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String],
+                        firKey:""
                     )
                     self.bbook = bk
                     self.performSegue(withIdentifier: "ManualBorrow", sender: self)

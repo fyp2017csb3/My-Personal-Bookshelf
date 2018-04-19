@@ -247,7 +247,7 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
                 }
                 
                 
-                self.book = Books(title: title, author: author, photo: image, rating: 0, describeText: describeText, owner: nil, returnDate: nil ,publishedDate: publishedDate, isbn: isbn, dateAdded: self.getTime(), publisher: publisher, category: category)
+                self.book = Books(title: title, author: author, photo: image, rating: 0, describeText: describeText, owner: nil, returnDate: nil ,publishedDate: publishedDate, isbn: isbn, dateAdded: self.getTime(), publisher: publisher, category: category,firKey:"")
                 sem.signal()
             }
             } as URLSessionTask
@@ -356,7 +356,7 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
                             }
                         }
                         
-                        self.book = Books(title: title, author: author, photo: image, rating: 0, describeText: describeText, owner: nil, returnDate: nil, publishedDate: publishedDate, isbn: baseIsbn, dateAdded: self.getTime(), publisher: publisher, category: category)!
+                        self.book = Books(title: title, author: author, photo: image, rating: 0, describeText: describeText, owner: nil, returnDate: nil, publishedDate: publishedDate, isbn: baseIsbn, dateAdded: self.getTime(), publisher: publisher, category: category,firKey:"")!
                         self.bookArray.append(self.book!)
                         category.removeAll()
                     }
