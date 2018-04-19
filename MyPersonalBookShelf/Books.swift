@@ -208,7 +208,7 @@ class Books: NSObject, NSCoding {
         
 
         var key:String!
-        if firKey == nil {
+        if firKey == "" {
             key = ref.child("users").child(uid).child("books").childByAutoId().key
             firKey = key
         } else {

@@ -45,7 +45,7 @@ class profileViewController: UIViewController, UITextViewDelegate, UIImagePicker
     }
     
     @IBAction func pass(_ sender: Any) {
-        let alert = UIAlertController(title: "Add Friend", message: "Passing data from old devices will erase all current data", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Synchronize", message: "Passing data from old devices will erase all current data", preferredStyle: .alert)
         
         //2. Add the text field. You can configure it however you need.
 
