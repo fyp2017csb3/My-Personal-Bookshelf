@@ -19,6 +19,7 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
     var filteredArr = [Books]()
     var reader = me
     var isSearching = false
+    var loading = true
     
     @IBOutlet weak var searchBar: UISearchBar!
     
@@ -109,7 +110,6 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
     
     private func loadBooks() -> [Books]? {
         return NSKeyedUnarchiver.unarchiveObject(withFile: Books.ArchiveURL.path) as? [Books]
-        
     }
     
     
@@ -129,6 +129,16 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+//        //activity indicator
+//        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+//        activityIndicator.center = self.view.center
+//        activityIndicator.hidesWhenStopped = true
+//        view.addSubview(activityIndicator)
+//
+//        //start act indicator
+//        activityIndicator.startAnimating()
+//        activityIndicator.backgroundColor = UIColor.white
+        
         books = []
         tableView.reloadData()
         if let selfBooks = loadBooks() {
@@ -142,7 +152,9 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
             Books.returnFirebook(uid: i.UID, cat: "books", view: self)
         }
         
-
+//        if !loading {
+//            activityIndicator.stopAnimating()
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

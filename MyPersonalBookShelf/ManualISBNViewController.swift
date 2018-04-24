@@ -276,6 +276,16 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
         let sem = DispatchSemaphore(value: 0)
         var topTierData = [TopTier]()
         
+//        //activity indicator
+//        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+//        activityIndicator.center = self.view.center
+//        activityIndicator.hidesWhenStopped = true
+//        view.addSubview(activityIndicator)
+//        
+//        //start act indicator
+//        activityIndicator.startAnimating()
+//        activityIndicator.backgroundColor = UIColor.white
+        
         /* let urlString = "https://www.googleapis.com/books/v1/volumes?q=intitle:" + titleInput + "&maxResults=40"
          let jsonURL = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
          let url = URL(string: jsonURL!) */
@@ -375,6 +385,7 @@ class ManualISBNViewController: UIViewController, UITextFieldDelegate {
             print("Enter alert")
             return false
         }
+        
         print("URLSession Completed")
         return true
         

@@ -120,7 +120,7 @@ class Books: NSObject, NSCoding {
         }
     }
 
-    static func returnFirebook(uid:String, cat:String, view:Any)  {
+    static func returnFirebook(uid:String, cat:String, view:Any) {
         var ref: DatabaseReference!
         ref = Database.database().reference()
         var bks = [Books]()
@@ -259,7 +259,6 @@ class Books: NSObject, NSCoding {
             }
         
         })
-        
     }
     
 
