@@ -35,6 +35,8 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
     @IBOutlet weak var ratingLabel: UILabel!
     
     var book: Books?
+    var firKey = "nil"
+    var rdays: Int!
     
     var manualSearchData: Books?
     var reader = me
@@ -64,6 +66,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         }
     }
     
+    //Take data from ISBN search
     @IBAction func unwindToInput(segue: UIStoryboardSegue) {
         if let bookTitle = manualSearchData?.title {
             titleTextField.text = bookTitle
@@ -108,6 +111,12 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         if let publisher = manualSearchData?.publisher {
             publisherTextField.text = publisher
         }
+        
+        print("manualData firekey = " + (manualSearchData?.firKey)!)
+        if let firKey = manualSearchData?.firKey {
+            self.firKey = firKey
+        }
+        print("manualbook = " + firKey)
         
         updateSaveButtonState()
     }
@@ -264,7 +273,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         saveBtnTemp = saveButton
         borrowBtnTemp = borrowButton
         }
-        print(book?.firKey)
+        print("Firekey :", book?.firKey)
         print(state)
          self.navigationItem.rightBarButtonItems?.removeAll()
         if (state == "read") {
@@ -287,9 +296,12 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
             borrowLabel2.isHidden = false
             self.navigationItem.rightBarButtonItems?.append(borrowBtnTemp!)
             if (state == "lend") {
-                ownerLbl.text = "Lend to"
+                ownerLbl.text = "Lend to:"
             } else {
-                ownerLbl.text = "Owner"
+                ownerLbl.text = "Owned by:"
+            }
+            if (reader != me) {
+                self.navigationItem.rightBarButtonItems?.removeAll()
             }
         
         }
@@ -310,10 +322,10 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
             bookImage.image = book.photo
             ratingInput.rating = book.rating
             if (state == "borrow") {
-                ownerLbl.text = "Owner"
+                ownerLbl.text = "Owned by:"
                 ownerField.text = book.owner != nil ? book.owner! : nil
             } else {
-                ownerLbl.text = "Lent to"
+                ownerLbl.text = "Lent to:"
                 ownerField.text = book.owner != nil ? book.owner! : nil
             }
             
@@ -366,6 +378,13 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         if (ownerField.text == "Owner") {
             ownerField.textColor = UIColor.lightGray
         }
+        if (rdays == nil) {
+            if let date2 = book?.returnDate {
+                rdays = Calendar.current.dateComponents([.day], from: Date(), to: date2).day!
+            }
+            rdays = 0
+        }
+        borrowDays.text = String(rdays)
         
         updateSaveButtonState()
     }
@@ -449,7 +468,7 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
                 
             return
         }
-        
+        print("save or borrow")
         
         let title = titleTextField.text ?? ""
         let author = authorTextField.text ?? ""
@@ -473,10 +492,15 @@ class ManualInputViewController: UIViewController, UITextFieldDelegate, UIImageP
         
         let returnDate = Calendar.current.date(byAdding: dc, to: today)
         
-        let bookFIR = book?.firKey
+        //print("bookFIR = " + (book?.firKey)!)
+        //let bookFIR = book?.firKey
+        // print("bookFIR = " + bookFIR!)
+        if(book != nil) {
+            firKey = (book?.firKey)!
+        }
         
-        book = Books(title: title, author: author, photo: photo, rating: rating, describeText: describeText, owner: owner, returnDate: returnDate, publishedDate: publishedDate, isbn: isbn, dateAdded: dateAdded, publisher: publisher, category: category,firKey:"")
-        book?.setFIRKey(uid: bookFIR)
+        book = Books(title: title, author: author, photo: photo, rating: rating, describeText: describeText, owner: owner, returnDate: returnDate, publishedDate: publishedDate, isbn: isbn, dateAdded: dateAdded, publisher: publisher, category: category,firKey: firKey)
+        //book?.setFIRKey(uid: bookFIR)
     }
     
     //Hide keyboard

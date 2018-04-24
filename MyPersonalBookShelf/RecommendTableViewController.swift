@@ -63,15 +63,15 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
         
         let sampleCategory = ["Sample"]
         
-        guard let book1 = Books(title: "Sample1", author: "Author1", photo: photo1, rating: 4, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"") else {
+        guard let book1 = Books(title: "Sample1", author: "Author1", photo: photo1, rating: 4, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"nil") else {
             fatalError("Unable to instantiate book1")
         }
         
-        guard let book2 = Books(title: "Sample2", author: "Author2", photo: photo2, rating: 5, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"") else {
+        guard let book2 = Books(title: "Sample2", author: "Author2", photo: photo2, rating: 5, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"nil") else {
             fatalError("Unable to instantiate book2")
         }
         
-        guard let book3 = Books(title: "Sample3", author: "Author3", photo: photo3, rating: 3, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"") else {
+        guard let book3 = Books(title: "Sample3", author: "Author3", photo: photo3, rating: 3, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"nil") else {
             fatalError("Unable to instantiate book3")
         }
         
@@ -79,6 +79,20 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
         
     }
     
+    private func removeDuplicate(sourceArray: Array<Books>) -> Array<Books> {
+        var encountered = Set<Books>()
+        var result: [Books] = []
+        for value in sourceArray {
+            if encountered.contains(value) {
+                
+            }
+            else {
+                encountered.insert(value)
+                result.append(value)
+            }
+        }
+        return result
+    }
     
     
     
@@ -114,7 +128,7 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
         return []
     }
     
-    override func viewDidLoad() {
+    override func viewDidAppear(_ animated: Bool) {
         books = []
         tableView.reloadData()
         if let selfBooks = loadBooks() {
@@ -123,28 +137,22 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
             myBooks = []
         }
         fds = loadFds()!
-        print(fds.count)
+        // print(fds.count)
         for i in fds {
-            Books.returnFirebook(uid: i.UID, view: self)
+            Books.returnFirebook(uid: i.UID, cat: "books", view: self)
         }
+        
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        viewDidLoad()
+    }
+    override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
-        
-        
-        
         searchBar.delegate = self
         
         searchBar.returnKeyType = UIReturnKeyType.done
-        
-        //loadBooks
-        
-        
-        
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        viewDidLoad()
     }
     
     //MARK: SearchBar
@@ -164,10 +172,27 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
                 return books.title.lowercased().contains(text.lowercased())
             })
             
-            filteredArr += books.filter({books -> Bool in
+            //Filter Author
+            for items in (books.filter({books -> Bool in
                 guard let text = searchBar.text else {return false}
                 return books.author.lowercased().contains(text.lowercased())
-            })
+            })) {
+                filteredArr.append(items)
+            }
+            
+            for items in (books.filter({books -> Bool in
+                guard let text = searchBar.text else {return false}
+                for i in books.category! {
+                    if i.lowercased().contains(text.lowercased()) {
+                        return true
+                    }
+                }
+                return false
+            })) {
+                filteredArr.append(items)
+            }
+            
+            filteredArr = removeDuplicate(sourceArray: filteredArr)
             
             tableView.reloadData()
         }
@@ -198,11 +223,17 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
             fatalError("The dequeued cell is not an instance of BooksTableViewCell.")
         }
 
-        var book = books[indexPath.row]
+        var book: Books
+        
+        books = removeDuplicate(sourceArray: books)
         
         if isSearching {
             book = filteredArr[indexPath.row]
         }
+        else {
+            book = books[indexPath.row]
+        }
+        
         
         cell.titleLabel.text = book.title
         cell.authorLabel.text = "Author: " + book.author
@@ -265,20 +296,28 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
         case "ShowRecBk":
 
             var bayes = Books.getCatCount(srcBks: books)
+            //print("getCatCount books: " , bayes)
             var myBayes = Books.getCatCount(srcBks: myBooks)
+            //print("getCatCount mybooks: " ,myBayes)
             var sum = 0
             var cat : String?
             for i in bayes {
+                print("Before bayes: ", i)
                 if myBayes[i.key] != nil {
-                    bayes[i.key] = myBayes[i.key]!+1
+                    bayes.updateValue(2*myBayes[i.key]!*myBayes[i.key]!+1, forKey: i.key)
+                    print("Enter != nil")
                 } else {
-                    bayes[i.key] = 1
+                    print("Enter else")
+                    bayes.updateValue(1, forKey: i.key)
                 }
                 sum += bayes[i.key]!
             }
+            print("After bayes: " ,bayes)
+            
+            //print("After SUM: " + String(sum))
             var num = Int(arc4random_uniform(UInt32(sum)))
             
-            //print ("initial num = " +  String(num))
+            print ("initial num = " +  String(num))
             
             for i in bayes {
                 num -= i.value
@@ -295,13 +334,13 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
                 }
             }
             
-            /*print("cat = " + cat!)
+            //print("cat = " + cat!)
             
-            for i in tmpBks {
-                print("title = " + i.title)
-            }
-            
-            print ("num = " +  String(num))*/
+//            for i in tmpBks {
+//                print("title = " + i.title)
+//            }
+//
+//            print ("num = " +  String(num))
             
             num = Int(arc4random_uniform(UInt32(tmpBks.count)))
             
@@ -328,7 +367,12 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
                 fatalError("The selected cell is not displayed by the table")
             }
             
-            let selectedBook = books[indexPath.row]
+            var selectedBook: Books
+            if isSearching {
+                selectedBook = filteredArr[indexPath.row]
+            } else {
+                selectedBook = books[indexPath.row]
+            }
             bookDetailViewController.book = selectedBook
             bookDetailViewController.reader = nil
             

@@ -204,7 +204,7 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
                 }
                 
                 
-                self.book = Books(title: title, author: author, photo: image, rating: 0, describeText: describeText, owner: nil, returnDate: nil, publishedDate: publishedDate, isbn: isbn, dateAdded: self.getTime(), publisher: publisher, category: category,firKey:"")
+                self.book = Books(title: title, author: author, photo: image, rating: 0, describeText: describeText, owner: nil, returnDate: nil, publishedDate: publishedDate, isbn: isbn, dateAdded: self.getTime(), publisher: publisher, category: category,firKey: "nil")
                 sem.signal()
             }
             } as URLSessionTask

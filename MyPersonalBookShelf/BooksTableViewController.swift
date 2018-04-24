@@ -14,15 +14,19 @@ import Firebase
 
 var me = User.getUser()
 
+var firUsr:String!
+var firCode:String!
+
+
 class BooksTableViewController: UITableViewController, UISearchBarDelegate {
     
     
     //MARK: Properties
     var books = [Books]()
     var filteredArr = [Books]()
-    var reader = me
+    var reader:User?
     var isSearching = false
-    
+    var book:Books?
     var ref : DatabaseReference!
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -34,7 +38,9 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
             
             if let selectedIndexPath = tableView.indexPathForSelectedRow{
                 //Update
-                books[selectedIndexPath.row] = book.saveFirebook(uid: (me?.UID)!)
+                let fbk = book.saveFirebook(uid: (me?.UID)!, cat: "books")
+                print(fbk.firKey)
+                books[selectedIndexPath.row] = fbk
                 tableView.reloadRows(at: [selectedIndexPath], with: .none)
                 
             }
@@ -42,8 +48,18 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
             else
             {   //Add
                 let newIndexPath = IndexPath(row: books.count, section: 0)
-                books.append(book.saveFirebook(uid: (me?.UID)!))
+                let fbk = book.saveFirebook(uid: (me?.UID)!, cat: "books")
+                print(fbk.firKey)
+                books.append(fbk)
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
+                
+                //Push Notification
+                let fds = loadFds()!
+                ref = Database.database().reference()
+                for i in fds {
+                    ref.child("users").child(i.UID).child("alert").child((me?.UID)!+"/"+book.firKey!).setValue((me?.name)! + " have added " + book.title)
+                }
+                
             }
             //Save
             saveBooks()
@@ -84,15 +100,15 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
         let photo3 = UIImage(named: "sampleBook3")
         let sampleCategory = ["Sample"]
         
-        guard let book1 = Books(title: "Sample1", author: "Author1", photo: photo1, rating: 4, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"") else {
+        guard let book1 = Books(title: "Sample1", author: "Author1", photo: photo1, rating: 4, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"nil") else {
             fatalError("Unable to instantiate book1")
         }
         
-        guard let book2 = Books(title: "Sample2", author: "Author2", photo: photo2, rating: 5, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"") else {
+        guard let book2 = Books(title: "Sample2", author: "Author2", photo: photo2, rating: 5, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"nil") else {
             fatalError("Unable to instantiate book2")
         }
         
-        guard let book3 = Books(title: "Sample3", author: "Author3", photo: photo3, rating: 3, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"") else {
+        guard let book3 = Books(title: "Sample3", author: "Author3", photo: photo3, rating: 3, describeText: nil, owner: nil, returnDate: nil, publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"nil") else {
             fatalError("Unable to instantiate book3")
         }
         
@@ -118,6 +134,13 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
         
     }
     
+    private func loadFds() -> [User]? {
+        if let fds =  NSKeyedUnarchiver.unarchiveObject(withFile: User.FdsArchiveURL.path) as? [User] {
+            return fds
+        }
+        return []
+    }
+    
     //MARK: SORTING
     private func sortTitle() -> [Books] {
         let sortedArr = books.sorted(by: {$0.title < $1.title})
@@ -136,37 +159,113 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
     @objc func back() {
         navigationController?.popViewController(animated: true)
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        print("Whoami")
-        print(me?.name)
-        print(me?.UID)
-        
-        print("Viewing ", reader?.name)
     
-        
+    func viewReload() {
+        if (reader == nil) {
+            reader = me
+        }
         if (reader == me) {
             if let savedBooks = loadBooks() {
-                books += savedBooks
+                books = savedBooks
             }
             else {
-                loadSampleBooks()
+                books = []
             }
             navigationItem.leftBarButtonItem = editButtonItem
         } else {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(back))
             //loadFirebase
-            Books.returnFirebook(uid: (reader?.UID)!, view: self)
+            Books.returnFirebook(uid: (reader?.UID)!, cat: "books",view: self)
             
         }
-        
+        tableView.reloadData()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         searchBar.delegate = self
         
         searchBar.returnKeyType = UIReturnKeyType.done
         
         //Load saved books else sample
+        
+        
+        let nc = NotificationCenter.default
+        nc.addObserver(forName: myNotification, object: nil, queue: nil, using: catchNotification)
+        
+    }
+    let myNotification = Notification.Name(rawValue:"MyNotification")
+    
+    func catchNotification(notification: Notification) -> Void {
+        print("Catch notification")
+        
+        guard let userInfo = notification.userInfo,
+            let message  = userInfo["message"] as? String,
+            let date     = userInfo["date"]    as? Date else {
+                print("No userInfo found in notification")
+                return
+        }
+
+        let alert = UIAlertController(title: "Your friend have added a new book",
+                                      message:"\(message)",
+            preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if tabBarController!.selectedIndex == 0 {
+            reader = me
+        }
+        viewReload()
+        let nc = NotificationCenter.default
+        
+        var ref:DatabaseReference!
+        ref = Database.database().reference()
+        
+        ref.child("users").child((me?.UID)!).child("alert").observe(.childAdded) { (DataSnapshot) in
+            firUsr = DataSnapshot.key as! String
+            var msgDict = DataSnapshot.value as! [String:String]
+            let mkeyPair = msgDict.popFirst()
+            let msg = mkeyPair?.value
+            firCode = mkeyPair?.key
+            
+            
+            let alert = UIAlertController(title: msg, message: "Take a look at the book?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+                self.getBook {
+                    let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+
+                    let bookDetailViewController = storyBoard.instantiateViewController(withIdentifier: "BookDetail") as! ManualInputViewController
+
+
+                    bookDetailViewController.book = self.book
+                    bookDetailViewController.state = "read"
+
+                    bookDetailViewController.reader = self.reader
+
+                    self.navigationController?.pushViewController(bookDetailViewController, animated: true)
+                    
+//                    self.performSegue(withIdentifier: "ShowAlertBook", sender: self)
+                }
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { [weak alert] (_) in
+                alert?.dismiss(animated: true, completion: nil)
+            }))
+            
+            // 4. Present the alert.
+            self.present(alert, animated: true, completion: nil)
+            
+            
+            
+//            nc.post(name:self.myNotification,
+//                    object: nil,
+//                    userInfo:["message": msg, "date": Date()])
+            ref.child("users").child((me?.UID)!).child("alert").child(DataSnapshot.key).setValue(nil)
+        }
+        
+        
         
     }
     
@@ -195,7 +294,19 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
                 filteredArr.append(items)
             }
             
-            removeDuplicate(sourceArray: filteredArr)
+            for items in (books.filter({books -> Bool in
+                guard let text = searchBar.text else {return false}
+                for i in books.category! {
+                if i.lowercased().contains(text.lowercased()) {
+                        return true
+                    }
+                }
+                return false
+            })) {
+                filteredArr.append(items)
+            }
+            
+            filteredArr = removeDuplicate(sourceArray: filteredArr)
             
             tableView.reloadData()
         }
@@ -307,6 +418,62 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
+    func getBook(completion: @escaping () -> Void) {
+        ref = Database.database().reference()
+        var fds = NSKeyedUnarchiver.unarchiveObject(withFile: User.FdsArchiveURL.path) as? [User]
+        while (true) {
+            reader = fds?.popLast()
+            if(reader?.UID == firUsr) {
+                break
+            }
+        }
+        
+        ref.child("users").child(firUsr).child("books").child(firCode).observeSingleEvent(of: .value) { (DataSnapshot) in
+            if let imgURL = DataSnapshot.childSnapshot(forPath: "photo").value as? String {
+                print(imgURL)
+                let storageRef = Storage.storage().reference()
+                storageRef.child(imgURL).getData(maxSize: 10*1024*1024, completion: { (data, error) in
+                    let img = UIImage(data: data!)
+                    
+                    let bk = Books(
+                        title: DataSnapshot.childSnapshot(forPath: "title").value as! String,
+                        author: DataSnapshot.childSnapshot(forPath: "author").value as! String,
+                        photo:img != nil ? img : UIImage(named: "defaultBookImage"),
+                        rating: DataSnapshot.childSnapshot(forPath: "rating").value as! Int,
+                        describeText: DataSnapshot.childSnapshot(forPath: "describeText").value as? String,
+                        owner: DataSnapshot.childSnapshot(forPath: "owner").value as? String,
+                        returnDate: nil,
+                        publishedDate: DataSnapshot.childSnapshot(forPath: "publishedDate").value as? String,
+                        isbn: DataSnapshot.childSnapshot(forPath: "isbn").value as? String,
+                        dateAdded: DataSnapshot.childSnapshot(forPath: "dateAdded").value as? String,
+                        publisher: DataSnapshot.childSnapshot(forPath: "publisher").value as? String,
+                        category: DataSnapshot.childSnapshot(forPath: "category").value as! [String],
+                        firKey:DataSnapshot.childSnapshot(forPath: "firKey").value as! String
+                    )
+                self.book = bk
+                completion()
+                })
+            } else {
+                let bk = Books(
+                    title: DataSnapshot.childSnapshot(forPath: "title").value as! String,
+                    author: DataSnapshot.childSnapshot(forPath: "author").value as! String,
+                    photo: UIImage(named: "defaultBookImage"),
+                    rating: DataSnapshot.childSnapshot(forPath: "rating").value as! Int,
+                    describeText: DataSnapshot.childSnapshot(forPath: "describeText").value as? String,
+                    owner: DataSnapshot.childSnapshot(forPath: "owner").value as? String,
+                    returnDate: nil,
+                    publishedDate: DataSnapshot.childSnapshot(forPath: "publishedDate").value as? String,
+                    isbn: DataSnapshot.childSnapshot(forPath: "isbn").value as? String,
+                    dateAdded: DataSnapshot.childSnapshot(forPath: "dateAdded").value as? String,
+                    publisher: DataSnapshot.childSnapshot(forPath: "publisher").value as? String,
+                    category: DataSnapshot.childSnapshot(forPath: "category").value as! [String],
+                    firKey:DataSnapshot.childSnapshot(forPath: "firKey").value as! String
+                )
+                self.book = bk
+                completion()
+            }
+    }
+    }
     
  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -314,6 +481,17 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
         switch(segue.identifier ?? "") {
         case "AddBook":
             os_log("Adding a new book.", log: OSLog.default, type: .debug)
+            
+        case "ShowAlertBook":
+            guard let bookDetailViewController = segue.destination as? ManualInputViewController else {
+                fatalError("Unexpected Destination: \(segue.destination)")
+            }
+            bookDetailViewController.book = book
+            bookDetailViewController.state = "read"
+            
+            bookDetailViewController.reader = reader
+            
+            
             
         case "ShowDetail":
             guard let bookDetailViewController = segue.destination as? ManualInputViewController else {
@@ -335,6 +513,7 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
                 selectedBook = books[indexPath.row]
             }
             bookDetailViewController.book = selectedBook
+            bookDetailViewController.state = "read"
             
             bookDetailViewController.reader = reader
             

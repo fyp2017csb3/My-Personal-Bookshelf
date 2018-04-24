@@ -56,7 +56,7 @@
         <!--Your Books-->
         <scene sceneID="Lkg-0n-Dov">
             <objects>
-                <tableViewController id="fyR-Th-Bwf" customClass="BooksTableViewController" customModule="MyPersonalBookShelf" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="BooksView" id="fyR-Th-Bwf" customClass="BooksTableViewController" customModule="MyPersonalBookShelf" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="I2J-wp-shV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -138,6 +138,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="searchBar" destination="CLy-Hi-x64" id="ciV-f9-thx"/>
+                        <segue destination="jMv-kU-8cJ" kind="show" identifier="ShowAlertBook" id="myU-bp-tYQ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KsJ-MY-qcA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -172,7 +173,7 @@
         <scene sceneID="Edb-Je-AJI">
             <objects>
                 <viewController id="uTr-RS-PkP" customClass="profileViewController" customModule="MyPersonalBookShelf" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="mpJ-Qv-3HQ">
+                    <view key="view" contentMode="scaleAspectFit" id="mpJ-Qv-3HQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -439,7 +440,7 @@
         <!--New Book-->
         <scene sceneID="rxR-Fw-wq7">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="jMv-kU-8cJ" customClass="ManualInputViewController" customModule="MyPersonalBookShelf" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BookDetail" hidesBottomBarWhenPushed="YES" id="jMv-kU-8cJ" customClass="ManualInputViewController" customModule="MyPersonalBookShelf" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8a7-jM-sAq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -510,52 +511,52 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Owner" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Jlr-tl-NkJ">
-                                        <rect key="frame" x="192" y="171" width="152" height="34"/>
+                                        <rect key="frame" x="194" y="171" width="150" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="14" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cu0-jK-kDq">
-                                        <rect key="frame" x="124" y="213" width="100" height="30"/>
+                                        <rect key="frame" x="124" y="209" width="100" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="days" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c8j-GE-e5b">
-                                        <rect key="frame" x="226" y="218" width="36" height="21"/>
+                                        <rect key="frame" x="226" y="213" width="36" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eok-ab-g60">
-                                        <rect key="frame" x="138" y="572" width="208" height="33"/>
+                                        <rect key="frame" x="138" y="570" width="208" height="33"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="G1c-Ay-xKu">
-                                        <rect key="frame" x="138" y="500" width="208" height="33"/>
+                                        <rect key="frame" x="138" y="498" width="208" height="33"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="7Wr-Iw-kua">
-                                        <rect key="frame" x="138" y="536" width="208" height="33"/>
+                                        <rect key="frame" x="138" y="534" width="208" height="33"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3hz-BO-lXH">
-                                        <rect key="frame" x="138" y="608" width="208" height="33"/>
+                                        <rect key="frame" x="138" y="606" width="208" height="33"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="v8W-ck-KXn">
-                                        <rect key="frame" x="138" y="644" width="208" height="33"/>
+                                        <rect key="frame" x="138" y="642" width="208" height="33"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -595,8 +596,8 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Owner:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dHb-rF-yCq">
-                                        <rect key="frame" x="128" y="177" width="47" height="17"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Owned by:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dHb-rF-yCq">
+                                        <rect key="frame" x="128" y="177" width="70" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
@@ -696,7 +697,7 @@
         <!--Navigation Controller-->
         <scene sceneID="wT2-DK-lMQ">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vBi-ls-wux" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="vBi-ls-wux" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="c4T-XF-y1X">
                         <rect key="frame" x="0.0" y="20" width="414" height="44"/>
@@ -737,7 +738,7 @@
         <!--Friends-->
         <scene sceneID="l2j-It-BcH">
             <objects>
-                <tableViewController id="va1-Tp-gF8" customClass="FdsTableViewController" customModule="MyPersonalBookShelf" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="FdsView" id="va1-Tp-gF8" customClass="FdsTableViewController" customModule="MyPersonalBookShelf" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="125" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="U7h-oN-JoN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -788,7 +789,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J8H-Kh-aEv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-345" y="-393"/>
+            <point key="canvasLocation" x="-587" y="-368"/>
         </scene>
         <!--Friends' Books-->
         <scene sceneID="lRL-7O-Cy9">
@@ -848,7 +849,7 @@
                                             <color key="highlightedColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XoC-HI-hbC">
-                                            <rect key="frame" x="121" y="11" width="250" height="55"/>
+                                            <rect key="frame" x="97" y="0.0" width="250" height="55"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="Title:">
@@ -891,7 +892,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EaT-A5-VOr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-346" y="-1113"/>
+            <point key="canvasLocation" x="-346.37681159420293" y="-1113.5869565217392"/>
         </scene>
         <!--QR Scanner-->
         <scene sceneID="9IX-U2-hLb">
@@ -948,7 +949,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U6Z-q8-9mI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="801" y="-1552"/>
+            <point key="canvasLocation" x="959" y="-1650"/>
         </scene>
         <!--Borrow/Lend-->
         <scene sceneID="6j1-1X-YIO">
@@ -1045,14 +1046,11 @@
                                 <action selector="recBk:" destination="OQb-mC-ETl" id="fDL-b4-gTE"/>
                             </connections>
                         </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="zUQ-8z-tmH"/>
-                            <barButtonItem title="Sort" id="y9H-bP-iiN">
-                                <connections>
-                                    <action selector="sortButton:" destination="OQb-mC-ETl" id="Ech-eH-qet"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" title="Sort" id="y9H-bP-iiN">
+                            <connections>
+                                <action selector="sortButton:" destination="OQb-mC-ETl" id="Ech-eH-qet"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="searchBar" destination="EJ6-m6-MYH" id="QGJ-Pt-Qzk"/>
@@ -1081,7 +1079,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kXL-cn-XuN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="yRw-VO-GxG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3476.811594202899" y="-977.44565217391312"/>
+            <point key="canvasLocation" x="3762" y="-1212"/>
         </scene>
     </scenes>
     <resources>
@@ -1096,9 +1094,9 @@
         <image name="tabMyBook" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Kll-en-2xN"/>
-        <segue reference="C1g-Vi-Sd0"/>
-        <segue reference="Fk3-Mz-Mjw"/>
+        <segue reference="uhL-l7-xsD"/>
+        <segue reference="oue-HU-Q1d"/>
+        <segue reference="i0D-Wp-maV"/>
         <segue reference="bCl-LM-AM0"/>
     </inferredMetricsTieBreakers>
 </document>

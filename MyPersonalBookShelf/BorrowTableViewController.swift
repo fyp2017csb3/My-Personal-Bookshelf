@@ -40,28 +40,31 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     @IBAction func unwindToBorrowList(sender: UIStoryboardSegue){
+        sender.source.navigationController?.popViewController(animated: false)
         if let sourceViewController = sender.source as? ManualInputViewController, let book = sourceViewController.book {
             
-//            if let selectedIndexPath = tableView.indexPathForSelectedRow{
-//                //Update
-//                books[selectedIndexPath.row] = book
-//                tableView.reloadRows(at: [selectedIndexPath], with: .none)
-//            }
-//
-//            else
-//            {   //Add
+
             
             state = sourceViewController.state
+            print(state)
+            print("Before Unwind")
+            print(bbooks)
+            print(lbooks)
             
             if (sourceViewController.state == "borrow") {
                 bbooks = loadBBooks()!
-                bbooks.append(book)
+                let fbk = book.saveFirebook(uid: (me?.UID)!, cat: "bbooks")
+                bbooks.append(fbk)
                 books = bbooks
             } else {
                 lbooks = loadLBooks()!
-                lbooks.append(book)
+                let fbk = book.saveFirebook(uid: (me?.UID)!, cat: "lbooks")
+                lbooks.append(fbk)
                 books = lbooks
             }
+            print("After Unwind, before save")
+            print(bbooks)
+            print(lbooks)
             saveBooks()
             
             tableView.reloadData()
@@ -122,15 +125,15 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
         let photo3 = UIImage(named: "sampleBook3")
         let sampleCategory = ["Sample"]
         
-        guard let book1 = Books(title: "Sample1", author: "Author1", photo: photo1, rating: 4, describeText: nil, owner:"Friend1", returnDate:Date(), publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"") else {
+        guard let book1 = Books(title: "Sample1", author: "Author1", photo: photo1, rating: 4, describeText: nil, owner:"Friend1", returnDate:Date(), publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"nil") else {
             fatalError("Unable to instantiate book1")
         }
         
-        guard let book2 = Books(title: "Sample2", author: "Author2", photo: photo2, rating: 5, describeText: nil, owner:"Friend1", returnDate:Date(), publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"") else {
+        guard let book2 = Books(title: "Sample2", author: "Author2", photo: photo2, rating: 5, describeText: nil, owner:"Friend1", returnDate:Date(), publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"nil") else {
             fatalError("Unable to instantiate book2")
         }
         
-        guard let book3 = Books(title: "Sample3", author: "Author3", photo: photo3, rating: 3, describeText: nil, owner:"Friend1", returnDate:Date(), publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"") else {
+        guard let book3 = Books(title: "Sample3", author: "Author3", photo: photo3, rating: 3, describeText: nil, owner:"Friend1", returnDate:Date(), publishedDate: nil, isbn: nil, dateAdded: "tbd", publisher: "", category: sampleCategory,firKey:"nil") else {
             fatalError("Unable to instantiate book3")
         }
         var temp = [book1, book2, book3]
@@ -138,27 +141,24 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     func saveBooks() {
+        print(state)
         if state == "borrow" {
+            print("saved B Books")
             bbooks = books
             let successfulSave = NSKeyedArchiver.archiveRootObject(bbooks, toFile: Books.BorrowArchiveURL.path)
         } else {
+            print("saved L Books")
             lbooks = books
             let successfulSave = NSKeyedArchiver.archiveRootObject(lbooks, toFile: Books.LendArchiveURL.path)
-            
         }
-        
-//        if successfulSave {
-//            os_log("Books is saved.", log: OSLog.default, type: . debug)
-//        }
-//        else
-//        {
-//            os_log("Failed to save book", log: OSLog.default, type: .error)
-//        }
+        print("After Save")
+        print(bbooks)
+        print(lbooks)
     }
     
     func loadBBooks() -> [Books]? {
         if let bks = NSKeyedUnarchiver.unarchiveObject(withFile: Books.BorrowArchiveURL.path) as? [Books] {
-            return bks
+           return  bks
         }
         return []
     }
@@ -186,14 +186,13 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     override func viewDidLoad() {
-        
     }
     
     override func viewDidAppear(_ animated: Bool)
         {
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.isToolbarHidden = true
             super.viewDidLoad()
-            
-            
             searchBar.delegate = self
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Switch View", style: .plain, target: self, action: #selector(lbSwitchClick))
             
@@ -207,24 +206,24 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
             
             searchBar.returnKeyType = UIReturnKeyType.done
             
+            print("Before load Books")
+            print(bbooks)
+            print(lbooks)
+            print(state)
             //Load saved books else sample
-            if let savedBooks = loadBBooks(){
-                bbooks = savedBooks
-            }
-            else {
-                bbooks = []
-            }
-            if let savedBooks = loadLBooks(){
-                lbooks = savedBooks
-            }
-            else {
-                lbooks = []
-            }
-            if state == "borrow" {
+            bbooks = loadBBooks()!
+            lbooks = loadLBooks()!
+            if (state == "borrow"){
+                navigationItem.title = "Borrow"
                 books = bbooks
-            } else {
+            }
+            else {
+                navigationItem.title = "Lend"
                 books = lbooks
             }
+            print("After loadBooks")
+            print(bbooks)
+            print(lbooks)
             tableView.reloadData()
         
     }
@@ -246,13 +245,45 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
                 return books.title.lowercased().contains(text.lowercased())
             })
             
-            filteredArr += books.filter({books -> Bool in
+            //Filter Author
+            for items in (books.filter({books -> Bool in
                 guard let text = searchBar.text else {return false}
                 return books.author.lowercased().contains(text.lowercased())
-            })
+            })) {
+                filteredArr.append(items)
+            }
+            
+            for items in (books.filter({books -> Bool in
+                guard let text = searchBar.text else {return false}
+                for i in books.category! {
+                    if i.lowercased().contains(text.lowercased()) {
+                        return true
+                    }
+                }
+                return false
+            })) {
+                filteredArr.append(items)
+            }
+            
+            filteredArr = removeDuplicate(sourceArray: filteredArr)
             
             tableView.reloadData()
         }
+    }
+    
+    private func removeDuplicate(sourceArray: Array<Books>) -> Array<Books> {
+        var encountered = Set<Books>()
+        var result: [Books] = []
+        for value in sourceArray {
+            if encountered.contains(value) {
+                
+            }
+            else {
+                encountered.insert(value)
+                result.append(value)
+            }
+        }
+        return result
     }
     
     override func didReceiveMemoryWarning() {
@@ -280,20 +311,24 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
             fatalError("The dequeued cell is not an instance of BooksTableViewCell.")
         }
         
-        var book = books[indexPath.row]
+        var book: Books
         
         if isSearching {
             book = filteredArr[indexPath.row]
+        }
+        else {
+            book = books[indexPath.row]
         }
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         
         cell.titleLabel.text = book.title
+        let on = book.owner != nil ? book.owner: ""
         if (state == "lend") {
-           cell.authorLabel.text = "Lent to: " + book.owner!
+           cell.authorLabel.text = "Lent to: " + on!
         } else {
-            cell.authorLabel.text = "Owner: " + book.owner!
+            cell.authorLabel.text = "Owner: " + on!
         }
         
         cell.photoImageView.image = book.photo
@@ -366,7 +401,12 @@ class BorrowTableViewController: UITableViewController, UISearchBarDelegate {
                 fatalError("The selected cell is not displayed by the table")
             }
             
-            let selectedBook = books[indexPath.row]
+            var selectedBook: Books
+            if isSearching {
+                selectedBook = filteredArr[indexPath.row]
+            } else {
+                selectedBook = books[indexPath.row]
+            }
             bookDetailViewController.book = selectedBook
             bookDetailViewController.reader = nil
             bookDetailViewController.state = state

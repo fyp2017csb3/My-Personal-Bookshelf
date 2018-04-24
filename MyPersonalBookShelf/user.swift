@@ -8,6 +8,7 @@
 
 import UIKit
 import os.log
+import Firebase
 
 class User: NSObject, NSCoding {
     func encode(with aCoder: NSCoder) {
@@ -55,8 +56,39 @@ class User: NSObject, NSCoding {
         self.photo = photo
     }
     
-    static func syncUser() {
-        
+    
+    static func getFirFds() {
+        var ref: DatabaseReference!
+        ref = Database.database().reference()
+        var fds = [User]()
+        var img:UIImage?
+        var queue = 0
+        fds = []
+        ref.child("users").child((me?.UID)!).child("friends").observeSingleEvent(of: .value, with: { (snapshot) in
+            for child in snapshot.children{
+                queue += 1
+                let uid = (child as! DataSnapshot).key
+                    let imgURL = uid + "/propic"
+                    let storageRef = Storage.storage().reference()
+                    storageRef.child(imgURL).getData(maxSize: 10*1024*1024, completion: { (data, error) in
+                        img = UIImage(data: data!)
+                        
+                        let fd = User(name: (child as! DataSnapshot).value as! String, UID: uid, photo: img)
+                        
+                        fds.append(fd!)
+                        queue -= 1
+                        if queue == 0 {
+                            let successfulSave = NSKeyedArchiver.archiveRootObject(fds, toFile: User.FdsArchiveURL.path)
+                            print("Synched friends")
+                        }
+                        
+                    })
+                
+
+                
+            }
+            
+        })
     }
     
     

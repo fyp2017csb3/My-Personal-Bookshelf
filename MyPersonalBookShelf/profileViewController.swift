@@ -10,6 +10,11 @@ import UIKit
 import Firebase
 
 class profileViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    var books = [Books]()
+    var bbooks = [Books]()
+    var lbooks = [Books]()
+    var nid = ""
     @IBOutlet weak var proPic: UIImageView!
     
     @IBOutlet weak var name: UITextField!
@@ -43,16 +48,52 @@ class profileViewController: UIViewController, UITextViewDelegate, UIImagePicker
         
         dismiss(animated: true, completion: nil)
     }
+    func saveBooks() {
+        let successfulSave = NSKeyedArchiver.archiveRootObject(books, toFile: Books.ArchiveURL.path)
+        print("Synched books")
+    }
+    func saveBBooks() {
+        let successfulSave = NSKeyedArchiver.archiveRootObject(bbooks, toFile: Books.BorrowArchiveURL.path)
+        print("Synched bbooks")
+    }
+    func saveLBooks() {
+        let successfulSave = NSKeyedArchiver.archiveRootObject(lbooks, toFile: Books.LendArchiveURL.path)
+        print("Synched lbooks")
+    }
     
-    @IBAction func pass(_ sender: Any) {
+    
+    func syncUser() {
+        books = []
+        bbooks = []
+        lbooks = []
+        Books.returnFirebook(uid: (me?.UID)!, cat: "books", view: self)
+        Books.returnFirebook(uid: (me?.UID)!, cat: "bbooks", view: self)
+        Books.returnFirebook(uid: (me?.UID)!, cat: "lbooks", view: self)
+        User.getFirFds()
+
+
+
+            let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+            let currentViewController = storyBoard.instantiateViewController(withIdentifier: "BooksView") as! BooksTableViewController
+        
+            let currentViewController2 = storyBoard.instantiateViewController(withIdentifier: "FdsView") as! FdsTableViewController
+
+            currentViewController.viewReload()
+            currentViewController2.viewDidLoad()
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    private func pass() {
         let alert = UIAlertController(title: "Synchronize", message: "Passing data from old devices will erase all current data", preferredStyle: .alert)
         
         //2. Add the text field. You can configure it however you need.
 
         alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { [weak alert] (_) in
-            User.setUserID(newID: self.id.text!)
+            User.setUserID(newID: self.nid)
             me = User.getUser()
             alert?.dismiss(animated: true, completion: nil)
+            self.syncUser()
             self.viewDidLoad()
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { [weak alert] (_) in
@@ -63,18 +104,28 @@ class profileViewController: UIViewController, UITextViewDelegate, UIImagePicker
     @IBOutlet weak var passBtn: UIButton!
     @IBOutlet weak var id: UITextField!
     @IBAction func showHideID(_ sender: Any) {
-        if(id.isHidden) {
-            idBtn.setTitle("Hide UID", for: .normal)
-            id.isHidden = false
-            passBtn.isHidden = false
-        }
-        else {
-            idBtn.setTitle("Show UID", for: .normal)
-            id.isHidden = true
-            passBtn.isHidden = true
+        let alert = UIAlertController(title: "UID", message: "Type your account ID to retrieve your account data", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.text = me?.UID
         }
         
+        alert.addAction(UIAlertAction(title: "Pass information", style: .default, handler: { [weak alert] (_) in
+            let textField = alert?.textFields![0]
+            self.nid = (textField?.text)!
+            
+            User.setUserID(newID: self.nid)
+            me = User.getUser()
+            alert?.dismiss(animated: true, completion: nil)
+            self.syncUser()
+            self.viewDidLoad()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+        
     }
+    
     @IBOutlet weak var idBtn: UIButton!
     @IBOutlet weak var serial: UITextView!
     var hashID :Int!

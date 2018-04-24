@@ -21,6 +21,7 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
     var qrCode = ""
     
     var isSearching = false
+    var fd:User!
     
     
     //MARK: Actions
@@ -39,6 +40,8 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
         ref.child("serial").child(code).observeSingleEvent(of: .value, with: { (dataSnapshot) in
             if let fdUID = dataSnapshot.value as? String
             {
+                ref.child("users").child(fdUID).child("fdAlert").child((me?.UID)!).setValue(me?.UID)
+                
                 ref.child("users").child(fdUID).child("name").observeSingleEvent(of: .value, with: { (dataSnapshot2) in
                     let fdName = dataSnapshot2.value as! String
                     
@@ -52,6 +55,7 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
                             print("added a fd from base")
                             self.tableView.reloadData()
                             self.saveFds()
+                            ref.child("users").child((me?.UID)!).child("friends").child(fdUID).setValue(fdName)
                         }
                         else {
                             let newfd = User(name: fdName, UID: fdUID, photo: UIImage(named: "defaultBookImage"))
@@ -59,6 +63,7 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
                             print("added a fd from base")
                             self.tableView.reloadData()
                             self.saveFds()
+                            ref.child("users").child((me?.UID)!).child("friends").child(fdUID).setValue(fdName)
                         }
                     }
                     )
@@ -124,6 +129,7 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
             ref.child("serial").child(code).observeSingleEvent(of: .value, with: { (dataSnapshot) in
                 if let fdUID = dataSnapshot.value as? String
                 {
+                    ref.child("users").child(fdUID).child("fdAlert").child((me?.UID)!).setValue(me?.UID)
                     ref.child("users").child(fdUID).child("name").observeSingleEvent(of: .value, with: { (dataSnapshot2) in
                         let fdName = dataSnapshot2.value as! String
                         
@@ -139,7 +145,7 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
                                 self.saveFds()
                             }
                             else {
-                                let newfd = User(name: fdName, UID: fdUID, photo: UIImage(named: "defaultBookImage"))
+                                let newfd = User(name: fdName, UID: fdUID, photo: UIImage(named: "profilePic"))
                                 self.fds.append(newfd!)
                                 print("added a fd from base")
                                 self.tableView.reloadData()
@@ -187,11 +193,55 @@ class FdsTableViewController: UITableViewController, UISearchBarDelegate {
         navItems.append(UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(sortButton)))
         navigationItem.setRightBarButtonItems(navItems, animated: true)
         
+        var ref:DatabaseReference!
+        ref = Database.database().reference()
+        ref.child("users").child((me?.UID)!).child("fdAlert").observe(.childAdded) { (DataSnapshot) in
+            let fdID = DataSnapshot.key
+            print("adding: ", fdID)
+            self.getFd(fdID: fdID)
+            ref.child("users").child((me?.UID)!).child("fdAlert").child(fdID).setValue(nil)
+        }
+    
         
-     
-        
-        //Load saved books else sample
+    }
+    
+    
+    
+    func getFd(fdID:String) {
+        var ref:DatabaseReference!
+        ref = Database.database().reference()
+        ref.child("users").child(fdID).child("name").observeSingleEvent(of: .value, with: { (dataSnapshot2) in
+            let fdName = dataSnapshot2.value as! String
+            
+            let storageRef = Storage.storage().reference()
+            let imgURL = fdID+"/propic"
+            storageRef.child(imgURL).getData(maxSize: 10*1024*1024, completion: { (data, error) in
+                if(error == nil) {
+                    let img = UIImage(data: data!)
+                    let newfd = User(name: fdName, UID: fdID, photo: img)
+                    self.fds.append(newfd!)
+                    print("added a fd from base")
+                    self.tableView.reloadData()
+                    self.saveFds()
+                    ref.child("users").child((me?.UID)!).child("friends").child(fdID).setValue(fdName)
+                }
+                else {
+                    let newfd = User(name: fdName, UID: fdID, photo: UIImage(named: "profilePic"))
+                    self.fds.append(newfd!)
+                    print("added a fd from base")
+                    self.tableView.reloadData()
+                    self.saveFds()
+                    ref.child("users").child((me?.UID)!).child("friends").child(fdID).setValue(fdName)
+                }
+            }
+            )
+            
+        })
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         fds = loadFds()!
+        tableView.reloadData()
     }
     
 

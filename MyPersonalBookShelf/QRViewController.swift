@@ -12,6 +12,7 @@ import Firebase
 class QRViewController: UIViewController {
     
     var bbook : Books?
+    var rdays = 14
     
     @IBAction func test(_ sender: Any) {
 
@@ -36,24 +37,16 @@ class QRViewController: UIViewController {
         
         
         
+        
         var ref: DatabaseReference!
         ref = Database.database().reference()
-        
-        var dc = DateComponents()
-        let today = Date()
         
         
         ref.child("users").child((me?.UID)!).child("borrowAlert").observeSingleEvent(of: .childAdded) { (snap1) in
             ref.child("users").child((me?.UID)!).child("borrow").observeSingleEvent(of: .value, with: { (snapshot) in
                 for child in snapshot.children{
                 
-                if let addDay = (child as! DataSnapshot).childSnapshot(forPath: "returnDate").value as? Int {
-                    dc.day = addDay
-                } else {
-                    dc.day = 14
-                }
                 
-                let returnDate = Calendar.current.date(byAdding: dc, to: today)
                 if let imgURL = (child as! DataSnapshot).childSnapshot(forPath: "photo").value as? String {
                     let storageRef = Storage.storage().reference()
                     storageRef.child(imgURL).getData(maxSize: 10*1024*1024, completion: { (data, error) in
@@ -69,14 +62,15 @@ class QRViewController: UIViewController {
                             rating: (child as! DataSnapshot).childSnapshot(forPath: "rating").value as! Int,
                             describeText: (child as! DataSnapshot).childSnapshot(forPath: "describeText").value as? String,
                             owner: (child as! DataSnapshot).childSnapshot(forPath: "owner").value as? String,
-                            returnDate: returnDate,
+                            returnDate: Date(),
                             publishedDate: (child as! DataSnapshot).childSnapshot(forPath: "publishedDate").value as? String,
                             isbn: (child as! DataSnapshot).childSnapshot(forPath: "isbn").value as? String,
                             dateAdded: (child as! DataSnapshot).childSnapshot(forPath: "dateAdded").value as? String,
                             publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
                             category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String],
-                            firKey:""
+                            firKey:"nil"
                         )
+                        self.rdays = (child as! DataSnapshot).childSnapshot(forPath: "returnDate").value as! Int
                         self.bbook = bk
                         self.performSegue(withIdentifier: "ManualBorrow", sender: self)
                         ref.removeAllObservers()
@@ -96,14 +90,15 @@ class QRViewController: UIViewController {
                         rating: (child as! DataSnapshot).childSnapshot(forPath: "rating").value as! Int,
                         describeText: (child as! DataSnapshot).childSnapshot(forPath: "describeText").value as? String,
                         owner: (child as! DataSnapshot).childSnapshot(forPath: "owner").value as? String,
-                        returnDate: returnDate,
+                        returnDate: Date(),
                         publishedDate: (child as! DataSnapshot).childSnapshot(forPath: "publishedDate").value as? String,
                         isbn: (child as! DataSnapshot).childSnapshot(forPath: "isbn").value as? String,
                         dateAdded: (child as! DataSnapshot).childSnapshot(forPath: "dateAdded").value as? String,
                         publisher: (child as! DataSnapshot).childSnapshot(forPath: "publisher").value as? String,
                         category: (child as! DataSnapshot).childSnapshot(forPath: "category").value as! [String],
-                        firKey:""
+                        firKey:"nil"
                     )
+                    self.rdays = (child as! DataSnapshot).childSnapshot(forPath: "returnDate").value as! Int
                     self.bbook = bk
                     self.performSegue(withIdentifier: "ManualBorrow", sender: self)
                     ref.removeAllObservers()
@@ -158,6 +153,7 @@ class QRViewController: UIViewController {
             }
             bookDetailViewController.state = "borrow"
             bookDetailViewController.book = bbook
+            bookDetailViewController.rdays = rdays
             
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
