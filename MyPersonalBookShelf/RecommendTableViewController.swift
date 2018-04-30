@@ -316,7 +316,7 @@ class RecommendTableViewController: UITableViewController, UISearchBarDelegate {
             for i in bayes {
                 print("Before bayes: ", i)
                 if myBayes[i.key] != nil {
-                    bayes.updateValue(2*myBayes[i.key]!*myBayes[i.key]!+1, forKey: i.key)
+                    bayes.updateValue(2*myBayes[i.key]!+1, forKey: i.key)
                     print("Enter != nil")
                 } else {
                     print("Enter else")

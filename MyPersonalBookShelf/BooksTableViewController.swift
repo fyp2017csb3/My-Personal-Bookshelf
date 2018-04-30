@@ -57,7 +57,7 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
                 let fds = loadFds()!
                 ref = Database.database().reference()
                 for i in fds {
-                    ref.child("users").child(i.UID).child("alert").child((me?.UID)!+"/"+book.firKey!).setValue((me?.name)! + " have added " + book.title)
+                    ref.child("users").child(i.UID).child("alert").child((me?.UID)!+"/"+book.firKey!).setValue((me?.name)! + " has added " + book.title)
                 }
                 
             }
@@ -206,7 +206,7 @@ class BooksTableViewController: UITableViewController, UISearchBarDelegate {
                 return
         }
 
-        let alert = UIAlertController(title: "Your friend have added a new book",
+        let alert = UIAlertController(title: "Your friend has added a new book",
                                       message:"\(message)",
             preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))

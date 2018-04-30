@@ -927,7 +927,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0DQ-GZ-EZE">
-                                <rect key="frame" x="20" y="213" width="374" height="374"/>
+                                <rect key="frame" x="20" y="191" width="374" height="374"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="0DQ-GZ-EZE" secondAttribute="height" multiplier="1:1" id="PFL-lm-nlI"/>
                                 </constraints>
@@ -1096,7 +1096,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="uhL-l7-xsD"/>
         <segue reference="oue-HU-Q1d"/>
-        <segue reference="Fk3-Mz-Mjw"/>
+        <segue reference="AHD-2f-fnf"/>
         <segue reference="bCl-LM-AM0"/>
     </inferredMetricsTieBreakers>
 </document>
